@@ -1,0 +1,249 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const channels = [
+	{ label: '邮件', value: 'linyu@example.com', href: 'mailto:linyu@example.com' },
+	{ label: 'GitHub', value: '/linyu', href: 'https://github.com/' },
+	{ label: 'Behance', value: '/linyu-portfolio', href: 'https://www.behance.net/' },
+	{ label: '微信', value: 'lyu_work（备注来意）', href: null },
+];
+
+const availability = [
+	{ period: '2026 春', note: '可到岗 3-5 天/周' },
+	{ period: '2026 暑期', note: '可全职实习 8-10 周' },
+];
+---
+
+<Layout
+	title="联系 — liuyingying"
+	description="想和我聊聊合作、实习或作品？这里是最快找到我的方式。坐标广东。"
+>
+	<section class="hero">
+		<div class="container">
+			<p class="eyebrow"><span class="dot"></span>联系 · 开放中</p>
+			<h1 class="title">写一封信，<br/>或者只是路过打个招呼</h1>
+			<p class="lede">
+				我是一个回信稍慢但一定会回的人。如果你是 HR 或工作室主理人，
+				在邮件标题里写上"实习"或"项目合作"，我会优先处理。
+			</p>
+		</div>
+	</section>
+
+	<section class="contact">
+		<div class="container grid">
+			<div class="channels">
+				<h2>找我</h2>
+				<ul class="ch-list">
+				{
+					channels.map((c) => (
+						<li>
+							<div class="ch-label">{c.label}</div>
+							<div class="ch-value">
+								{c.href ? (
+									<a href={c.href} target={c.href.startsWith('http') ? '_blank' : undefined} rel="noopener">
+										{c.value}
+									</a>
+								) : (
+									<span>{c.value}</span>
+								)}
+							</div>
+						</li>
+					))
+				}
+				</ul>
+
+				<h2>简历</h2>
+				<a class="resume-btn" href="/resume.pdf" download>
+					下载 PDF 简历
+					<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 4v12m0 0l-5-5m5 5l5-5M4 20h16"/></svg>
+				</a>
+				<p class="resume-note">如需中文纸质版可邮件说明，我会尽快补寄。</p>
+			</div>
+
+			<aside class="availability">
+				<h2>可实习时间</h2>
+				<dl class="avail">
+					{
+						availability.map((a) => (
+							<div>
+								<dt>{a.period}</dt>
+								<dd>{a.note}</dd>
+							</div>
+						))
+					}
+				</dl>
+
+				<div class="note-card">
+					<h3>我想去的地方</h3>
+					<p>
+						交互设计、创意编程、动态图形与新媒体艺术方向。
+						我更想知道一家团队是怎么"想的"，而不是它"叫什么名字"。
+					</p>
+				</div>
+			</aside>
+		</div>
+	</section>
+
+	<section class="quote">
+		<div class="container">
+			<p>最好的回信，常常不在邮箱里，而在下一次见面的开头。</p>
+		</div>
+	</section>
+</Layout>
+
+<style>
+	.hero {
+		padding-block: clamp(56px, 8vw, 96px) clamp(28px, 4vw, 40px);
+		border-bottom: 1px solid var(--line);
+	}
+	.eyebrow {
+		display: inline-flex;
+		align-items: center;
+		gap: 10px;
+		font-family: var(--font-mono);
+		font-size: 12px;
+		color: var(--fg-muted);
+		margin-bottom: 16px;
+	}
+	.dot {
+		width: 7px; height: 7px; border-radius: 50%;
+		background: var(--accent);
+		box-shadow: 0 0 8px var(--accent);
+		animation: blink 1.8s ease-in-out infinite;
+	}
+	@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.35} }
+	.title {
+		font-size: clamp(34px, 5.5vw, 60px);
+		font-weight: 700;
+		letter-spacing: -0.03em;
+		line-height: 1.05;
+		margin-bottom: 18px;
+		max-width: 16ch;
+	}
+	.lede {
+		color: var(--fg-muted);
+		font-size: clamp(16px, 1.6vw, 19px);
+		max-width: 52ch;
+		line-height: 1.7;
+		margin: 0;
+	}
+
+	.contact { padding-block: clamp(40px, 6vw, 64px); border-bottom: 1px solid var(--line); }
+	.grid {
+		display: grid;
+		grid-template-columns: 1.4fr 1fr;
+		gap: 48px;
+		align-items: start;
+	}
+
+	h2 {
+		font-family: var(--font-mono);
+		font-size: 12px;
+		color: var(--fg-dim);
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		margin: 0 0 18px;
+	}
+	.channels h2:not(:first-child) { margin-top: 36px; }
+
+	.ch-list { list-style: none; padding: 0; margin: 0; }
+	.ch-list li {
+		display: grid;
+		grid-template-columns: 90px 1fr;
+		gap: 16px;
+		padding: 14px 0;
+		border-top: 1px solid var(--line);
+	}
+	.ch-list li:last-child { border-bottom: 1px solid var(--line); }
+	.ch-label {
+		font-family: var(--font-mono);
+		font-size: 12px;
+		color: var(--fg-dim);
+		padding-top: 4px;
+	}
+	.ch-value { font-size: 16px; }
+	.ch-value a {
+		color: var(--fg);
+		border-bottom: 1px solid transparent;
+		transition: color 0.15s ease, border-color 0.15s ease;
+	}
+	.ch-value a:hover { color: var(--accent); border-color: var(--accent); }
+	.ch-value span { color: var(--fg-muted); }
+
+	.resume-btn {
+		display: inline-flex;
+		align-items: center;
+		gap: 10px;
+		padding: 13px 20px;
+		border-radius: 12px;
+		background: var(--accent);
+		color: #fff;
+		font-size: 15px;
+		font-weight: 500;
+		transition: transform 0.15s ease, background 0.2s ease;
+	}
+	.resume-btn:hover {
+		transform: translateY(-2px);
+		background: var(--accent-dim);
+	}
+	.resume-note {
+		margin-top: 10px;
+		font-size: 13px;
+		color: var(--fg-dim);
+	}
+
+	.avail { margin: 0; }
+	.avail > div {
+		padding: 12px 0;
+		border-top: 1px solid var(--line);
+	}
+	.avail > div:last-child { border-bottom: 1px solid var(--line); }
+	.avail dt {
+		font-family: var(--font-mono);
+		font-size: 13px;
+		color: var(--accent);
+		margin-bottom: 4px;
+	}
+	.avail dd {
+		margin: 0;
+		color: var(--fg);
+		font-size: 15px;
+	}
+
+	.note-card {
+		margin-top: 28px;
+		padding: 24px;
+		border: 1px solid var(--line);
+		border-radius: var(--radius);
+		background: var(--bg-elev);
+	}
+	.note-card h3 {
+		font-size: 17px;
+		margin: 0 0 8px;
+	}
+	.note-card p {
+		margin: 0;
+		font-size: 14px;
+		color: var(--fg-muted);
+		line-height: 1.65;
+	}
+
+	.quote {
+		padding-block: clamp(64px, 9vw, 96px);
+	}
+	.quote p {
+		text-align: center;
+		font-family: var(--font-display);
+		font-size: clamp(20px, 2.6vw, 28px);
+		font-weight: 500;
+		color: var(--fg);
+		max-width: 30ch;
+		margin: 0 auto;
+		line-height: 1.5;
+	}
+
+	@media (max-width: 720px) {
+		.grid { grid-template-columns: 1fr; gap: 40px; }
+		.ch-list li { grid-template-columns: 80px 1fr; gap: 10px; }
+	}
+</style>

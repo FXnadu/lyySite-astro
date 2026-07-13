@@ -1,0 +1,182 @@
+---
+const path = Astro.url.pathname;
+const isActive = (href: string) =>
+	href === '/' ? path === '/' : path.startsWith(href);
+
+const nav = [
+	{ href: '/', label: '首页' },
+	{ href: '/projects', label: '作品' },
+	{ href: '/about', label: '关于' },
+	{ href: '/contact', label: '联系' },
+];
+---
+
+<header class="site-header">
+	<div class="container bar">
+		<a class="brand" href="/" aria-label="返回首页">
+			<span class="mark" aria-hidden="true"></span>
+			<span class="brand-text">liuyingying</span>
+		</a>
+
+		<button
+			class="menu-toggle"
+			type="button"
+			aria-label="切换导航"
+			aria-expanded="false"
+			aria-controls="primary-nav"
+		>
+			<span class="menu-bar"></span>
+			<span class="menu-bar"></span>
+		</button>
+
+		<nav id="primary-nav" class="primary-nav" aria-label="主导航">
+			{
+				nav.map((item) => (
+					<a
+						class:list={['nav-link', { active: isActive(item.href) }]}
+						href={item.href}
+						aria-current={isActive(item.href) ? 'page' : undefined}
+					>
+						{item.label}
+					</a>
+				))
+			}
+		</nav>
+	</div>
+</header>
+
+<style>
+	.site-header {
+		position: sticky;
+		top: 0;
+		z-index: 50;
+		background: color-mix(in srgb, var(--bg) 86%, transparent);
+		backdrop-filter: blur(18px) saturate(120%);
+		border-bottom: 1px solid var(--line);
+	}
+
+	.bar {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		height: 68px;
+	}
+
+	.brand {
+		display: inline-flex;
+		align-items: center;
+		gap: 12px;
+		font-family: var(--font-mono);
+		font-size: 14px;
+		letter-spacing: -0.01em;
+		color: var(--fg);
+	}
+
+	.mark {
+		width: 18px;
+		height: 18px;
+		border-radius: 5px;
+		background: linear-gradient(135deg, var(--accent), #ffae3a);
+		box-shadow: 0 0 14px color-mix(in srgb, var(--accent) 55%, transparent);
+	}
+
+	.primary-nav {
+		display: flex;
+		align-items: center;
+		gap: 4px;
+	}
+
+	.nav-link {
+		font-size: 14px;
+		color: var(--fg-muted);
+		padding: 8px 14px;
+		border-radius: 10px;
+		transition: color 0.15s ease, background 0.15s ease;
+	}
+
+	.nav-link:hover { color: var(--fg); }
+
+	.nav-link.active {
+		color: var(--fg);
+		background: var(--line);
+	}
+
+	.menu-toggle {
+		display: none;
+		width: 40px;
+		height: 40px;
+		border: 1px solid var(--line);
+		background: transparent;
+		border-radius: 10px;
+		cursor: pointer;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		gap: 5px;
+	}
+
+	.menu-bar {
+		width: 18px;
+		height: 2px;
+		background: var(--fg);
+		border-radius: 2px;
+		transition: transform 0.2s ease, opacity 0.2s ease;
+	}
+
+	.menu-toggle[aria-expanded='true'] .menu-bar:nth-child(1) {
+		transform: translateY(3.5px) rotate(45deg);
+	}
+	.menu-toggle[aria-expanded='true'] .menu-bar:nth-child(2) {
+		transform: translateY(-3.5px) rotate(-45deg);
+	}
+
+	@media (max-width: 720px) {
+		.menu-toggle { display: flex; }
+
+		.primary-nav {
+			position: absolute;
+			top: 68px;
+			left: 0;
+			right: 0;
+			flex-direction: column;
+			align-items: stretch;
+			gap: 2px;
+			padding: 12px 24px 20px;
+			background: var(--bg);
+			border-bottom: 1px solid var(--line);
+			transform: translateY(-12px);
+			opacity: 0;
+			pointer-events: none;
+			transition: opacity 0.18s ease, transform 0.18s ease;
+		}
+
+		.primary-nav[data-open='true'] {
+			opacity: 1;
+			transform: translateY(0);
+			pointer-events: auto;
+		}
+
+		.nav-link {
+			padding: 14px 12px;
+			font-size: 16px;
+		}
+	}
+</style>
+
+<script is:inline>
+	const btn = document.querySelector('.menu-toggle');
+	const nav = document.getElementById('primary-nav');
+	if (btn && nav) {
+		btn.addEventListener('click', () => {
+			const open = btn.getAttribute('aria-expanded') === 'true';
+			btn.setAttribute('aria-expanded', String(!open));
+			nav.dataset.open = String(!open);
+		});
+		nav.addEventListener('click', (e) => {
+			if (e.target instanceof HTMLAnchorElement) {
+				btn.setAttribute('aria-expanded', 'false');
+				nav.dataset.open = 'false';
+			}
+		});
+	}
+</script>

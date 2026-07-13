@@ -1,0 +1,99 @@
+---
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+	<div class="container bar">
+		<div class="left">
+			<span class="dot"></span>
+			<p class="status">正在寻找数媒相关实习机会 · 广东</p>
+		</div>
+		<div class="right">
+			<nav class="socials" aria-label="社交链接">
+				<a href="mailto:liuyingying@example.com" aria-label="邮件">Email</a>
+				<a href="https://www.behance.net/" rel="me noopener" target="_blank">Behance</a>
+				<a href="https://www.zcool.com.cn/" rel="me noopener" target="_blank">站酷</a>
+			</nav>
+			<p class="copy">© {year} liuyingying · 用 Astro 构建</p>
+		</div>
+	</div>
+</footer>
+
+<style>
+	.site-footer {
+		border-top: 1px solid var(--line);
+		padding-block: 36px 60px;
+		background: var(--bg-soft);
+	}
+
+	.bar {
+		display: flex;
+		justify-content: space-between;
+		align-items: flex-end;
+		gap: 32px;
+		flex-wrap: wrap;
+	}
+
+	.left {
+		display: flex;
+		align-items: center;
+		gap: 12px;
+	}
+
+	.dot {
+		width: 9px;
+		height: 9px;
+		border-radius: 50%;
+		background: var(--accent);
+		box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 16%, transparent);
+		animation: pulse 2.6s ease-in-out infinite;
+	}
+
+	@keyframes pulse {
+		0%, 100% { opacity: 1; transform: scale(1); }
+		50% { opacity: 0.5; transform: scale(0.85); }
+	}
+
+	.status {
+		margin: 0;
+		font-size: 14px;
+		color: var(--fg-muted);
+		letter-spacing: -0.01em;
+	}
+
+	.right {
+		text-align: right;
+	}
+
+	.socials {
+		display: flex;
+		gap: 18px;
+		margin-bottom: 10px;
+		justify-content: flex-end;
+	}
+
+	.socials a {
+		font-size: 13px;
+		font-family: var(--font-mono);
+		color: var(--fg);
+		border-bottom: 1px solid transparent;
+		padding-bottom: 2px;
+		transition: border-color 0.15s ease, color 0.15s ease;
+	}
+	.socials a:hover {
+		color: var(--accent);
+		border-color: var(--accent);
+	}
+
+	.copy {
+		margin: 0;
+		font-size: 12px;
+		color: var(--fg-dim);
+	}
+
+	@media (max-width: 600px) {
+		.bar { flex-direction: column; align-items: flex-start; }
+		.right { text-align: left; }
+		.socials { justify-content: flex-start; }
+	}
+</style>

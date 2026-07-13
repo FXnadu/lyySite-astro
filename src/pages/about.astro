@@ -1,0 +1,292 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const timeline = [
+	{ year: '2018', title: '初识设计', desc: '高中担任校刊美编，第一次意识到"布局"是一种说话方式。' },
+	{ year: '2021', title: '考入数字媒体艺术专业', desc: '开始系统学习视听语言、动态图形与交互设计基础。' },
+	{ year: '2023', title: '校园独立放映展策展', desc: '与同学策划三场主题短片联映，主导整体视觉与现场动线。' },
+	{ year: '2024', title: '商业插画 / 品牌合作', desc: '为两家本地独立咖啡馆设计季节性视觉物料。' },
+	{ year: '2025', title: 'AR 装置驻地创作', desc: '在地市级博物馆完成《回声》驻地项目并长期展出。' },
+];
+
+const disciplines = [
+	{ title: '交互叙事', note: '把网页当作影像的延长版，听任观众改变节奏。' },
+	{ title: '动态图形', note: '让静态的海报拥有"运动时刻"，又不喧宾夺主。' },
+	{ title: '创意编程', note: '用代码做"手做不到的事"，但拒绝炫技。' },
+	{ title: '声音设计', note: '把环境音当素材，也当叙事的呼吸节拍。' },
+];
+---
+
+<Layout
+	title="关于 — liuyingying"
+	description="数字媒体艺术专业学生 liuyingying（lyy）的自述：从校刊美编起步，走进交互叙事、动态图形与创意编程。"
+>
+	<section class="hero">
+		<div class="container">
+			<p class="eyebrow">关于我</p>
+			<h1 class="title">不止是"做设计的人"</h1>
+			<p class="lede">
+				我是 liuyingying（lyy），2003 年生。我的实践横跨平面、影像、代码与声音——
+				我相信这些媒介共享同一种结构性的关怀：为信息寻找节奏，为节奏寻找温度。
+			</p>
+		</div>
+	</section>
+
+	<section class="profile">
+		<div class="container grid">
+			<div class="bio">
+				<h2>简述</h2>
+				<p>
+					就读于某省属艺术院校数字媒体艺术专业，目前大三。过去三年里，我从"会拼版的人"逐渐变成愿意"写一点代码"的人，
+					因为我相信，在数媒领域里，good 和 great 之间的差距，常常取决于你愿不愿意多走半步到工程里去看一眼。
+				</p>
+				<p>
+					我不擅长一次性完成。更愿意把作品做成持续修订的过程：第一版不漂亮没关系，但每修订一次，边界就该清晰一寸。
+				</p>
+			</div>
+
+			<aside class="meta-card">
+				<h2>信息</h2>
+				<dl>
+					<dt>专业</dt><dd>数字媒体艺术</dd>
+					<dt>方向</dt><dd>交互叙事 / 动态图形</dd>
+					<dt>毕业</dt><dd>2026 届</dd>
+					<dt>城市</dt><dd>广东 / 求职中</dd>
+					<dt>语言</dt><dd>中文 · 英语 (CET-6)</dd>
+				</dl>
+			</aside>
+		</div>
+	</section>
+
+	<section class="disciplines">
+		<div class="container">
+			<header class="section-head">
+				<h2>我在关心的几件事</h2>
+				<span class="index">A · 方向</span>
+			</header>
+			<div class="disc-grid">
+				{
+					disciplines.map((d) => (
+						<div class="disc">
+							<h3>{d.title}</h3>
+							<p>{d.note}</p>
+						</div>
+					))
+				}
+			</div>
+		</div>
+	</section>
+
+	<section class="timeline-section">
+		<div class="container">
+			<header class="section-head">
+				<h2>路径</h2>
+				<span class="index">B · 时间线</span>
+			</header>
+			<ol class="timeline">
+				{
+					timeline.map((item) => (
+						<li>
+							<span class="y">{item.year}</span>
+							<div class="t">
+								<h3>{item.title}</h3>
+								<p>{item.desc}</p>
+							</div>
+						</li>
+					))
+				}
+			</ol>
+		</div>
+	</section>
+
+	<section class="values">
+		<div class="container">
+			<header class="section-head">
+				<h2>三个相信</h2>
+				<span class="index">C · 工作观</span>
+			</header>
+			<div class="val-grid">
+				<div>
+					<span class="num">01</span>
+					<h3>先理解，再设计</h3>
+					<p>设计是回答问题，不是装饰问题。把对方的话听完，再动手。</p>
+				</div>
+				<div>
+					<span class="num">02</span>
+					<h3>让作品可以被修订</h3>
+					<p>不追求"already perfect"。把每次迭代都当成契约，而不是判决。</p>
+				</div>
+				<div>
+					<span class="num">03</span>
+					<h3>诚实地标注学习</h3>
+					<p>承认哪里是借了别人灵感的、哪里还做得不够好。好奇心需要被允许。</p>
+				</div>
+			</div>
+		</div>
+	</section>
+</Layout>
+
+<style>
+	.hero {
+		padding-block: clamp(56px, 8vw, 96px) clamp(32px, 4vw, 48px);
+		border-bottom: 1px solid var(--line);
+	}
+	.eyebrow {
+		font-family: var(--font-mono);
+		font-size: 12px;
+		color: var(--accent);
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		margin-bottom: 14px;
+	}
+	.title {
+		font-size: clamp(32px, 5vw, 56px);
+		font-weight: 700;
+		letter-spacing: -0.03em;
+		margin-bottom: 18px;
+	}
+	.lede {
+		font-size: clamp(16px, 1.6vw, 19px);
+		color: var(--fg-muted);
+		max-width: 56ch;
+		line-height: 1.7;
+		margin: 0;
+	}
+
+	.profile { padding-block: clamp(40px, 6vw, 64px); border-bottom: 1px solid var(--line); }
+	.grid {
+		display: grid;
+		grid-template-columns: 2fr 1fr;
+		gap: 40px;
+		align-items: start;
+	}
+	.bio h2, .meta-card h2 {
+		font-family: var(--font-mono);
+		font-size: 12px;
+		color: var(--fg-dim);
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		margin-bottom: 20px;
+	}
+	.bio p { font-size: 16px; color: var(--fg-muted); line-height: 1.75; margin-bottom: 14px; }
+
+	.meta-card {
+		border: 1px solid var(--line);
+		border-radius: var(--radius);
+		padding: 24px;
+		background: var(--bg-elev);
+	}
+	.meta-card dl {
+		display: grid;
+		grid-template-columns: auto 1fr;
+		gap: 10px 16px;
+		margin: 0;
+	}
+	.meta-card dt {
+		font-family: var(--font-mono);
+		font-size: 11px;
+		color: var(--fg-dim);
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		padding-top: 4px;
+	}
+	.meta-card dd { margin: 0; color: var(--fg); font-size: 14px; }
+
+	.section-head {
+		display: flex;
+		justify-content: space-between;
+		align-items: baseline;
+		gap: 16px;
+		margin-bottom: 32px;
+		flex-wrap: wrap;
+	}
+	.section-head h2 { font-size: clamp(24px, 3.5vw, 36px); margin: 0; }
+	.index { font-family: var(--font-mono); font-size: 12px; color: var(--fg-dim); letter-spacing: 0.04em; }
+
+	.disciplines { padding-block: clamp(40px, 6vw, 64px); border-bottom: 1px solid var(--line); }
+	.disc-grid {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		gap: 24px;
+	}
+	.disc {
+		padding: 28px 26px;
+		border: 1px solid var(--line);
+		border-radius: var(--radius);
+		background: var(--bg-elev);
+		transition: border-color 0.2s ease, transform 0.2s ease;
+	}
+	.disc:hover { border-color: var(--line-strong); transform: translateY(-2px); }
+	.disc h3 { font-size: 20px; margin: 0 0 8px; }
+	.disc p { margin: 0; color: var(--fg-muted); font-size: 15px; line-height: 1.6; }
+
+	.timeline-section { padding-block: clamp(40px, 6vw, 64px); border-bottom: 1px solid var(--line); }
+	.timeline {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		counter-reset: tline;
+		position: relative;
+	}
+	.timeline::before {
+		content: '';
+		position: absolute;
+		left: 60px;
+		top: 6px;
+		bottom: 6px;
+		width: 1px;
+		background: var(--line);
+	}
+	.timeline li {
+		display: grid;
+		grid-template-columns: 60px 1fr;
+		gap: 28px;
+		padding-block: 14px 18px;
+		position: relative;
+	}
+	.timeline li::after {
+		content: '';
+		position: absolute;
+		left: 55px;
+		top: 26px;
+		width: 11px;
+		height: 11px;
+		border-radius: 50%;
+		background: var(--bg);
+		border: 2px solid var(--accent);
+	}
+	.timeline .y {
+		font-family: var(--font-mono);
+		font-size: 13px;
+		color: var(--accent);
+		text-align: right;
+		padding-top: 6px;
+	}
+	.timeline .t h3 { font-size: 18px; margin: 0 0 4px; }
+	.timeline .t p { margin: 0; color: var(--fg-muted); font-size: 15px; }
+
+	.values { padding-block: clamp(40px, 6vw, 72px); }
+	.val-grid {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: 24px;
+	}
+	.val-grid > div {
+		padding: 26px;
+		border-top: 1px solid var(--line);
+	}
+	.val-grid .num {
+		font-family: var(--font-mono);
+		font-size: 12px;
+		color: var(--fg-dim);
+		letter-spacing: 0.1em;
+	}
+	.val-grid h3 { font-size: 20px; margin: 10px 0 8px; }
+	.val-grid p { margin: 0; color: var(--fg-muted); font-size: 15px; line-height: 1.65; }
+
+	@media (max-width: 960px) {
+		.grid { grid-template-columns: 1fr; }
+		.disc-grid { grid-template-columns: 1fr; }
+		.val-grid { grid-template-columns: 1fr; }
+	}
+</style>

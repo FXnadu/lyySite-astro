@@ -1,0 +1,429 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import { getCollection } from 'astro:content';
+
+const projects = await getCollection('projects', (entry) => entry.data.featured);
+
+const featured = [...projects]
+	.sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime())
+	.slice(0, 3);
+
+const skills = [
+	{ group: '设计', items: ['品牌识别', '动态图形', '排印与版面', '影像叙事'] },
+	{ group: '代码', items: ['JavaScript', 'Three.js / WebGL', 'p5.js', 'TouchDesigner'] },
+	{ group: '工艺', items: ['Risograph', '拼贴', '声音采集', 'AR / WebXR'] },
+];
+
+const today = new Date();
+const age = today.getFullYear() - 2003;
+---
+
+<Layout>
+	<!-- HERO -->
+	<section class="hero">
+		<div class="container hero-grid">
+			<div class="hero-text">
+				<p class="eyebrow">
+					<span class="blink"></span>
+					开放实习机会 · 数字媒体 2026 届 · 广东
+				</p>
+				<h1 class="title">
+					在<span class="hi">媒体</span>与<span class="hi2">叙事</span>
+					<br />之间找一道缝隙
+				</h1>
+				<p class="lede">
+					liuyingying（lyy），数字媒体艺术专业在读。我相信"设计"是思考的可视化，"代码"是叙事的延长。
+					这里是我用作品练习这件事的地方——交互影像、动态图形、生成式海报与一些失败的实验。
+				</p>
+				<div class="cta">
+					<a class="btn primary" href="/projects">
+						浏览作品
+						<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+					</a>
+					<a class="btn ghost" href="/about">关于我</a>
+				</div>
+			</div>
+
+			<div class="hero-visual" aria-hidden="true">
+				<svg viewBox="0 0 500 500" class="vis-svg">
+					<defs>
+						<linearGradient id="hgrad" x1="0" y1="0" x2="1" y2="1">
+							<stop offset="0%" stop-color="#b85c4f"/>
+							<stop offset="55%" stop-color="#d98a7d"/>
+							<stop offset="100%" stop-color="#e8c9a8"/>
+						</linearGradient>
+						<filter id="hnoise">
+							<feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="3"/>
+							<feColorMatrix type="saturate" values="0"/>
+						</filter>
+						<mask id="ringmask">
+							<rect width="500" height="500" fill="#000"/>
+							<circle cx="250" cy="250" r="170" fill="#fff"/>
+						</mask>
+					</defs>
+					<g class="ring" style="transform-origin:250px 250px">
+						<g stroke="url(#hgrad)" fill="none" stroke-linecap="round">
+							<circle cx="250" cy="250" r="200" stroke-width="1.4" opacity="0.75"/>
+							<circle cx="250" cy="250" r="170" stroke-width="0.8" opacity="0.5"/>
+							<circle cx="250" cy="250" r="140" stroke-width="0.5" opacity="0.3"/>
+						</g>
+					</g>
+					<g class="ring r2" style="transform-origin:250px 250px">
+						<circle cx="250" cy="80" r="6" fill="#b85c4f"/>
+						<circle cx="420" cy="250" r="4" fill="#6b6760"/>
+						<circle cx="250" cy="420" r="3" fill="#d98a7d"/>
+					</g>
+					<g mask="url(#ringmask)">
+						<rect width="500" height="500" fill="url(#hgrad)" opacity="0.22"/>
+					</g>
+					<rect width="500" height="500" class="noise-layer" filter="url(#hnoise)"/>
+					<line x1="40" y1="460" x2="460" y2="460" stroke="url(#hgrad)" stroke-width="1.5" opacity="0.6"/>
+				</svg>
+				<dl class="stat-row">
+					<div><dt>{featured.length}</dt><dd>精选作品</dd></div>
+					<div><dt>{age}+</dt><dd>岁好奇心</dd></div>
+					<div><dt>∞</dt><dd>待完成实验</dd></div>
+				</dl>
+			</div>
+		</div>
+	</section>
+
+	<!-- SKILLS -->
+	<section class="skills">
+		<div class="container">
+			<header class="section-head">
+				<h2>我能做什么</h2>
+				<span class="index">01 · 能力</span>
+			</header>
+			<div class="skill-grid">
+				{
+					skills.map((s) => (
+						<div class="skill-col">
+							<h3>{s.group}</h3>
+							<ul>
+								{s.items.map((it) => <li>{it}</li>)}
+							</ul>
+						</div>
+					))
+				}
+			</div>
+		</div>
+	</section>
+
+	<!-- FEATURED -->
+	<section class="featured">
+		<div class="container">
+			<header class="section-head">
+				<h2>精选作品</h2>
+				<a class="more" href="/projects">查看全部 →</a>
+			</header>
+			<div class="grid">
+				{featured.map((project) => <ProjectCard project={project} />)}
+			</div>
+		</div>
+	</section>
+
+	<!-- MANIFESTO -->
+	<section class="manifesto">
+		<div class="container">
+			<blockquote>
+				<p>
+					"做作品不是为了"完成"，而是为了"探出边界"。<br />
+					愿意接受不漂亮的过程、未完成的版本与诚实的失败。"
+				</p>
+			</blockquote>
+		</div>
+	</section>
+</Layout>
+
+<style>
+	.hero {
+		padding-block: clamp(48px, 8vw, 88px) clamp(40px, 5vw, 64px);
+		border-bottom: 1px solid var(--line);
+		overflow: hidden;
+	}
+
+	.hero-grid {
+		display: grid;
+		grid-template-columns: 1.15fr 0.85fr;
+		gap: clamp(24px, 4vw, 56px);
+		align-items: center;
+	}
+
+	.eyebrow {
+		display: inline-flex;
+		align-items: center;
+		gap: 10px;
+		font-family: var(--font-mono);
+		font-size: 12px;
+		letter-spacing: 0.04em;
+		color: var(--fg-muted);
+		padding: 6px 12px;
+		border: 1px solid var(--line-strong);
+		border-radius: 999px;
+		margin-bottom: 26px;
+		background: var(--bg-elev);
+	}
+
+	.blink {
+		width: 7px;
+		height: 7px;
+		border-radius: 50%;
+		background: var(--accent);
+		box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 50%, transparent);
+		animation: blink 1.8s ease-in-out infinite;
+	}
+	@keyframes blink {
+		0%, 100% { opacity: 1; box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 40%, transparent); }
+		50% { opacity: 0.5; box-shadow: 0 0 0 5px transparent; }
+	}
+
+	.title {
+		font-family: var(--font-display);
+		font-size: clamp(40px, 6vw, 76px);
+		font-weight: 500;
+		line-height: 1.05;
+		letter-spacing: -0.025em;
+		margin: 0 0 24px;
+	}
+
+	.hi {
+		color: var(--accent);
+		font-style: italic;
+	}
+	.hi2 {
+		color: var(--fg-muted);
+		font-weight: 400;
+		font-style: italic;
+	}
+
+	.lede {
+		font-size: clamp(16px, 1.6vw, 19px);
+		color: var(--fg-muted);
+		line-height: 1.75;
+		max-width: 50ch;
+		margin-bottom: 28px;
+	}
+
+	.cta {
+		display: flex;
+		gap: 12px;
+		flex-wrap: wrap;
+	}
+
+	.btn {
+		display: inline-flex;
+		align-items: center;
+		gap: 8px;
+		padding: 13px 22px;
+		border-radius: 12px;
+		font-size: 15px;
+		font-weight: 500;
+		transition: transform 0.15s ease, background 0.2s ease, border-color 0.2s ease;
+	}
+	.btn svg { transition: transform 0.2s ease; }
+	.btn:hover svg { transform: translateX(3px); }
+
+	.btn.primary {
+		background: var(--accent);
+		color: #fff;
+		border: 1px solid var(--accent);
+	}
+	.btn.primary:hover {
+		transform: translateY(-2px);
+		background: var(--accent-dim);
+		border-color: var(--accent-dim);
+	}
+
+	.btn.ghost {
+		color: var(--fg);
+		border: 1px solid var(--line-strong);
+		background: var(--bg-elev);
+	}
+	.btn.ghost:hover {
+		border-color: var(--accent);
+		color: var(--accent);
+	}
+
+	/* Visual */
+	.hero-visual {
+		display: flex;
+		flex-direction: column;
+		gap: 16px;
+		align-items: stretch;
+	}
+
+	.vis-svg {
+		width: 100%;
+		height: auto;
+		border-radius: 20px;
+		overflow: hidden;
+		background: var(--bg-elev);
+		border: 1px solid var(--line);
+	}
+	.ring { animation: spin 38s linear infinite; }
+	.ring.r2 { animation: spin-r 22s linear infinite reverse; }
+	@keyframes spin { to { transform: rotate(360deg); } }
+	@keyframes spin-r { to { transform: rotate(-360deg); } }
+
+	.noise-layer { opacity: 0.04; mix-blend-mode: multiply; }
+
+	.stat-row {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		margin: 0;
+		gap: 0;
+		border: 1px solid var(--line);
+		border-radius: 14px;
+		overflow: hidden;
+		background: var(--bg-elev);
+	}
+	.stat-row > div {
+		padding: 16px 14px;
+		border-right: 1px solid var(--line);
+	}
+	.stat-row > div:last-child { border-right: none; }
+
+	.stat-row dt {
+		font-family: var(--font-display);
+		font-size: 26px;
+		font-weight: 500;
+		color: var(--fg);
+		margin: 0 0 4px;
+		line-height: 1;
+	}
+	.stat-row dd {
+		font-family: var(--font-mono);
+		font-size: 11px;
+		color: var(--fg-dim);
+		margin: 0;
+	}
+
+	/* Skills */
+	.skills {
+		padding-block: clamp(48px, 7vw, 72px);
+		border-bottom: 1px solid var(--line);
+	}
+
+	.section-head {
+		display: flex;
+		justify-content: space-between;
+		align-items: baseline;
+		gap: 16px;
+		margin-bottom: 36px;
+		flex-wrap: wrap;
+	}
+	.section-head h2 {
+		font-family: var(--font-display);
+		font-weight: 500;
+		font-size: clamp(26px, 4vw, 40px);
+		margin: 0;
+	}
+
+	.index {
+		font-family: var(--font-mono);
+		font-size: 12px;
+		color: var(--fg-dim);
+		letter-spacing: 0.04em;
+	}
+
+	.skill-grid {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: 24px;
+	}
+
+	.skill-col {
+		padding: 24px;
+		background: var(--bg-elev);
+		border: 1px solid var(--line);
+		border-radius: var(--radius);
+	}
+
+	.skill-col h3 {
+		font-family: var(--font-mono);
+		font-size: 13px;
+		font-weight: 500;
+		color: var(--accent);
+		text-transform: uppercase;
+		letter-spacing: 0.06em;
+		margin: 0 0 16px;
+		padding-bottom: 10px;
+		border-bottom: 1px solid var(--line);
+	}
+
+	.skill-col ul {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+	}
+
+	.skill-col li {
+		font-size: 16px;
+		color: var(--fg);
+		padding-left: 18px;
+		position: relative;
+	}
+	.skill-col li::before {
+		content: '—';
+		position: absolute;
+		left: 0;
+		color: var(--fg-dim);
+	}
+
+	/* Featured */
+	.featured {
+		padding-block: clamp(48px, 7vw, 72px);
+		border-bottom: 1px solid var(--line);
+	}
+
+	.more {
+		font-family: var(--font-mono);
+		font-size: 13px;
+		color: var(--fg-muted);
+		transition: color 0.15s ease;
+	}
+	.more:hover { color: var(--accent); }
+
+	.grid {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: 24px;
+	}
+
+	/* Manifesto */
+	.manifesto {
+		padding-block: clamp(64px, 9vw, 96px);
+	}
+
+	.manifesto blockquote {
+		margin: 0;
+		text-align: center;
+	}
+	.manifesto p {
+		font-family: var(--font-display);
+		font-style: italic;
+		font-size: clamp(20px, 2.6vw, 30px);
+		font-weight: 400;
+		line-height: 1.5;
+		color: var(--fg);
+		max-width: 30ch;
+		margin: 0 auto;
+	}
+	.manifesto p::before { content: '“'; color: var(--accent); margin-right: 0.05em; font-style: normal; }
+	.manifesto p::after { content: '”'; color: var(--accent); margin-left: 0.05em; font-style: normal; }
+
+	@media (max-width: 960px) {
+		.hero-grid { grid-template-columns: 1fr; }
+		.skill-grid { grid-template-columns: 1fr; gap: 18px; }
+		.grid { grid-template-columns: 1fr; }
+	}
+
+	@media (max-width: 600px) {
+		.grid { gap: 18px; }
+	}
+</style>

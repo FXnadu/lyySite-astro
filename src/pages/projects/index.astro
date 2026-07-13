@@ -1,0 +1,154 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import { getCollection } from 'astro:content';
+
+const projects = await getCollection('projects');
+
+// Build unique tag list for filter
+const allTags = Array.from(
+	new Set(projects.flatMap((p) => p.data.tags)),
+).sort((a, b) => a.localeCompare(b, 'zh-CN'));
+
+const sorted = [...projects].sort(
+	(a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime(),
+);
+---
+
+<Layout
+	title="作品 — 林谕"
+	description="林谕的作品索引：交互叙事、动态图形、生成式海报与 AR 装置实验。"
+>
+	<section class="head">
+		<div class="container">
+			<p class="eyebrow"><span class="dot"></span>作品索引 · {sorted.length} 件</p>
+			<h1 class="title">做过的尝试 · 正在做的事</h1>
+			<p class="lede">
+				这里不全是"成品"。一些是在正式课程中完成的命题作品，一些是驻地与商业合作，
+				也有一些纯粹是个人练习。它们处在不同阶段，但都是我当下看待媒介的最诚恳的方式。
+			</p>
+
+			<div class="filters" role="toolbar" aria-label="按标签筛选作品">
+				<button class="chip active" data-filter="all" type="button" aria-pressed="true">
+					全部
+				</button>
+				{
+					allTags.map((tag) => (
+						<button class="chip" data-filter={tag} type="button" aria-pressed="false">
+							{tag}
+						</button>
+					))
+				}
+			</div>
+		</div>
+	</section>
+
+	<section class="list">
+		<div class="container">
+			<div class="grid" data-grid>
+				{sorted.map((project) => <ProjectCard project={project} />)}
+			</div>
+			<p class="empty" data-empty hidden>没有匹配该标签的作品。</p>
+		</div>
+	</section>
+</Layout>
+
+<style>
+	.head {
+		padding-block: clamp(48px, 7vw, 80px) clamp(28px, 4vw, 40px);
+		border-bottom: 1px solid var(--line);
+	}
+	.eyebrow {
+		display: inline-flex;
+		align-items: center;
+		gap: 10px;
+		font-family: var(--font-mono);
+		font-size: 12px;
+		color: var(--fg-muted);
+		margin-bottom: 16px;
+	}
+	.dot {
+		width: 7px; height: 7px; border-radius: 50%;
+		background: var(--accent);
+		box-shadow: 0 0 8px var(--accent);
+	}
+	.title {
+		font-size: clamp(32px, 5vw, 56px);
+		font-weight: 700;
+		letter-spacing: -0.03em;
+		margin-bottom: 16px;
+	}
+	.lede {
+		color: var(--fg-muted);
+		font-size: clamp(16px, 1.6vw, 18px);
+		max-width: 60ch;
+		line-height: 1.7;
+		margin-bottom: 28px;
+	}
+
+	.filters {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 8px;
+	}
+	.chip {
+		font-family: var(--font-mono);
+		font-size: 13px;
+		color: var(--fg-muted);
+		background: transparent;
+		border: 1px solid var(--line);
+		border-radius: 999px;
+		padding: 7px 14px;
+		cursor: pointer;
+		transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+	}
+	.chip:hover { color: var(--fg); border-color: var(--line-strong); }
+	.chip.active {
+		color: #fff;
+		background: var(--accent);
+		border-color: var(--accent);
+	}
+
+	.list { padding-block: clamp(40px, 6vw, 64px); }
+	.grid {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: 24px;
+	}
+	.grid > .card { transition: opacity 0.2s ease, transform 0.2s ease; }
+	.grid > .card[hidden] { display: none; }
+
+	.empty {
+		text-align: center;
+		color: var(--fg-dim);
+		font-family: var(--font-mono);
+		margin-top: 40px;
+	}
+
+	@media (max-width: 960px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+	@media (max-width: 640px) { .grid { grid-template-columns: 1fr; } }
+</style>
+
+<script is:inline>
+	const chips = document.querySelectorAll('.chip');
+	const cards = document.querySelectorAll('[data-grid] > .card');
+	const empty = document.querySelector('[data-empty]');
+
+	chips.forEach((chip) => {
+		chip.addEventListener('click', () => {
+			const filter = chip.dataset.filter;
+			chips.forEach((c) => {
+				c.classList.toggle('active', c === chip);
+				c.setAttribute('aria-pressed', c === chip ? 'true' : 'false');
+			});
+			let visible = 0;
+			cards.forEach((card) => {
+				const tags = card.dataset.tags?.split('|') ?? [];
+				const show = filter === 'all' || tags.includes(filter);
+				card.toggleAttribute('hidden', !show);
+				if (show) visible++;
+			});
+			if (empty) empty.hidden = visible > 0;
+		});
+	});
+</script>

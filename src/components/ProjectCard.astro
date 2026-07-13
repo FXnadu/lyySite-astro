@@ -1,0 +1,187 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+export interface Props {
+	project: CollectionEntry<'projects'>;
+	priority?: boolean;
+}
+
+const { project, priority = false } = Astro.props;
+const { title, description, tags, pubDate, cover, role } = project.data;
+
+// Map cover key to generative SVG poster composition
+const seeds = ['motion-brand', 'tidal-doc', 'sound-terrain', 'neon-posters', 'ar-echo'];
+const palette: Record<string, [string, string]> = {
+	'motion-brand': ['#ff5a36', '#ffae3a'],
+	'tidal-doc': ['#2bd4c8', '#1c6ad4'],
+	'sound-terrain': ['#a76eff', '#ff5a36'],
+	'neon-posters': ['#ff3c7e', '#7b40ff'],
+	'ar-echo': ['#3aff8c', '#2bd4c8'],
+};
+const [c1, c2] = palette[cover ?? 'motion-brand'] ?? palette['motion-brand'];
+const slug = project.id;
+---
+
+<article class="card" data-tags={tags.join('|')}>
+	<a class="poster" href={`/projects/${slug}`} aria-label={`${title} 作品详情`}>
+		<svg
+			class="poster-svg"
+			viewBox="0 0 800 1000"
+			preserveAspectRatio="xMidYMid slice"
+			role="img"
+			aria-label={`${title} 概念海报`}
+		>
+			<defs>
+				<linearGradient id={`g-${slug}`} x1="0" y1="0" x2="1" y2="1">
+					<stop offset="0%" stop-color={c1} />
+					<stop offset="100%" stop-color={c2} />
+				</linearGradient>
+				<filter id={`noise-${slug}`}>
+					<feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed={seeds.indexOf(cover ?? 'motion-brand')} />
+					<feColorMatrix type="saturate" values="0" />
+				</filter>
+			</defs>
+			<rect width="800" height="1000" fill={`url(#g-${slug})`} />
+			<g opacity="0.18" filter={`url(#noise-${slug})`}>
+				<rect width="800" height="1000" />
+			</g>
+			<g stroke="rgba(0,0,0,0.22)" fill="none" stroke-width="2">
+				<circle cx="280" cy="380" r="220" />
+				<circle cx="520" cy="620" r="180" />
+				<line x1="0" y1="640" x2="800" y2="360" />
+			</g>
+		</svg>
+		<span class="view">查看 →</span>
+	</a>
+
+	<div class="meta">
+		<div class="row">
+			<time class="date" datetime={pubDate.toISOString()}>
+				{pubDate.toLocaleDateString('zh-CN', { year: 'numeric', month: '2-digit' })}
+			</time>
+			{role && <span class="role">{role}</span>}
+		</div>
+		<h3 class="title"><a href={`/projects/${slug}`}>{title}</a></h3>
+		<p class="desc">{description}</p>
+		{
+			tags.length > 0 && (
+				<ul class="tags">
+					{tags.map((tag) => <li>{tag}</li>)}
+				</ul>
+			)
+		}
+	</div>
+</article>
+
+<style>
+	.card {
+		display: flex;
+		flex-direction: column;
+		height: 100%;
+		border: 1px solid var(--line);
+		border-radius: var(--radius);
+		background: var(--bg-elev);
+		overflow: hidden;
+		transition: border-color 0.25s ease, transform 0.25s ease;
+	}
+	.card:hover {
+		border-color: var(--line-strong);
+		transform: translateY(-2px);
+	}
+
+	.poster {
+		position: relative;
+		display: block;
+		aspect-ratio: 4 / 5;
+		overflow: hidden;
+		background: #000;
+	}
+	.poster-svg {
+		width: 100%;
+		height: 100%;
+		transition: transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1);
+	}
+	.card:hover .poster-svg { transform: scale(1.04); }
+
+	.view {
+		position: absolute;
+		left: 16px;
+		bottom: 16px;
+		padding: 6px 12px;
+		font-family: var(--font-mono);
+		font-size: 12px;
+		color: var(--fg);
+		background: rgba(255, 255, 255, 0.9);
+		border: 1px solid var(--line-strong);
+		border-radius: 999px;
+		backdrop-filter: blur(8px);
+		opacity: 0;
+		transform: translateY(6px);
+		transition: opacity 0.2s ease, transform 0.2s ease;
+	}
+	.card:hover .view {
+		opacity: 1;
+		transform: translateY(0);
+	}
+
+	.meta {
+		padding: 18px 18px 22px;
+		display: flex;
+		flex-direction: column;
+		flex: 1;
+	}
+
+	.row {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 10px;
+		margin-bottom: 10px;
+	}
+
+	.date {
+		font-family: var(--font-mono);
+		font-size: 12px;
+		color: var(--fg-dim);
+	}
+	.role {
+		font-size: 11px;
+		color: var(--fg-muted);
+		font-family: var(--font-mono);
+		padding: 3px 8px;
+		border: 1px solid var(--line);
+		border-radius: 999px;
+	}
+
+	.title {
+		font-size: 19px;
+		font-weight: 600;
+		margin: 0 0 8px;
+	}
+	.title a:hover { color: var(--accent); }
+
+	.desc {
+		font-size: 14px;
+		color: var(--fg-muted);
+		line-height: 1.6;
+		margin: 0 0 14px;
+		flex: 1;
+	}
+
+	.tags {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 6px;
+		list-style: none;
+		padding: 0;
+		margin: 0;
+	}
+	.tags li {
+		font-size: 11px;
+		color: var(--fg-dim);
+		font-family: var(--font-mono);
+		padding: 3px 8px;
+		border: 1px solid var(--line);
+		border-radius: 999px;
+	}
+</style>
