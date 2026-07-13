@@ -16,12 +16,11 @@ const sorted = [...projects].sort(
 ---
 
 <Layout
-	title="作品 — 林谕"
-	description="林谕的作品索引：交互叙事、动态图形、生成式海报与 AR 装置实验。"
+	title="作品 — liuyingying"
+	description="liuyingying 的作品索引：交互叙事、动态图形、生成式海报与 AR 装置实验。"
 >
 	<section class="head">
 		<div class="container">
-			<p class="eyebrow"><span class="dot"></span>作品索引 · {sorted.length} 件</p>
 			<h1 class="title">做过的尝试 · 正在做的事</h1>
 			<p class="lede">
 				这里不全是"成品"。一些是在正式课程中完成的命题作品，一些是驻地与商业合作，
@@ -58,24 +57,11 @@ const sorted = [...projects].sort(
 		padding-block: clamp(48px, 7vw, 80px) clamp(28px, 4vw, 40px);
 		border-bottom: 1px solid var(--line);
 	}
-	.eyebrow {
-		display: inline-flex;
-		align-items: center;
-		gap: 10px;
-		font-family: var(--font-mono);
-		font-size: 12px;
-		color: var(--fg-muted);
-		margin-bottom: 16px;
-	}
-	.dot {
-		width: 7px; height: 7px; border-radius: 50%;
-		background: var(--accent);
-		box-shadow: 0 0 8px var(--accent);
-	}
 	.title {
 		font-size: clamp(32px, 5vw, 56px);
-		font-weight: 700;
-		letter-spacing: -0.03em;
+		font-weight: 600;
+		line-height: 1.1;
+		letter-spacing: -0.01em;
 		margin-bottom: 16px;
 	}
 	.lede {
@@ -107,6 +93,7 @@ const sorted = [...projects].sort(
 		color: #fff;
 		background: var(--accent);
 		border-color: var(--accent);
+		box-shadow: 0 4px 12px color-mix(in srgb, var(--accent) 28%, transparent);
 	}
 
 	.list { padding-block: clamp(40px, 6vw, 64px); }

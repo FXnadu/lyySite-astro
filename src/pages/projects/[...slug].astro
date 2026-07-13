@@ -21,11 +21,11 @@ const others = all
 	.slice(0, 2);
 
 const palette: Record<string, [string, string]> = {
-	'motion-brand': ['#b85c4f', '#e8a878'],
-	'tidal-doc': ['#7fa6b8', '#c9d7cf'],
-	'sound-terrain': ['#c98a9e', '#d9b38c'],
-	'neon-posters': ['#b85c4f', '#d9b3b0'],
-	'ar-echo': ['#9fb98f', '#cfd6b8'],
+	'motion-brand': ['#e85d3e', '#f5a623'],
+	'tidal-doc': ['#26b6a8', '#1e62c9'],
+	'sound-terrain': ['#9b5cf6', '#f25c54'],
+	'neon-posters': ['#ff2e7e', '#6b2dff'],
+	'ar-echo': ['#2fd889', '#22b6a8'],
 };
 const [c1, c2] = palette[project.data.cover ?? 'motion-brand'] ?? palette['motion-brand'];
 
@@ -139,9 +139,9 @@ const formatted = pubDate.toLocaleDateString('zh-CN', {
 
 	.ttl {
 		font-size: clamp(34px, 6vw, 64px);
-		font-weight: 700;
-		letter-spacing: -0.03em;
-		line-height: 1.05;
+		font-weight: 600;
+		letter-spacing: -0.01em;
+		line-height: 1.1;
 		margin: 0 0 16px;
 		max-width: 18ch;
 	}
@@ -193,9 +193,10 @@ const formatted = pubDate.toLocaleDateString('zh-CN', {
 
 	.banner { padding-top: 16px; }
 	.banner-shape {
-		border-radius: 18px;
+		border-radius: var(--radius);
 		overflow: hidden;
 		border: 1px solid var(--line);
+		box-shadow: var(--shadow-md);
 	}
 	.banner-shape svg { display: block; width: 100%; height: auto; }
 

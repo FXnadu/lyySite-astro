@@ -59,7 +59,7 @@ const nav = [
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-		height: 68px;
+		height: 72px;
 	}
 
 	.brand {
@@ -88,17 +88,18 @@ const nav = [
 
 	.nav-link {
 		font-size: 14px;
+		font-weight: 500;
 		color: var(--fg-muted);
 		padding: 8px 14px;
-		border-radius: 10px;
-		transition: color 0.15s ease, background 0.15s ease;
+		border-radius: 999px;
+		transition: color 0.2s ease, background 0.2s ease;
 	}
 
-	.nav-link:hover { color: var(--fg); }
+	.nav-link:hover { color: var(--accent); }
 
 	.nav-link.active {
-		color: var(--fg);
-		background: var(--line);
+		color: var(--accent);
+		background: color-mix(in srgb, var(--accent) 10%, transparent);
 	}
 
 	.menu-toggle {
@@ -135,7 +136,7 @@ const nav = [
 
 		.primary-nav {
 			position: absolute;
-			top: 68px;
+			top: 72px;
 			left: 0;
 			right: 0;
 			flex-direction: column;

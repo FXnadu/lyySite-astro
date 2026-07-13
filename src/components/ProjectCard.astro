@@ -1,5 +1,6 @@
 ---
 import type { CollectionEntry } from 'astro:content';
+import CoverArt from './CoverArt.astro';
 
 export interface Props {
 	project: CollectionEntry<'projects'>;
@@ -10,13 +11,12 @@ const { project, priority = false } = Astro.props;
 const { title, description, tags, pubDate, cover, role } = project.data;
 
 // Map cover key to generative SVG poster composition
-const seeds = ['motion-brand', 'tidal-doc', 'sound-terrain', 'neon-posters', 'ar-echo'];
 const palette: Record<string, [string, string]> = {
-	'motion-brand': ['#ff5a36', '#ffae3a'],
-	'tidal-doc': ['#2bd4c8', '#1c6ad4'],
-	'sound-terrain': ['#a76eff', '#ff5a36'],
-	'neon-posters': ['#ff3c7e', '#7b40ff'],
-	'ar-echo': ['#3aff8c', '#2bd4c8'],
+	'motion-brand': ['#e85d3e', '#f5a623'],
+	'tidal-doc': ['#26b6a8', '#1e62c9'],
+	'sound-terrain': ['#9b5cf6', '#f25c54'],
+	'neon-posters': ['#ff2e7e', '#6b2dff'],
+	'ar-echo': ['#2fd889', '#22b6a8'],
 };
 const [c1, c2] = palette[cover ?? 'motion-brand'] ?? palette['motion-brand'];
 const slug = project.id;
@@ -24,33 +24,7 @@ const slug = project.id;
 
 <article class="card" data-tags={tags.join('|')}>
 	<a class="poster" href={`/projects/${slug}`} aria-label={`${title} 作品详情`}>
-		<svg
-			class="poster-svg"
-			viewBox="0 0 800 1000"
-			preserveAspectRatio="xMidYMid slice"
-			role="img"
-			aria-label={`${title} 概念海报`}
-		>
-			<defs>
-				<linearGradient id={`g-${slug}`} x1="0" y1="0" x2="1" y2="1">
-					<stop offset="0%" stop-color={c1} />
-					<stop offset="100%" stop-color={c2} />
-				</linearGradient>
-				<filter id={`noise-${slug}`}>
-					<feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed={seeds.indexOf(cover ?? 'motion-brand')} />
-					<feColorMatrix type="saturate" values="0" />
-				</filter>
-			</defs>
-			<rect width="800" height="1000" fill={`url(#g-${slug})`} />
-			<g opacity="0.18" filter={`url(#noise-${slug})`}>
-				<rect width="800" height="1000" />
-			</g>
-			<g stroke="rgba(0,0,0,0.22)" fill="none" stroke-width="2">
-				<circle cx="280" cy="380" r="220" />
-				<circle cx="520" cy="620" r="180" />
-				<line x1="0" y1="640" x2="800" y2="360" />
-			</g>
-		</svg>
+		<CoverArt cover={cover} c1={c1} c2={c2} slug={slug} />
 		<span class="view">查看 →</span>
 	</a>
 
@@ -82,26 +56,23 @@ const slug = project.id;
 		border-radius: var(--radius);
 		background: var(--bg-elev);
 		overflow: hidden;
-		transition: border-color 0.25s ease, transform 0.25s ease;
+		box-shadow: var(--shadow);
+		transition: border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
 	}
 	.card:hover {
 		border-color: var(--line-strong);
-		transform: translateY(-2px);
+		transform: translateY(-4px);
+		box-shadow: var(--shadow-md);
 	}
 
 	.poster {
 		position: relative;
 		display: block;
-		aspect-ratio: 4 / 5;
+		aspect-ratio: 3 / 4;
 		overflow: hidden;
 		background: #000;
 	}
-	.poster-svg {
-		width: 100%;
-		height: 100%;
-		transition: transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1);
-	}
-	.card:hover .poster-svg { transform: scale(1.04); }
+	.card:hover .cover-art { transform: scale(1.05); }
 
 	.view {
 		position: absolute;

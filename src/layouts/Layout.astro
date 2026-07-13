@@ -28,7 +28,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url).toString(
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 		<link
-			href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&display=swap"
+			href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Noto+Sans+SC:wght@400;500;600&family=Noto+Serif+SC:wght@400;500;600;700&display=swap"
 			rel="stylesheet"
 		/>
 
@@ -49,7 +49,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url).toString(
 		<meta name="twitter:title" content={title} />
 		<meta name="twitter:description" content={description} />
 
-		<meta name="theme-color" content="#0b0b0d" />
+		<meta name="theme-color" content="#f6f4ee" />
 	</head>
 	<body>
 		<a class="skip-link" href="#main">跳到主要内容</a>
@@ -63,22 +63,26 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url).toString(
 
 <style is:global>
 	:root {
-		--bg: #f7f5f0;
+		--bg: #f6f4ee;
 		--bg-elev: #ffffff;
-		--bg-soft: #f0ede6;
-		--fg: #1f1d1a;
-		--fg-muted: #6b6760;
-		--fg-dim: #97928a;
-		--accent: #b85c4f;
-		--accent-soft: #d98a7d;
-		--accent-dim: #964237;
-		--line: rgba(31, 29, 26, 0.09);
-		--line-strong: rgba(31, 29, 26, 0.16);
-		--radius: 14px;
-		--maxw: 1140px;
-		--font-sans: 'Inter', 'PingFang SC', 'Microsoft YaHei', system-ui, sans-serif;
+		--bg-soft: #ede9e0;
+		--fg: #1b1916;
+		--fg-muted: #5f5b55;
+		--fg-dim: #908a82;
+		--accent: #b14e41;
+		--accent-soft: #d87c6f;
+		--accent-dim: #8f3a2f;
+		--line: rgba(27, 25, 22, 0.08);
+		--line-strong: rgba(27, 25, 22, 0.15);
+		--radius: 16px;
+		--radius-sm: 12px;
+		--maxw: 1180px;
+		--font-sans: 'Noto Sans SC', 'Inter', 'PingFang SC', 'Microsoft YaHei', system-ui, sans-serif;
 		--font-mono: ui-monospace, 'JetBrains Mono', 'Cascadia Code', Consolas, monospace;
-		--font-display: 'Newsreader', 'Songti SC', 'Noto Serif SC', Georgia, serif;
+		--font-display: 'Noto Serif SC', 'Newsreader', 'Songti SC', Georgia, serif;
+		--shadow: 0 2px 10px rgba(27, 25, 22, 0.05);
+		--shadow-md: 0 8px 24px rgba(27, 25, 22, 0.08);
+		--shadow-lg: 0 18px 48px rgba(27, 25, 22, 0.12);
 	}
 
 	*,
@@ -98,7 +102,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url).toString(
 		color: var(--fg);
 		font-family: var(--font-sans);
 		font-size: 16px;
-		line-height: 1.65;
+		line-height: 1.7;
 		font-weight: 400;
 		-webkit-font-smoothing: antialiased;
 		-moz-osx-font-smoothing: grayscale;
@@ -115,8 +119,8 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url).toString(
 	h1, h2, h3, h4 {
 		font-family: var(--font-display);
 		font-weight: 600;
-		line-height: 1.15;
-		letter-spacing: -0.02em;
+		line-height: 1.25;
+		letter-spacing: 0;
 		margin: 0 0 0.5em;
 	}
 
@@ -135,13 +139,18 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url).toString(
 		display: block;
 	}
 
+	:focus-visible {
+		outline: 2px solid var(--accent);
+		outline-offset: 3px;
+	}
+
 	::selection {
 		background: var(--accent);
 		color: #fff;
 	}
 
 	:where(h1, h2, h3) {
-		scroll-margin-top: 96px;
+		scroll-margin-top: 100px;
 	}
 
 	.skip-link {
@@ -167,13 +176,21 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url).toString(
 	@media (min-width: 720px) {
 		.container { padding-inline: 40px; }
 	}
+	@media (min-width: 1200px) {
+		.container { padding-inline: 48px; }
+	}
 
 	@media (prefers-reduced-motion: reduce) {
-		* {
+		*,
+		*::before,
+		*::after {
 			animation-duration: 0.001ms !important;
 			animation-iteration-count: 1 !important;
 			transition-duration: 0.001ms !important;
 			scroll-behavior: auto !important;
+		}
+		main {
+			animation: none;
 		}
 	}
 </style>
