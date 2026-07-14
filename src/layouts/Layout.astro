@@ -6,12 +6,14 @@ export interface Props {
 	title?: string;
 	description?: string;
 	image?: string;
+	autohideHeader?: boolean;
 }
 
 const {
 	title = 'liuyingying — 数字媒体个人作品集',
 	description = 'liuyingying（lyy），数字媒体艺术专业学生。专注于交互叙事、动态图形与创意编程。这里记录我的作品、思考与探索轨迹。',
 	image = '/og.svg',
+	autohideHeader = false,
 } = Astro.props;
 
 const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url).toString();
@@ -49,11 +51,11 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url).toString(
 		<meta name="twitter:title" content={title} />
 		<meta name="twitter:description" content={description} />
 
-		<meta name="theme-color" content="#f6f4ee" />
+		<meta name="theme-color" content="#ffffff" />
 	</head>
 	<body>
 		<a class="skip-link" href="#main">跳到主要内容</a>
-		<Header />
+		<Header autohide={autohideHeader} />
 		<main id="main">
 			<slot />
 		</main>
@@ -71,26 +73,26 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url).toString(
 	}
 
 	:root {
-		--bg: #f6f4ee;
+		--bg: #ffffff;
 		--bg-elev: #ffffff;
-		--bg-soft: #ede9e0;
-		--fg: #1b1916;
-		--fg-muted: #5f5b55;
-		--fg-dim: #908a82;
-		--accent: #b14e41;
-		--accent-soft: #d87c6f;
-		--accent-dim: #8f3a2f;
-		--line: rgba(27, 25, 22, 0.08);
-		--line-strong: rgba(27, 25, 22, 0.15);
+		--bg-soft: #f5f5f7;
+		--fg: #1a1a2e;
+		--fg-muted: #5c5c6a;
+		--fg-dim: #8e8e9a;
+		--accent: #2a9dcc;
+		--accent-soft: #57b5da;
+		--accent-dim: #1e7ca3;
+		--line: rgba(26, 26, 46, 0.08);
+		--line-strong: rgba(26, 26, 46, 0.15);
 		--radius: 16px;
 		--radius-sm: 12px;
 		--maxw: 1180px;
 		--font-sans: 'Noto Sans SC', 'Inter', 'PingFang SC', 'Microsoft YaHei', system-ui, sans-serif;
 		--font-mono: ui-monospace, 'JetBrains Mono', 'Cascadia Code', Consolas, monospace;
 		--font-display: 'Noto Serif SC', 'Newsreader', 'Songti SC', Georgia, serif;
-		--shadow: 0 2px 10px rgba(27, 25, 22, 0.05);
-		--shadow-md: 0 8px 24px rgba(27, 25, 22, 0.08);
-		--shadow-lg: 0 18px 48px rgba(27, 25, 22, 0.12);
+		--shadow: 0 2px 10px rgba(26, 26, 46, 0.05);
+		--shadow-md: 0 8px 24px rgba(26, 26, 46, 0.08);
+		--shadow-lg: 0 18px 48px rgba(26, 26, 46, 0.12);
 	}
 
 	*,

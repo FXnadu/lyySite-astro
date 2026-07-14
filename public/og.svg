@@ -1,12 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" preserveAspectRatio="xMidYMid slice">
 	<defs>
 		<linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-			<stop offset="0%" stop-color="#f7f5f0"/>
-			<stop offset="100%" stop-color="#efebe2"/>
+			<stop offset="0%" stop-color="#ffffff"/>
+			<stop offset="100%" stop-color="#f5f5f7"/>
 		</linearGradient>
 		<linearGradient id="acc" x1="0" y1="0" x2="1" y2="0">
-			<stop offset="0%" stop-color="#b85c4f"/>
-			<stop offset="100%" stop-color="#d98a7d"/>
+			<stop offset="0%" stop-color="#2a9dcc"/>
+			<stop offset="100%" stop-color="#57b5da"/>
 		</linearGradient>
 		<filter id="noise">
 			<feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2"/>
@@ -15,13 +15,13 @@
 	</defs>
 	<rect width="1200" height="630" fill="url(#bg)"/>
 	<g opacity="0.05" filter="url(#noise)"><rect width="1200" height="630"/></g>
-	<g stroke="rgba(184,92,79,0.28)" fill="none" stroke-width="2">
+	<g stroke="rgba(42,157,204,0.24)" fill="none" stroke-width="2">
 		<circle cx="900" cy="180" r="260"/>
 		<circle cx="1010" cy="460" r="200"/>
 		<line x1="0" y1="460" x2="1200" y2="180"/>
 	</g>
 	<circle cx="90" cy="128" r="10" fill="url(#acc)"/>
-	<text x="120" y="316" font-family="Newsreader, Georgia, serif" font-size="72" font-weight="500" fill="#1f1d1a" letter-spacing="-2">liuyingying</text>
-	<text x="120" y="384" font-family="ui-monospace, monospace" font-size="22" fill="#6b6760">数字媒体 · 交互叙事 · 创意编程</text>
-	<text x="120" y="540" font-family="ui-monospace, monospace" font-size="16" fill="#97928a">PORTFOLIO · LOOKING FOR INTERNSHIP · GUANGDONG</text>
+	<text x="120" y="316" font-family="Newsreader, Georgia, serif" font-size="72" font-weight="500" fill="#1a1a2e" letter-spacing="-2">liuyingying</text>
+	<text x="120" y="384" font-family="ui-monospace, monospace" font-size="22" fill="#5c5c6a">数字媒体 · 交互叙事 · 创意编程</text>
+	<text x="120" y="540" font-family="ui-monospace, monospace" font-size="16" fill="#8e8e9a">PORTFOLIO · LOOKING FOR INTERNSHIP · GUANGDONG</text>
 </svg>

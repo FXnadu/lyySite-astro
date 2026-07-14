@@ -1,4 +1,9 @@
 ---
+export interface Props {
+	autohide?: boolean;
+}
+const { autohide = false } = Astro.props;
+
 const path = Astro.url.pathname;
 const isActive = (href: string) =>
 	href === '/' ? path === '/' : path.startsWith(href);
@@ -10,7 +15,7 @@ const nav = [
 ];
 ---
 
-<header class="site-header">
+<header class="site-header" data-autohide={autohide ? 'true' : undefined}>
 	<div class="container bar">
 		<a class="brand" href="/" aria-label="返回首页">
 			<img class="mark" src="/images/logo.png" alt="" aria-hidden="true" />
@@ -45,6 +50,7 @@ const nav = [
 </header>
 
 <style>
+	/* ── 默认粘性顶栏（所有页面） ── */
 	.site-header {
 		position: sticky;
 		top: 0;
@@ -52,6 +58,20 @@ const nav = [
 		background: color-mix(in srgb, var(--bg) 86%, transparent);
 		backdrop-filter: blur(18px) saturate(120%);
 		border-bottom: 1px solid var(--line);
+	}
+
+	/* ── 首页自动隐藏模式 ── */
+	.site-header[data-autohide="true"] {
+		position: fixed;
+		left: 0;
+		right: 0;
+		transform: translateY(-100%);
+		transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+		pointer-events: none;
+	}
+	.site-header[data-autohide="true"][data-visible="true"] {
+		transform: translateY(0);
+		pointer-events: auto;
 	}
 
 	.bar {
@@ -186,19 +206,22 @@ const nav = [
 </style>
 
 <script is:inline>
-	const btn = document.querySelector('.menu-toggle');
-	const nav = document.getElementById('primary-nav');
-	if (btn && nav) {
-		btn.addEventListener('click', () => {
-			const open = btn.getAttribute('aria-expanded') === 'true';
-			btn.setAttribute('aria-expanded', String(!open));
-			nav.dataset.open = String(!open);
-		});
-		nav.addEventListener('click', (e) => {
-			if (e.target instanceof HTMLAnchorElement) {
-				btn.setAttribute('aria-expanded', 'false');
-				nav.dataset.open = 'false';
-			}
-		});
-	}
+	(function () {
+		// ── Hamburger ──
+		const btn = document.querySelector('.menu-toggle');
+		const nav = document.getElementById('primary-nav');
+		if (btn && nav) {
+			btn.addEventListener('click', () => {
+				const open = btn.getAttribute('aria-expanded') === 'true';
+				btn.setAttribute('aria-expanded', String(!open));
+				nav.dataset.open = String(!open);
+			});
+			nav.addEventListener('click', (e) => {
+				if (e.target instanceof HTMLAnchorElement) {
+					btn.setAttribute('aria-expanded', 'false');
+					nav.dataset.open = 'false';
+				}
+			});
+		}
+	})();
 </script>
