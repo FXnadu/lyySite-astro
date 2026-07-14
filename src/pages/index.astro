@@ -15,6 +15,14 @@ const skills = [
 	{ group: '工艺', items: ['Risograph', '拼贴', '声音采集', 'AR / WebXR'] },
 ];
 
+const timeline = [
+	{ year: '2018', title: '初识设计', desc: '高中担任校刊美编，第一次意识到"布局"是一种说话方式。' },
+	{ year: '2021', title: '考入数字媒体艺术专业', desc: '开始系统学习视听语言、动态图形与交互设计基础。' },
+	{ year: '2023', title: '校园独立放映展策展', desc: '与同学策划三场主题短片联映，主导整体视觉与现场动线。' },
+	{ year: '2024', title: '商业插画 / 品牌合作', desc: '为两家本地独立咖啡馆设计季节性视觉物料。' },
+	{ year: '2025', title: 'AR 装置驻地创作', desc: '在地市级博物馆完成《回声》驻地项目并长期展出。' },
+];
+
 
 ---
 
@@ -23,24 +31,15 @@ const skills = [
 	<section class="hero">
 		<div class="container hero-grid">
 			<div class="hero-text">
-				<p class="eyebrow">
-					<span class="blink"></span>
-					开放实习机会 · 数字媒体 2026 届 · 广东
-				</p>
 				<h1 class="title">
-					在<span class="hi">媒体</span>与<span class="hi2">叙事</span>
-					<br />之间找一道缝隙
+					liuyingying（lyy）<br />
+					<span class="subtitle">数字媒体艺术</span>
 				</h1>
 				<p class="lede">
-					liuyingying（lyy），数字媒体艺术专业在读。我相信"设计"是思考的可视化，"代码"是叙事的延长。
-					这里是我用作品练习这件事的地方——交互影像、动态图形、生成式海报与一些失败的实验。
+					liuyingying（lyy），数字媒体艺术在读，2026 届，base 广东，正在找实习。这个站收录了过去两年跟叙事有关的尝试——交互影像、动态设计、生成式视觉、还有自己印的 zine。有的做完了，有的还在改，也有一些不太满意的。
 				</p>
 				<div class="cta">
-					<a class="btn primary" href="/projects">
-						浏览作品
-						<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-					</a>
-					<a class="btn ghost" href="/about">关于我</a>
+					<a class="btn" href="/projects">浏览作品 →</a>
 				</div>
 			</div>
 
@@ -70,6 +69,55 @@ const skills = [
 		</div>
 	</section>
 
+	<!-- ABOUT -->
+	<section class="about" id="about">
+		<div class="container grid">
+			<div class="bio">
+				<h2>简述</h2>
+				<p>
+					就读于某省属艺术院校数字媒体艺术专业，目前大三。过去三年里，我从"会拼版的人"逐渐变成愿意"写一点代码"的人，
+					因为我相信，在数媒领域里，good 和 great 之间的差距，常常取决于你愿不愿意多走半步到工程里去看一眼。
+				</p>
+				<p>
+					我不擅长一次性完成。更愿意把作品做成持续修订的过程：第一版不漂亮没关系，但每修订一次，边界就该清晰一寸。
+				</p>
+			</div>
+			<aside class="info">
+				<h2>信息</h2>
+				<dl>
+					<dt>专业</dt><dd>数字媒体艺术</dd>
+					<dt>方向</dt><dd>交互叙事 / 动态图形</dd>
+					<dt>毕业</dt><dd>2026 届</dd>
+					<dt>城市</dt><dd>广东 / 求职中</dd>
+					<dt>语言</dt><dd>中文 · 英语 (CET-6)</dd>
+				</dl>
+			</aside>
+		</div>
+	</section>
+
+	<!-- TIMELINE -->
+	<section class="timeline-section">
+		<div class="container">
+			<header class="section-head">
+				<h2>路径</h2>
+				<span class="index">A · 时间线</span>
+			</header>
+			<ol class="timeline">
+				{
+					[...timeline].reverse().map((item) => (
+						<li>
+							<span class="y">{item.year}</span>
+							<div class="t">
+								<h3>{item.title}</h3>
+								<p>{item.desc}</p>
+							</div>
+						</li>
+					))
+				}
+			</ol>
+		</div>
+	</section>
+
 	<!-- FEATURED -->
 	<section class="featured">
 		<div class="container">
@@ -88,8 +136,7 @@ const skills = [
 		<div class="container">
 			<blockquote>
 				<p>
-					"做作品不是为了"完成"，而是为了"探出边界"。<br />
-					愿意接受不漂亮的过程、未完成的版本与诚实的失败。"
+					愿意接受不漂亮的过程、未完成的版本与诚实的失败。
 				</p>
 			</blockquote>
 		</div>
@@ -101,6 +148,18 @@ const skills = [
 		padding-block: clamp(48px, 8vw, 88px) clamp(40px, 5vw, 64px);
 		border-bottom: 1px solid var(--line);
 		overflow: hidden;
+		position: relative;
+	}
+	.hero::before {
+		content: '';
+		position: absolute;
+		z-index: -1;
+		top: -30%;
+		right: -8%;
+		width: 360px;
+		height: 360px;
+		background: radial-gradient(circle, color-mix(in srgb, var(--accent) 6%, transparent) 0%, transparent 70%);
+		pointer-events: none;
 	}
 
 	.hero-grid {
@@ -110,53 +169,22 @@ const skills = [
 	}
 	.hero-text {
 		max-width: 760px;
-	}
-
-	.eyebrow {
-		display: inline-flex;
-		align-items: center;
-		gap: 10px;
-		font-family: var(--font-mono);
-		font-size: 12px;
-		letter-spacing: 0.04em;
-		color: var(--fg-muted);
-		padding: 6px 12px;
-		border: 1px solid var(--line-strong);
-		border-radius: 999px;
-		margin-bottom: 26px;
-		background: var(--bg-elev);
-	}
-
-	.blink {
-		width: 7px;
-		height: 7px;
-		border-radius: 50%;
-		background: var(--accent);
-		box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 50%, transparent);
-		animation: blink 1.8s ease-in-out infinite;
-	}
-	@keyframes blink {
-		0%, 100% { opacity: 1; box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 40%, transparent); }
-		50% { opacity: 0.5; box-shadow: 0 0 0 5px transparent; }
+		position: relative;
 	}
 
 	.title {
 		font-family: var(--font-display);
 		font-size: clamp(40px, 6vw, 76px);
 		font-weight: 600;
-		line-height: 1.1;
+		line-height: 1.15;
 		letter-spacing: -0.01em;
 		margin: 0 0 24px;
 	}
 
-	.hi {
-		color: var(--accent);
-		font-style: italic;
-	}
-	.hi2 {
-		color: var(--fg-muted);
+	.subtitle {
+		font-size: 0.45em;
 		font-weight: 400;
-		font-style: italic;
+		color: var(--fg-muted);
 	}
 
 	.lede {
@@ -169,7 +197,8 @@ const skills = [
 
 	.cta {
 		display: flex;
-		gap: 12px;
+		gap: 28px;
+		align-items: center;
 		flex-wrap: wrap;
 	}
 
@@ -177,36 +206,40 @@ const skills = [
 		display: inline-flex;
 		align-items: center;
 		gap: 8px;
-		padding: 13px 22px;
-		border-radius: var(--radius-sm);
-		font-size: 15px;
+		font-family: var(--font-display);
+		font-size: 17px;
 		font-weight: 500;
-		transition: transform 0.15s ease, background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
-	}
-	.btn svg { transition: transform 0.2s ease; }
-	.btn:hover svg { transform: translateX(3px); }
-
-	.btn.primary {
-		background: var(--accent);
-		color: #fff;
-		border: 1px solid var(--accent);
-		box-shadow: 0 4px 14px color-mix(in srgb, var(--accent) 30%, transparent);
-	}
-	.btn.primary:hover {
-		transform: translateY(-2px);
-		background: var(--accent-dim);
-		border-color: var(--accent-dim);
-		box-shadow: 0 6px 18px color-mix(in srgb, var(--accent) 36%, transparent);
-	}
-
-	.btn.ghost {
-		color: var(--fg);
-		border: 1px solid var(--line-strong);
-		background: var(--bg-elev);
-	}
-	.btn.ghost:hover {
-		border-color: var(--accent);
 		color: var(--accent);
+		padding-bottom: 3px;
+		border-bottom: 2px solid var(--accent-soft);
+		transition: gap 0.25s, border-color 0.25s;
+	}
+	.btn:hover {
+		gap: 14px;
+		border-color: var(--accent);
+	}
+
+	.btn-link {
+		font-size: 15px;
+		color: var(--fg-muted);
+		transition: color 0.2s;
+		position: relative;
+	}
+	.btn-link::after {
+		content: '';
+		position: absolute;
+		left: 0;
+		bottom: -2px;
+		width: 100%;
+		height: 1px;
+		background: var(--line-strong);
+		transition: background 0.2s;
+	}
+	.btn-link:hover {
+		color: var(--fg);
+	}
+	.btn-link:hover::after {
+		background: var(--fg);
 	}
 
 	.skills {
@@ -239,32 +272,26 @@ const skills = [
 	.skill-grid {
 		display: grid;
 		grid-template-columns: repeat(3, 1fr);
-		gap: 24px;
+		gap: 0;
+		border-top: 1px solid var(--line);
 	}
 
 	.skill-col {
-		padding: 26px;
-		background: var(--bg-elev);
-		border: 1px solid var(--line);
-		border-radius: var(--radius);
-		box-shadow: var(--shadow);
-		transition: transform 0.2s ease, box-shadow 0.2s ease;
+		padding: 28px 0;
 	}
-	.skill-col:hover {
-		transform: translateY(-3px);
-		box-shadow: var(--shadow-md);
+	.skill-col + .skill-col {
+		border-left: 1px solid var(--line);
+		padding-left: 32px;
 	}
 
 	.skill-col h3 {
 		font-family: var(--font-mono);
-		font-size: 13px;
-		font-weight: 500;
+		font-size: 12px;
+		font-weight: 600;
 		color: var(--accent);
 		text-transform: uppercase;
-		letter-spacing: 0.06em;
-		margin: 0 0 16px;
-		padding-bottom: 10px;
-		border-bottom: 1px solid var(--line);
+		letter-spacing: 0.08em;
+		margin: 0 0 18px;
 	}
 
 	.skill-col ul {
@@ -273,24 +300,140 @@ const skills = [
 		margin: 0;
 		display: flex;
 		flex-direction: column;
-		gap: 10px;
+		gap: 6px;
 	}
 
 	.skill-col li {
-		font-size: 16px;
+		font-size: 15px;
 		color: var(--fg);
-		padding-left: 20px;
-		position: relative;
+		line-height: 1.65;
 	}
-	.skill-col li::before {
+
+	/* About */
+	.about {
+		padding-block: clamp(48px, 7vw, 72px);
+		border-bottom: 1px solid var(--line);
+	}
+	.grid {
+		display: grid;
+		grid-template-columns: 2fr 1fr;
+		gap: 48px;
+		align-items: start;
+	}
+	.bio h2, .info h2 {
+		font-family: var(--font-mono);
+		font-size: 12px;
+		color: var(--fg-dim);
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		margin-bottom: 20px;
+	}
+	.bio p {
+		font-size: 16px;
+		color: var(--fg-muted);
+		line-height: 1.75;
+		margin-bottom: 14px;
+	}
+	.info {
+		position: relative;
+		padding: 24px;
+		background: var(--bg-soft);
+		border-radius: 2px;
+		box-shadow: 6px 6px 14px rgba(27, 25, 22, 0.05);
+		transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+	}
+	.info:hover {
+		transform: translateY(-4px);
+		box-shadow: 12px 16px 28px rgba(27, 25, 22, 0.08);
+	}
+	.info::before {
 		content: '';
 		position: absolute;
-		left: 0;
-		top: 0.55em;
-		width: 8px;
-		height: 8px;
+		top: -5px;
+		left: 50%;
+		translate: -50% 0;
+		width: 56px;
+		height: 12px;
+		background: rgba(255, 255, 255, 0.4);
+		border-radius: 1px;
+		box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+		transform: rotate(-1.5deg);
+	}
+	.info dl {
+		display: grid;
+		grid-template-columns: auto 1fr;
+		gap: 10px 16px;
+		margin: 0;
+	}
+	.info dt {
+		font-family: var(--font-mono);
+		font-size: 11px;
+		color: var(--fg-dim);
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		padding-top: 4px;
+	}
+	.info dd {
+		margin: 0;
+		color: var(--fg);
+		font-size: 14px;
+	}
+
+	/* Timeline */
+	.timeline-section {
+		padding-block: clamp(40px, 6vw, 64px);
+		border-bottom: 1px solid var(--line);
+	}
+	.timeline {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		position: relative;
+	}
+	.timeline::before {
+		content: '';
+		position: absolute;
+		left: 84px;
+		top: 28px;
+		bottom: 28px;
+		width: 1px;
+		background: var(--line-strong);
+	}
+	.timeline li {
+		display: grid;
+		grid-template-columns: 72px 1fr;
+		gap: 24px;
+		padding-block: 16px 20px;
+		position: relative;
+	}
+	.timeline li::after {
+		content: '';
+		position: absolute;
+		left: 79px;
+		top: 22px;
+		width: 11px;
+		height: 11px;
 		border-radius: 50%;
-		background: var(--accent-soft);
+		background: var(--bg);
+		border: 2px solid var(--accent);
+		box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 12%, transparent);
+	}
+	.timeline .y {
+		font-family: var(--font-mono);
+		font-size: 13px;
+		color: var(--accent);
+		text-align: right;
+		padding-top: 2px;
+	}
+	.timeline .t h3 {
+		font-size: 18px;
+		margin: 0 0 6px;
+	}
+	.timeline .t p {
+		margin: 0;
+		color: var(--fg-muted);
+		font-size: 15px;
+		line-height: 1.6;
 	}
 
 	/* Featured */
@@ -303,14 +446,12 @@ const skills = [
 		font-family: var(--font-mono);
 		font-size: 13px;
 		color: var(--fg-muted);
-		transition: color 0.15s ease;
 	}
-	.more:hover { color: var(--accent); }
 
 	.grid-featured {
 		display: grid;
 		grid-template-columns: repeat(3, 1fr);
-		gap: 20px;
+		gap: 28px;
 	}
 
 	/* Manifesto */
@@ -353,7 +494,15 @@ const skills = [
 
 	@media (max-width: 960px) {
 		.hero-grid { grid-template-columns: 1fr; }
-		.skill-grid { grid-template-columns: 1fr; gap: 18px; }
+		.skill-grid { grid-template-columns: 1fr; }
+		.skill-col + .skill-col {
+			border-left: none;
+			padding-left: 0;
+			border-top: 1px solid var(--line);
+			padding-top: 24px;
+			margin-top: 8px;
+		}
+		.grid { grid-template-columns: 1fr; gap: 24px; }
 		.grid-featured { grid-template-columns: repeat(2, 1fr); }
 	}
 

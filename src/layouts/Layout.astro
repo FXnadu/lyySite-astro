@@ -62,6 +62,14 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url).toString(
 </html>
 
 <style is:global>
+	@font-face {
+		font-family: 'Yasashii';
+		src: url('/fonts/Yasashii.ttf') format('truetype');
+		font-weight: 400;
+		font-style: normal;
+		font-display: swap;
+	}
+
 	:root {
 		--bg: #f6f4ee;
 		--bg-elev: #ffffff;

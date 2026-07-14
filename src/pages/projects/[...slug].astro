@@ -133,9 +133,7 @@ const formatted = pubDate.toLocaleDateString('zh-CN', {
 		font-size: 13px;
 		color: var(--fg-muted);
 		margin-bottom: 22px;
-		transition: color 0.15s ease;
 	}
-	.back:hover { color: var(--accent); }
 
 	.ttl {
 		font-size: clamp(34px, 6vw, 64px);
@@ -253,10 +251,8 @@ const formatted = pubDate.toLocaleDateString('zh-CN', {
 		gap: 16px;
 		padding: 18px 4px;
 		border-top: 1px solid var(--line);
-		transition: padding-left 0.2s ease;
 	}
 	.rel-list li:last-child a { border-bottom: 1px solid var(--line); }
-	.rel-list a:hover { padding-left: 14px; }
 	.r-date {
 		font-family: var(--font-mono);
 		font-size: 13px;
@@ -268,6 +264,5 @@ const formatted = pubDate.toLocaleDateString('zh-CN', {
 		font-size: 18px;
 		color: var(--fg);
 	}
-	.rel-list a:hover .r-title { color: var(--accent); }
 	.arrow { color: var(--fg-dim); }
 </style>

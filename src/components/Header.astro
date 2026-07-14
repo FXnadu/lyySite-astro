@@ -6,7 +6,6 @@ const isActive = (href: string) =>
 const nav = [
 	{ href: '/', label: '首页' },
 	{ href: '/projects', label: '作品' },
-	{ href: '/about', label: '关于' },
 	{ href: '/contact', label: '联系' },
 ];
 ---
@@ -14,7 +13,7 @@ const nav = [
 <header class="site-header">
 	<div class="container bar">
 		<a class="brand" href="/" aria-label="返回首页">
-			<span class="mark" aria-hidden="true"></span>
+			<img class="mark" src="/images/logo.png" alt="" aria-hidden="true" />
 			<span class="brand-text">liuyingying</span>
 		</a>
 
@@ -67,17 +66,21 @@ const nav = [
 		align-items: center;
 		gap: 12px;
 		font-family: var(--font-mono);
-		font-size: 14px;
-		letter-spacing: -0.01em;
+		font-size: 13px;
+		letter-spacing: 0.06em;
 		color: var(--fg);
+		text-transform: uppercase;
+	}
+	.brand:focus-visible {
+		outline: none;
 	}
 
 	.mark {
-		width: 18px;
-		height: 18px;
-		border-radius: 5px;
-		background: linear-gradient(135deg, var(--accent), #ffae3a);
-		box-shadow: 0 0 14px color-mix(in srgb, var(--accent) 55%, transparent);
+		width: 36px;
+		height: 36px;
+		border-radius: 50%;
+		object-fit: cover;
+		display: block;
 	}
 
 	.primary-nav {
@@ -90,16 +93,30 @@ const nav = [
 		font-size: 14px;
 		font-weight: 500;
 		color: var(--fg-muted);
-		padding: 8px 14px;
-		border-radius: 999px;
-		transition: color 0.2s ease, background 0.2s ease;
+		padding: 8px 2px;
+		margin: 0 12px;
+		position: relative;
+		transition: color 0.2s;
 	}
-
-	.nav-link:hover { color: var(--accent); }
-
+	.nav-link::after {
+		content: '';
+		position: absolute;
+		bottom: -2px;
+		left: 0;
+		width: 100%;
+		height: 2px;
+		background: var(--accent);
+		transform: scaleX(0);
+		transition: transform 0.2s;
+	}
+	.nav-link:hover {
+		color: var(--fg);
+	}
 	.nav-link.active {
-		color: var(--accent);
-		background: color-mix(in srgb, var(--accent) 10%, transparent);
+		color: var(--fg);
+	}
+	.nav-link.active::after {
+		transform: scaleX(1);
 	}
 
 	.menu-toggle {
@@ -158,8 +175,12 @@ const nav = [
 		}
 
 		.nav-link {
-			padding: 14px 12px;
+			padding: 14px 0;
 			font-size: 16px;
+			margin: 0;
+		}
+		.nav-link::after {
+			bottom: 4px;
 		}
 	}
 </style>
