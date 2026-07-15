@@ -11,7 +11,7 @@ export async function getStaticPaths() {
 }
 
 const { project } = Astro.props;
-const { title, description, pubDate, tags, role, link } = project.data;
+const { title, description, pubDate, tags, link } = project.data;
 const { Content } = await render(project);
 
 const isPalette = project.id === 'color-palette';
@@ -52,7 +52,6 @@ const formatted = pubDate.toLocaleDateString('zh-CN', {
 				<p class="desc">{description}</p>
 				<div class="meta-row">
 					<time datetime={pubDate.toISOString()}>{formatted}</time>
-					{role && <span class="role">{role}</span>}
 					{
 						link && (
 							<a class="ext" href={link} target="_blank" rel="noopener">
@@ -134,11 +133,23 @@ const formatted = pubDate.toLocaleDateString('zh-CN', {
 		padding-block: clamp(40px, 6vw, 64px) clamp(28px, 4vw, 36px);
 	}
 	.back {
-		display: inline-block;
+		display: inline-flex;
+		align-items: center;
+		gap: 6px;
 		font-family: var(--font-mono);
 		font-size: 13px;
-		color: var(--fg-muted);
+		color: var(--accent);
+		padding: 8px 14px;
+		border: 1.5px solid var(--accent);
+		border-radius: 10px;
+		background: color-mix(in srgb, var(--accent) 8%, transparent);
+		box-shadow: 2px 2px 0 0 var(--accent);
 		margin-bottom: 22px;
+		transition: transform 0.15s ease, box-shadow 0.15s ease;
+	}
+	.back:hover {
+		transform: translate(1px, 1px);
+		box-shadow: 1px 1px 0 0 var(--accent);
 	}
 
 	.ttl {
@@ -166,16 +177,21 @@ const formatted = pubDate.toLocaleDateString('zh-CN', {
 		font-size: 13px;
 		color: var(--fg-dim);
 	}
-	.role {
-		padding: 3px 10px;
-		border: 1px solid var(--line);
-		border-radius: 999px;
-		color: var(--fg-muted);
-	}
 	.ext {
+		display: inline-flex;
+		align-items: center;
+		gap: 4px;
 		color: var(--accent);
-		border-bottom: 1px solid currentColor;
-		padding-bottom: 1px;
+		padding: 5px 11px;
+		border: 1.5px solid var(--accent);
+		border-radius: 8px;
+		background: color-mix(in srgb, var(--accent) 8%, transparent);
+		box-shadow: 2px 2px 0 0 var(--accent);
+		transition: transform 0.15s ease, box-shadow 0.15s ease;
+	}
+	.ext:hover {
+		transform: translate(1px, 1px);
+		box-shadow: 1px 1px 0 0 var(--accent);
 	}
 
 	.tags {
@@ -189,18 +205,19 @@ const formatted = pubDate.toLocaleDateString('zh-CN', {
 	.tags li {
 		font-size: 12px;
 		font-family: var(--font-mono);
-		color: var(--fg-dim);
+		color: var(--accent);
 		padding: 4px 10px;
-		border: 1px solid var(--line);
+		border: 1.5px solid var(--accent);
 		border-radius: 999px;
+		background: color-mix(in srgb, var(--accent) 8%, transparent);
 	}
 
 	.banner { padding-top: 16px; }
 	.banner-shape {
 		border-radius: var(--radius);
 		overflow: hidden;
-		border: 1px solid var(--line);
-		box-shadow: var(--shadow-md);
+		border: 1.5px solid var(--line);
+		box-shadow: 4px 4px 0 0 var(--line);
 	}
 	.banner-shape svg { display: block; width: 100%; height: auto; }
 
@@ -251,14 +268,25 @@ const formatted = pubDate.toLocaleDateString('zh-CN', {
 		padding: 0;
 		margin: 0;
 	}
+	.rel-list {
+		display: grid;
+		gap: 12px;
+	}
 	.rel-list a {
 		display: flex;
 		align-items: center;
 		gap: 16px;
-		padding: 18px 4px;
-		border-top: 1px solid var(--line);
+		padding: 16px;
+		background: var(--bg);
+		border: 1.5px solid var(--line);
+		border-radius: var(--radius-sm);
+		box-shadow: 3px 3px 0 0 var(--line);
+		transition: transform 0.15s ease, box-shadow 0.15s ease;
 	}
-	.rel-list li:last-child a { border-bottom: 1px solid var(--line); }
+	.rel-list a:hover {
+		transform: translate(-1px, -1px);
+		box-shadow: 4px 4px 0 0 var(--line);
+	}
 	.r-date {
 		font-family: var(--font-mono);
 		font-size: 13px;

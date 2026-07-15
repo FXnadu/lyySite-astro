@@ -1,4 +1,5 @@
 ---
+import { Icon } from 'astro-icon/components';
 const year = new Date().getFullYear();
 ---
 
@@ -10,9 +11,15 @@ const year = new Date().getFullYear();
 		</div>
 		<div class="right">
 			<nav class="socials" aria-label="社交链接">
-				<a href="mailto:liuyingying@example.com" aria-label="邮件">Email</a>
-				<a href="weixin://contacts/profile/lyy_work" aria-label="WeChat">WeChat</a>
-				<a href="https://wpa.qq.com/msgrd?v=3&uin=123456789&site=qq&menu=yes" target="_blank" rel="noopener" aria-label="QQ">QQ</a>
+				<a class="social-btn" href="mailto:liuyingying@example.com" aria-label="邮件" title="邮件">
+					<Icon name="lucide:mail" size={16} />
+				</a>
+				<a class="social-btn" href="weixin://contacts/profile/lyy_work" aria-label="微信" title="微信">
+					<Icon name="simple-icons:wechat" size={16} />
+				</a>
+				<a class="social-btn" href="https://wpa.qq.com/msgrd?v=3&uin=123456789&site=qq&menu=yes" target="_blank" rel="noopener" aria-label="QQ" title="QQ">
+					<Icon name="simple-icons:tencentqq" size={16} />
+				</a>
 			</nav>
 			<p class="copy">© {year} liuyingying · 用 Astro 构建</p>
 		</div>
@@ -67,17 +74,27 @@ const year = new Date().getFullYear();
 
 	.socials {
 		display: flex;
-		gap: 18px;
+		gap: 10px;
 		margin-bottom: 10px;
 		justify-content: flex-end;
 	}
 
-	.socials a {
-		font-size: 13px;
-		font-family: var(--font-mono);
-		color: var(--fg);
-		border-bottom: 1px solid transparent;
-		padding-bottom: 2px;
+	.social-btn {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 36px;
+		height: 36px;
+		color: var(--accent);
+		background: color-mix(in srgb, var(--accent) 8%, transparent);
+		border: 1.5px solid var(--accent);
+		border-radius: 10px;
+		box-shadow: 2px 2px 0 0 var(--accent);
+		transition: transform 0.15s ease, box-shadow 0.15s ease;
+	}
+	.social-btn:hover {
+		transform: translate(1px, 1px);
+		box-shadow: 1px 1px 0 0 var(--accent);
 	}
 
 	.copy {

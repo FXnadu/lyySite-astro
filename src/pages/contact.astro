@@ -118,19 +118,21 @@ const availability = [
 	}
 	.channels h2:not(:first-child) { margin-top: 36px; }
 
-	.ch-list { list-style: none; padding: 0; margin: 0; }
+	.ch-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
 	.ch-list li {
 		display: grid;
 		grid-template-columns: 90px 1fr;
 		gap: 16px;
-		padding: 14px 0;
-		border-top: 1px solid var(--line);
+		padding: 14px 16px;
+		background: var(--bg);
+		border: 1.5px solid var(--line);
+		border-radius: var(--radius-sm);
+		box-shadow: 2px 2px 0 0 var(--line);
 	}
-	.ch-list li:last-child { border-bottom: 1px solid var(--line); }
 	.ch-label {
 		font-family: var(--font-mono);
 		font-size: 12px;
-		color: var(--fg-dim);
+		color: var(--accent);
 		padding-top: 4px;
 	}
 	.ch-value { font-size: 16px; }
@@ -145,12 +147,22 @@ const availability = [
 		align-items: center;
 		gap: 10px;
 		padding: 13px 20px;
-		border-radius: var(--radius-sm);
-		background: var(--accent);
-		color: #fff;
+		border-radius: 14px;
+		background: color-mix(in srgb, var(--accent) 10%, transparent);
+		color: var(--accent);
 		font-size: 15px;
 		font-weight: 500;
-		box-shadow: 0 4px 14px color-mix(in srgb, var(--accent) 30%, transparent);
+		border: 1.5px solid var(--accent);
+		box-shadow: 3px 3px 0 0 var(--accent);
+		transition: transform 0.15s ease, box-shadow 0.15s ease;
+	}
+	.resume-btn:hover {
+		transform: translate(1px, 1px);
+		box-shadow: 2px 2px 0 0 var(--accent);
+	}
+	.resume-btn:active {
+		transform: translate(3px, 3px);
+		box-shadow: 0 0 0 0 var(--accent);
 	}
 
 	.avail {
@@ -160,11 +172,11 @@ const availability = [
 	}
 	.avail > div {
 		padding: 18px 20px;
-		background: var(--bg-elev);
-		border: 1px solid var(--line);
+		background: var(--bg);
+		border: 1.5px solid var(--line);
 		border-radius: var(--radius-sm);
 		border-left: 3px solid var(--accent);
-		box-shadow: var(--shadow);
+		box-shadow: 3px 3px 0 0 var(--line);
 	}
 	.avail dt {
 		font-family: var(--font-mono);
@@ -181,10 +193,10 @@ const availability = [
 	.note-card {
 		margin-top: 28px;
 		padding: 24px;
-		border: 1px solid var(--line);
+		border: 1.5px solid var(--line);
 		border-radius: var(--radius);
-		background: var(--bg-soft);
-		box-shadow: var(--shadow);
+		background: var(--bg);
+		box-shadow: 4px 4px 0 0 var(--line);
 	}
 	.note-card h3 {
 		font-size: 17px;

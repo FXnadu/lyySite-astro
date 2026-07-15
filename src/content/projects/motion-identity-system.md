@@ -4,7 +4,6 @@ description: '为一家虚构的独立咖啡馆设计了一套融合动态海报
 pubDate: 2025-09-12
 cover: 'motion-brand'
 tags: ['品牌设计', '动态图形', '排版']
-role: '视觉设计 / 动效'
 link: 'https://example.com/motion-brand'
 featured: true
 ---
