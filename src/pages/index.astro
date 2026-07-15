@@ -86,10 +86,9 @@ const timeline = [
 				<h2>信息</h2>
 				<dl>
 					<dt>专业</dt><dd>数字媒体艺术</dd>
-					<dt>方向</dt><dd>交互叙事 / 动态图形</dd>
-					<dt>毕业</dt><dd>2026 届</dd>
+					<dt>方向</dt><dd>视频剪辑，建模</dd>
+					<dt>毕业</dt><dd>2027 届</dd>
 					<dt>城市</dt><dd>广东 / 求职中</dd>
-					<dt>语言</dt><dd>中文 · 英语 (CET-6)</dd>
 				</dl>
 			</aside>
 		</div>
@@ -344,9 +343,10 @@ const timeline = [
 	}
 	.bio h2, .info h2 {
 		font-family: var(--font-mono);
-		font-size: 12px;
-		color: var(--fg-muted);
-		letter-spacing: 0.08em;
+		font-size: 13px;
+		font-weight: 600;
+		color: var(--fg);
+		letter-spacing: 0.06em;
 		text-transform: uppercase;
 		margin-bottom: 20px;
 	}
@@ -359,22 +359,13 @@ const timeline = [
 	.info {
 		position: relative;
 		padding: 28px 28px 26px;
-		background: #faebe6;
+		background: #dbeafe;
 		border-radius: 1px;
 		transform: rotate(-0.6deg);
-		top: 0;
 		box-shadow:
 			1px 2px 4px rgba(26, 26, 46, 0.04),
 			4px 6px 12px rgba(26, 26, 46, 0.06),
 			12px 16px 32px rgba(26, 26, 46, 0.07);
-		transition: top 0.35s ease, box-shadow 0.35s ease;
-	}
-	.info:hover {
-		top: -6px;
-		box-shadow:
-			1px 3px 6px rgba(26, 26, 46, 0.05),
-			6px 10px 20px rgba(26, 26, 46, 0.08),
-			20px 28px 48px rgba(26, 26, 46, 0.10);
 	}
 	.info::before {
 		content: '';
@@ -412,9 +403,10 @@ const timeline = [
 	}
 	.info dt {
 		font-family: var(--font-mono);
-		font-size: 11px;
-		color: #e8785a;
-		letter-spacing: 0.06em;
+		font-size: 12px;
+		font-weight: 600;
+		color: #1a1a2e;
+		letter-spacing: 0.04em;
 		text-transform: uppercase;
 		padding-top: 4px;
 	}

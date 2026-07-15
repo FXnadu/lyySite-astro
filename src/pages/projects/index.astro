@@ -23,8 +23,8 @@ const sorted = [...projects].sort(
 		<div class="container">
 			<h1 class="title">做过的尝试 · 正在做的事</h1>
 			<p class="lede">
-				这里不全是"成品"。一些是在正式课程中完成的命题作品，一些是驻地与商业合作，
-				也有一些纯粹是个人练习。它们处在不同阶段，但都是我当下看待媒介的最诚恳的方式。
+				有些是课上交的作业，有些是帮朋友做的活儿，还有一些是自己瞎折腾到半夜的东西。
+				说不上每个都"完成"了，但每一个都让我多学会了点什么。
 			</p>
 
 			<div class="filters" role="toolbar" aria-label="按标签筛选作品">
@@ -82,28 +82,22 @@ const sorted = [...projects].sort(
 		font-size: 13px;
 		color: var(--fg-muted);
 		background: transparent;
-		border: none;
-		padding: 6px 12px;
+		border: 1.5px solid color-mix(in srgb, var(--accent) 12%, transparent);
+		border-radius: 999px;
+		padding: 6px 14px;
 		cursor: pointer;
-		position: relative;
-		transition: color 0.2s;
+		transition: all 0.25s ease;
 	}
-	.chip::after {
-		content: '';
-		position: absolute;
-		inset-inline: 12px;
-		bottom: 2px;
-		height: 2px;
-		background: var(--accent);
-		transform: scaleX(0);
-		transition: transform 0.2s;
-	}
-	.chip:hover { color: var(--fg); }
-	.chip.active {
+	.chip:hover {
 		color: var(--accent);
+		background: color-mix(in srgb, var(--accent) 6%, transparent);
+		border-color: color-mix(in srgb, var(--accent) 20%, transparent);
 	}
-	.chip.active::after {
-		transform: scaleX(1);
+	.chip.active {
+		color: #fff;
+		background: var(--accent);
+		border: 1.5px solid var(--accent);
+		border-radius: 999px;
 	}
 
 	.list { padding-block: clamp(40px, 6vw, 64px); }
@@ -112,7 +106,7 @@ const sorted = [...projects].sort(
 		grid-template-columns: repeat(3, 1fr);
 		gap: 24px;
 	}
-	.grid > .card[hidden] { display: none; }
+	:global(.grid > .card[hidden]) { display: none; }
 
 	.empty {
 		text-align: center;
