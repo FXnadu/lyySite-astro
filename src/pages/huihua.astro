@@ -1,0 +1,13 @@
+---
+import Layout from '../layouts/Layout.astro';
+import fs from 'node:fs';
+
+const womenHtml = fs.readFileSync('public/women-content.html', 'utf-8');
+---
+
+<Layout
+	title="绘画 — liuyingying"
+	description="一些水彩与数码绘画的习作。"
+>
+	<Fragment set:html={womenHtml} />
+</Layout>

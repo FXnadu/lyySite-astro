@@ -1,0 +1,308 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const photos = [
+	{
+		src: 'https://picsum.photos/id/28/800/800',
+		title: '港湾渔船',
+		desc: '清晨的港湾里，几艘渔船静静地停泊在水面上。',
+	},
+	{
+		src: 'https://picsum.photos/id/21/800/800',
+		title: '廊柱之间',
+		desc: '午后阳光穿过走廊的立柱，在地面投下整齐的影子。',
+	},
+	{
+		src: 'https://picsum.photos/id/48/800/800',
+		title: '林间路',
+		desc: '深秋的林间小路上铺满了金黄色的落叶。',
+	},
+	{
+		src: 'https://picsum.photos/id/36/800/800',
+		title: '叶脉',
+		desc: '一片叶子的脉络在逆光下清晰可见。',
+	},
+	{
+		src: 'https://picsum.photos/id/40/800/800',
+		title: '长椅与湖',
+		desc: '湖边的木长椅，面对着一片宁静的水面。',
+	},
+	{
+		src: 'https://picsum.photos/id/44/800/800',
+		title: '桥的尽头',
+		desc: '一座老桥延伸到远方，消失在薄雾之中。',
+	},
+];
+---
+
+<Layout
+	title="摄影 — liuyingying"
+	description="用镜头记录光影与日常的片刻。"
+>
+	<section class="hero">
+		<div class="container">
+			<h1 class="title">取景框里的世界</h1>
+			<p class="lede">
+				一些用手机和胶片机随手拍的东西。不算作品，只是一些想留住光的瞬间。
+			</p>
+		</div>
+	</section>
+
+	<section class="gallery">
+		<div class="container">
+			<div class="grid">
+				{photos.map((p, i) => (
+					<figure class="item" data-index={i}>
+						<img
+							class="thumb"
+							src={p.src}
+							alt={p.title}
+							loading={i < 6 ? 'eager' : 'lazy'}
+						/>
+						<figcaption class="caption">
+							<span class="caption-title">{p.title}</span>
+							<span class="caption-desc">{p.desc}</span>
+						</figcaption>
+					</figure>
+				))}
+			</div>
+		</div>
+	</section>
+
+	<!-- 灯箱 -->
+	<div class="lightbox" id="lightbox">
+		<div class="lb-backdrop" id="lbBackdrop"></div>
+		<div class="lb-wrap">
+			<button class="lb-nav" id="lbPrev" aria-label="上一张">
+				<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+			</button>
+			<div class="lb-image-wrap">
+				<img class="lb-image" id="lbImage" src="" alt="" />
+			</div>
+			<button class="lb-nav" id="lbNext" aria-label="下一张">
+				<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+			</button>
+			<button class="lb-close" id="lbClose" aria-label="关闭">
+				<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+			</button>
+		</div>
+	</div>
+</Layout>
+
+<script>
+	const photos = /** @type {NodeListOf<HTMLElement>} */ (
+		document.querySelectorAll('.item')
+	);
+	const lb = document.getElementById('lightbox');
+	const lbImg = /** @type {HTMLImageElement} */ (document.getElementById('lbImage'));
+	const lbPrev = document.getElementById('lbPrev');
+	const lbNext = document.getElementById('lbNext');
+	const lbClose = document.getElementById('lbClose');
+	const lbBackdrop = document.getElementById('lbBackdrop');
+
+	let idx = -1;
+
+	function open(i) {
+		if (i < 0 || i >= photos.length) return;
+		idx = i;
+		const img = /** @type {HTMLImageElement} */ (photos[i].querySelector('.thumb'));
+		lbImg.src = img.src;
+		lbImg.alt = img.alt;
+		lb.classList.add('is-open');
+		document.body.style.overflow = 'hidden';
+	}
+
+	function close() {
+		lb.classList.remove('is-open');
+		document.body.style.overflow = '';
+		idx = -1;
+	}
+
+	function next() {
+		if (idx === -1) return;
+		open((idx + 1) % photos.length);
+	}
+
+	function prev() {
+		if (idx === -1) return;
+		open((idx - 1 + photos.length) % photos.length);
+	}
+
+	photos.forEach((el) =>
+		el.addEventListener('click', () => open(Number(el.dataset.index)))
+	);
+	lbNext?.addEventListener('click', next);
+	lbPrev?.addEventListener('click', prev);
+	lbClose?.addEventListener('click', close);
+	lbBackdrop?.addEventListener('click', close);
+
+	document.addEventListener('keydown', (e) => {
+		if (!lb.classList.contains('is-open')) return;
+		if (e.key === 'Escape') close();
+		if (e.key === 'ArrowRight') next();
+		if (e.key === 'ArrowLeft') prev();
+	});
+</script>
+
+<style>
+	.hero {
+		padding-block: clamp(56px, 8vw, 96px) clamp(28px, 4vw, 40px);
+		border-bottom: 1px solid var(--line);
+	}
+	.title {
+		font-size: clamp(32px, 5vw, 54px);
+		font-weight: 600;
+		letter-spacing: -0.01em;
+		line-height: 1.2;
+		margin: 0 0 16px;
+	}
+	.lede {
+		color: var(--fg-muted);
+		font-size: clamp(16px, 1.6vw, 18px);
+		max-width: 50ch;
+		line-height: 1.7;
+		margin: 0;
+	}
+
+	/* ---- grid ---- */
+	.gallery {
+		padding-block: clamp(40px, 6vw, 64px);
+	}
+	.grid {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: 12px;
+	}
+	@media (max-width: 860px) {
+		.grid { grid-template-columns: repeat(2, 1fr); }
+	}
+	@media (max-width: 540px) {
+		.grid { grid-template-columns: 1fr; }
+	}
+
+	.item {
+		margin: 0;
+		border-radius: var(--radius-sm);
+		overflow: hidden;
+		position: relative;
+		cursor: pointer;
+		background: var(--bg-soft);
+		aspect-ratio: 1;
+	}
+	.thumb {
+		display: block;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		transition: transform 0.3s ease;
+	}
+	.item:hover .thumb {
+		transform: scale(1.06);
+	}
+	.caption {
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		padding: 32px 16px 14px;
+		background: linear-gradient(transparent, rgba(0,0,0,0.55));
+		color: #fff;
+		opacity: 0;
+		transition: opacity 0.25s ease;
+	}
+	.item:hover .caption {
+		opacity: 1;
+	}
+	.caption-title {
+		display: block;
+		font-size: 14px;
+		font-weight: 500;
+	}
+	.caption-desc {
+		display: block;
+		font-size: 12px;
+		opacity: 0.75;
+		margin-top: 2px;
+	}
+
+	/* ---- lightbox ---- */
+	.lightbox {
+		position: fixed;
+		inset: 0;
+		z-index: 999;
+		display: none;
+		align-items: center;
+		justify-content: center;
+	}
+	.lightbox.is-open {
+		display: flex;
+	}
+	.lb-backdrop {
+		position: absolute;
+		inset: 0;
+		background: rgba(0, 0, 0, 0.88);
+	}
+	.lb-wrap {
+		position: relative;
+		display: flex;
+		align-items: center;
+		gap: 8px;
+		max-width: 92vw;
+		max-height: 88vh;
+	}
+	.lb-image-wrap {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		max-height: 80vh;
+		border-radius: var(--radius-sm);
+		overflow: hidden;
+		box-shadow: 0 8px 40px rgba(0,0,0,0.5);
+	}
+	.lb-image {
+		display: block;
+		max-width: calc(92vw - 100px);
+		max-height: 80vh;
+		object-fit: contain;
+	}
+	.lb-nav {
+		flex-shrink: 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 40px;
+		height: 40px;
+		border: none;
+		border-radius: 50%;
+		background: rgba(255,255,255,0.1);
+		color: #fff;
+		cursor: pointer;
+		transition: background 0.2s;
+	}
+	.lb-nav:hover {
+		background: rgba(255,255,255,0.22);
+	}
+	.lb-close {
+		position: absolute;
+		top: -44px;
+		right: 0;
+		width: 36px;
+		height: 36px;
+		border: none;
+		border-radius: 50%;
+		background: transparent;
+		color: rgba(255,255,255,0.6);
+		cursor: pointer;
+		transition: color 0.2s;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+	.lb-close:hover {
+		color: #fff;
+	}
+
+	@media (max-width: 540px) {
+		.lb-image { max-width: 80vw; max-height: 60vh; }
+	}
+</style>

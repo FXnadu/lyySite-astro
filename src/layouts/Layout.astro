@@ -63,24 +63,13 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url).toString(
 </html>
 
 <style is:global>
-	@font-face {
-		font-family: 'Yasashii';
-		src: url('/fonts/Yasashii.ttf') format('truetype');
-		font-weight: 400;
-		font-style: normal;
-		font-display: swap;
-	}
-
 	:root {
 		--bg: #ffffff;
-		--bg-elev: #ffffff;
 		--bg-soft: #f5f5f7;
 		--fg: #1a1a2e;
 		--fg-muted: #5c5c6a;
 		--fg-dim: #8e8e9a;
 		--accent: #2a9dcc;
-		--accent-soft: #57b5da;
-		--accent-dim: #1e7ca3;
 		--line: rgba(26, 26, 46, 0.08);
 		--line-strong: rgba(26, 26, 46, 0.15);
 		--radius: 16px;
@@ -91,7 +80,6 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url).toString(
 		--font-display: 'Noto Serif SC', 'Newsreader', 'Songti SC', Georgia, serif;
 		--shadow: 0 2px 10px rgba(26, 26, 46, 0.05);
 		--shadow-md: 0 8px 24px rgba(26, 26, 46, 0.08);
-		--shadow-lg: 0 18px 48px rgba(26, 26, 46, 0.12);
 	}
 
 	*,

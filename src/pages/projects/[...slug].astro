@@ -14,8 +14,6 @@ const { project } = Astro.props;
 const { title, description, pubDate, tags, link } = project.data;
 const { Content } = await render(project);
 
-const isPalette = project.id === 'color-palette';
-
 const all = await getCollection('projects');
 const others = all
 	.filter((p) => p.id !== project.id)
@@ -42,9 +40,6 @@ const formatted = pubDate.toLocaleDateString('zh-CN', {
 	image="/og.svg"
 >
 	<article>
-		{isPalette ? (
-			<Content />
-		) : (
 		<header class="p-head">
 			<div class="container">
 				<a class="back" href="/projects">← 返回作品</a>
@@ -101,7 +96,6 @@ const formatted = pubDate.toLocaleDateString('zh-CN', {
 				<Content />
 			</div>
 		</div>
-		)}
 
 		{
 			others.length > 0 && (
@@ -267,8 +261,6 @@ const formatted = pubDate.toLocaleDateString('zh-CN', {
 		list-style: none;
 		padding: 0;
 		margin: 0;
-	}
-	.rel-list {
 		display: grid;
 		gap: 12px;
 	}

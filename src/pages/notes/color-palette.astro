@@ -363,8 +363,7 @@ import Layout from '../../layouts/Layout.astro';
 
 	/* ─── Shared ─── */
 	.palette,
-	.compare,
-	.explore {
+	.compare {
 		padding-block: clamp(48px, 7vw, 80px);
 		border-bottom: 1px solid var(--line);
 	}
@@ -599,48 +598,6 @@ import Layout from '../../layouts/Layout.astro';
 		font-weight: 500;
 	}
 
-	/* ─── Explore ─── */
-	.explore-grid {
-		display: grid;
-		grid-template-columns: repeat(4, 1fr);
-		gap: 20px;
-	}
-	.explore-card {
-		border: 1px solid var(--line);
-		border-radius: var(--radius-sm);
-		padding: 24px;
-		background: var(--bg);
-		box-shadow: var(--shadow);
-		transition: transform 0.2s, box-shadow 0.2s;
-	}
-	.explore-card:hover {
-		transform: translateY(-4px);
-		box-shadow: var(--shadow-md);
-	}
-	.explore-swatches {
-		display: flex;
-		gap: 8px;
-		margin-bottom: 16px;
-	}
-	.explore-swatches span {
-		width: 32px;
-		height: 32px;
-		border-radius: 50%;
-		display: block;
-		border: 1px solid var(--line);
-	}
-	.explore-card h3 {
-		font-size: 16px;
-		margin: 0 0 6px;
-		font-weight: 600;
-	}
-	.explore-card p {
-		font-size: 13px;
-		color: var(--fg-muted);
-		margin: 0;
-		line-height: 1.6;
-	}
-
 	/* ─── Outro ─── */
 	.outro {
 		padding-block: clamp(64px, 9vw, 96px);
@@ -659,12 +616,10 @@ import Layout from '../../layouts/Layout.astro';
 	/* ─── Responsive ─── */
 	@media (max-width: 900px) {
 		.compare-grid { grid-template-columns: 1fr; }
-		.explore-grid { grid-template-columns: repeat(2, 1fr); }
 	}
 	@media (max-width: 540px) {
 		.swatches { gap: 10px; }
 		.swatch { flex: 1 1 calc(50% - 10px); min-width: 0; }
-		.explore-grid { grid-template-columns: 1fr; }
 		.demo-btn-group { flex-direction: column; }
 	}
 </style>
