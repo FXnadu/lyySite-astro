@@ -2,7 +2,8 @@
 import Layout from '../layouts/Layout.astro';
 import fs from 'node:fs';
 
-const womenHtml = fs.readFileSync('public/women-content.html', 'utf-8');
+// 使用清理后的内容（已移除完整HTML结构、script和style标签）
+const womenHtml = fs.readFileSync('public/women-content-cleaned.html', 'utf-8');
 ---
 
 <Layout
