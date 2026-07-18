@@ -1,4 +1,6 @@
 ---
+import { Icon } from 'astro-icon/components';
+
 export interface Props {
 	autohide?: boolean;
 }
@@ -9,9 +11,9 @@ const isActive = (href: string) =>
 	href === '/' ? path === '/' : path.startsWith(href);
 
 const nav = [
-	{ href: '/', label: '首页' },
-	{ href: '/projects', label: '作品' },
-	{ href: '/contact', label: '联系' },
+	{ href: '/', label: '首页', icon: 'lucide:compass' },
+	{ href: '/projects', label: '作品', icon: 'lucide:palette' },
+	{ href: '/contact', label: '联系', icon: 'lucide:feather' },
 ];
 ---
 
@@ -35,15 +37,22 @@ const nav = [
 
 		<nav id="primary-nav" class="primary-nav" aria-label="主导航">
 			{
-				nav.map((item) => (
-					<a
-						class:list={['nav-link', { active: isActive(item.href) }]}
-						href={item.href}
-						aria-current={isActive(item.href) ? 'page' : undefined}
-					>
-						{item.label}
-					</a>
-				))
+				nav.map((item) => {
+					const color =
+						item.href === '/' ? 'blue' :
+						item.href === '/projects' ? 'yellow' : 'red';
+					return (
+						<a
+							class:list={['nav-link', { active: isActive(item.href) }]}
+							href={item.href}
+							aria-current={isActive(item.href) ? 'page' : undefined}
+							data-color={color}
+						>
+							<Icon name={item.icon} size={16} />
+							{item.label}
+						</a>
+					);
+				})
 			}
 		</nav>
 	</div>
@@ -55,9 +64,9 @@ const nav = [
 		position: sticky;
 		top: 0;
 		z-index: 50;
-		background: color-mix(in srgb, var(--bg) 86%, transparent);
-		backdrop-filter: blur(18px) saturate(120%);
-		border-bottom: 1px solid var(--line);
+		background: color-mix(in srgb, var(--bg) 72%, transparent);
+		backdrop-filter: blur(28px) saturate(160%);
+		border-bottom: 1px solid var(--line-strong);
 	}
 
 	/* ── 首页自动隐藏模式 ── */
@@ -110,6 +119,9 @@ const nav = [
 	}
 
 	.nav-link {
+		display: inline-flex;
+		align-items: center;
+		gap: 6px;
 		font-size: 14px;
 		font-weight: 500;
 		color: var(--fg-muted);
@@ -125,19 +137,48 @@ const nav = [
 		left: 0;
 		width: 100%;
 		height: 2px;
-		background: var(--accent);
+		background: var(--accent-blue);
 		transform: scaleX(0);
-		transition: transform 0.2s;
+		transition: transform 0.2s, background 0.2s;
 	}
-	.nav-link:hover {
-		color: var(--fg);
+	.nav-link:focus-visible {
+		outline: none;
 	}
-	.nav-link.active {
-		color: var(--fg);
+	/* ── 每个链接各自的颜色（悬浮、聚焦、选中） ── */
+	.nav-link[data-color="blue"]:hover,
+	.nav-link[data-color="blue"]:focus-visible,
+	.nav-link[data-color="blue"].active {
+		color: var(--accent-blue);
 	}
-	.nav-link.active::after {
+	.nav-link[data-color="blue"]:hover::after,
+	.nav-link[data-color="blue"]:focus-visible::after,
+	.nav-link[data-color="blue"].active::after {
+		background: var(--accent-blue);
 		transform: scaleX(1);
 	}
+	.nav-link[data-color="yellow"]:hover,
+	.nav-link[data-color="yellow"]:focus-visible,
+	.nav-link[data-color="yellow"].active {
+		color: var(--accent-yellow);
+	}
+	.nav-link[data-color="yellow"]:hover::after,
+	.nav-link[data-color="yellow"]:focus-visible::after,
+	.nav-link[data-color="yellow"].active::after {
+		background: var(--accent-yellow);
+		transform: scaleX(1);
+	}
+	.nav-link[data-color="red"]:hover,
+	.nav-link[data-color="red"]:focus-visible,
+	.nav-link[data-color="red"].active {
+		color: var(--accent-red);
+	}
+	.nav-link[data-color="red"]:hover::after,
+	.nav-link[data-color="red"]:focus-visible::after,
+	.nav-link[data-color="red"].active::after {
+		background: var(--accent-red);
+		transform: scaleX(1);
+	}
+
 
 	.menu-toggle {
 		display: none;

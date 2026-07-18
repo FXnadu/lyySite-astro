@@ -1,4 +1,7 @@
 ---
+import '@fontsource/inter';
+import '@fontsource/noto-sans-sc';
+import '@fontsource/noto-serif-sc';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 
@@ -26,13 +29,6 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url).toString(
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<link rel="icon" type="image/png" href="/images/logo.png" />
 		<meta name="generator" content={Astro.generator} />
-		<link rel="preconnect" href="https://fonts.googleapis.com" />
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-		<link
-			href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Noto+Sans+SC:wght@400;500;600&family=Noto+Serif+SC:wght@400;500;600;700&display=swap"
-			rel="stylesheet"
-		/>
-
 		<title>{title}</title>
 		<meta name="description" content={description} />
 		<link rel="canonical" href={canonical} />
@@ -64,12 +60,15 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url).toString(
 
 <style is:global>
 	:root {
-		--bg: #ffffff;
-		--bg-soft: #f5f5f7;
+		--bg: #f8f7f5;
+		--bg-soft: #ede9e4;
 		--fg: #1a1a2e;
 		--fg-muted: #5c5c6a;
 		--fg-dim: #8e8e9a;
-		--accent: #2a9dcc;
+		--accent-blue: #1d6fd8;
+		--accent-yellow: #f0b429;
+		--accent-red: #e85d4e;
+		--accent: var(--accent-blue);
 		--line: rgba(26, 26, 46, 0.08);
 		--line-strong: rgba(26, 26, 46, 0.15);
 		--radius: 16px;

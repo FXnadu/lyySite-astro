@@ -1,11 +1,19 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { Icon } from 'astro-icon/components';
 
 const channels = [
-	{ label: '邮件', value: 'liuyingying@example.com', href: 'mailto:liuyingying@example.com' },
-	{ label: '电话', value: '+86 138-0000-0000', href: null },
-	{ label: 'Behance', value: '/liuyingying-portfolio', href: 'https://www.behance.net/' },
-	{ label: '微信', value: 'lyy_work（备注来意）', href: null },
+	{ label: '邮箱', value: '2228099764@qq.com', href: 'mailto:2228099764@qq.com' },
+	{ label: 'QQ', value: '2228099764', href: 'https://wpa.qq.com/msgrd?v=3&uin=2228099764&site=qq&menu=yes' },
+	{ label: '微信', value: 'lyy_work', href: 'weixin://contacts/profile/lyy_work' },
+	{ label: '手机', value: '暂未公开', href: null },
+];
+
+const socials = [
+	{ label: 'Bilibili', icon: 'simple-icons:bilibili' },
+	{ label: '小红书', icon: 'simple-icons:xiaohongshu' },
+	{ label: '微博', icon: 'simple-icons:sinaweibo' },
+	{ label: '站酷', icon: 'simple-icons:zcool' },
 ];
 
 
@@ -16,6 +24,54 @@ const channels = [
 	description="想和我聊聊合作、实习或作品？这里是最快找到我的方式。坐标广东。"
 >
 	<section class="hero">
+		<div class="hero-bg" aria-hidden="true">
+			<svg class="hero-svg" viewBox="0 0 1200 400" preserveAspectRatio="xMidYMid slice">
+				<defs>
+					<linearGradient id="lineGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+						<stop offset="0%" stop-color="currentColor" stop-opacity="0" />
+						<stop offset="20%" stop-color="currentColor" stop-opacity="0.08" />
+						<stop offset="80%" stop-color="currentColor" stop-opacity="0.08" />
+						<stop offset="100%" stop-color="currentColor" stop-opacity="0" />
+					</linearGradient>
+				</defs>
+
+				<!-- 手写信纸纹理 -->
+				<g stroke="var(--fg)" stroke-width="0.6" fill="none">
+					<line x1="50" y1="140" x2="1150" y2="140" stroke="url(#lineGrad)" />
+					<line x1="50" y1="180" x2="1150" y2="180" stroke="url(#lineGrad)" />
+					<line x1="50" y1="220" x2="1150" y2="220" stroke="url(#lineGrad)" />
+					<line x1="50" y1="260" x2="1150" y2="260" stroke="url(#lineGrad)" />
+				</g>
+
+				<!-- 信封 -->
+				<g transform="translate(920, 160) rotate(-8)" stroke="var(--fg)" stroke-width="1.5" fill="none">
+					<rect x="0" y="0" width="160" height="110" rx="4" fill="var(--bg)" fill-opacity="0.5" />
+					<polyline points="0,0 80,70 160,0" />
+					<line x1="0" y1="110" x2="60" y2="55" />
+					<line x1="160" y1="110" x2="100" y2="55" />
+				</g>
+
+				<!-- 漂浮的铅笔线条 -->
+				<g stroke="var(--fg)" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-opacity="0.12">
+					<path d="M600 320 Q 660 280 720 320 T 840 320" />
+					<path d="M860 260 Q 920 220 980 260 T 1100 260" />
+				</g>
+
+				<!-- 邮票点阵装饰 -->
+				<g fill="var(--fg)" fill-opacity="0.1">
+					<circle cx="950" cy="90" r="3" />
+					<circle cx="970" cy="90" r="3" />
+					<circle cx="990" cy="90" r="3" />
+					<circle cx="1010" cy="90" r="3" />
+					<circle cx="1030" cy="90" r="3" />
+					<circle cx="950" cy="110" r="3" />
+					<circle cx="970" cy="110" r="3" />
+					<circle cx="990" cy="110" r="3" />
+					<circle cx="1010" cy="110" r="3" />
+					<circle cx="1030" cy="110" r="3" />
+				</g>
+			</svg>
+		</div>
 		<div class="container">
 			<h1 class="title">写一封信，<br/>或者只是路过打个招呼</h1>
 		</div>
@@ -48,6 +104,17 @@ const channels = [
 					下载 PDF 简历
 					<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 4v12m0 0l-5-5m5 5l5-5M4 20h16"/></svg>
 				</a>
+
+				<h2>社交账号</h2>
+				<div class="social-btns">
+				{
+					socials.map((s) => (
+						<a class="social-btn social-btn--placeholder" href="#" aria-label={s.label} title={s.label}>
+							<Icon name={s.icon} size={20} />
+						</a>
+					))
+				}
+				</div>
 			</div>
 
 		</div>
@@ -62,8 +129,26 @@ const channels = [
 
 <style>
 	.hero {
+		position: relative;
 		padding-block: clamp(56px, 8vw, 96px) clamp(28px, 4vw, 40px);
 		border-bottom: 1px solid var(--line);
+		overflow: hidden;
+	}
+	.hero-bg {
+		position: absolute;
+		inset: 0;
+		z-index: 0;
+		pointer-events: none;
+		color: var(--fg);
+		opacity: 0.85;
+	}
+	.hero-svg {
+		width: 100%;
+		height: 100%;
+	}
+	.hero > .container {
+		position: relative;
+		z-index: 1;
 	}
 	.title {
 		font-size: clamp(32px, 5vw, 54px);
@@ -86,37 +171,47 @@ const channels = [
 
 	h2 {
 		font-family: var(--font-mono);
-		font-size: 12px;
+		font-size: 14px;
 		color: var(--fg-dim);
 		letter-spacing: 0.08em;
 		text-transform: uppercase;
-		margin: 0 0 18px;
+		margin: 40px 0 18px;
 	}
 
 
-	.ch-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
+	.ch-list {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		display: grid;
+		gap: 0;
+		border-top: 1px solid var(--line);
+	}
 	.ch-list li {
 		display: grid;
-		grid-template-columns: 90px 1fr;
-		gap: 16px;
-		padding: 14px 16px;
-		background: var(--bg);
-		border: 1.5px solid var(--line);
-		border-radius: var(--radius-sm);
-		box-shadow: 2px 2px 0 0 var(--line);
+		grid-template-columns: 100px 1fr;
+		gap: 24px;
+		align-items: baseline;
+		padding: 14px 0;
+		border-bottom: 1px solid var(--line);
 	}
 	.ch-label {
 		font-family: var(--font-mono);
 		font-size: 12px;
-		color: var(--accent);
-		padding-top: 4px;
+		color: var(--fg-dim);
+		letter-spacing: 0.06em;
 	}
 	.ch-value { font-size: 16px; }
 	.ch-value a {
 		color: var(--fg);
+		text-decoration: none;
 		border-bottom: 1px solid transparent;
+		transition: border-color 0.2s;
 	}
-	.ch-value span { color: var(--fg-muted); }
+	.ch-value a:hover {
+		border-bottom-color: var(--accent-yellow);
+	}
+	.ch-value span { color: var(--fg); }
 
 	.resume-btn {
 		display: inline-flex;
@@ -124,21 +219,45 @@ const channels = [
 		gap: 10px;
 		padding: 13px 20px;
 		border-radius: 14px;
-		background: color-mix(in srgb, var(--accent) 10%, transparent);
-		color: var(--accent);
+		background: color-mix(in srgb, var(--accent-red) 10%, transparent);
+		color: var(--accent-red);
 		font-size: 15px;
 		font-weight: 500;
-		border: 1.5px solid var(--accent);
-		box-shadow: 3px 3px 0 0 var(--accent);
+		border: 1.5px solid var(--accent-red);
+		box-shadow: 3px 3px 0 0 var(--accent-red);
 		transition: transform 0.15s ease, box-shadow 0.15s ease;
 	}
 	.resume-btn:hover {
 		transform: translate(1px, 1px);
-		box-shadow: 2px 2px 0 0 var(--accent);
+		box-shadow: 2px 2px 0 0 var(--accent-red);
 	}
 	.resume-btn:active {
 		transform: translate(3px, 3px);
-		box-shadow: 0 0 0 0 var(--accent);
+		box-shadow: 0 0 0 0 var(--accent-red);
+	}
+
+	.social-btns {
+		display: flex;
+		gap: 12px;
+		flex-wrap: wrap;
+	}
+
+	.social-btn {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 44px;
+		height: 44px;
+		color: var(--fg-muted);
+		background: transparent;
+		border: 1.5px dashed var(--line-strong);
+		border-radius: 12px;
+		opacity: 0.45;
+		transition: opacity 0.2s ease, border-color 0.2s ease;
+	}
+	.social-btn:hover {
+		opacity: 0.7;
+		border-color: var(--fg-muted);
 	}
 
 	.quote {

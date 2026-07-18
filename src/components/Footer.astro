@@ -6,36 +6,36 @@ const year = new Date().getFullYear();
 <footer class="site-footer">
 	<div class="container">
 		<div class="footer-card">
-			<div class="brand">
-				<h2 class="name">liuyingying</h2>
-				<p class="tagline">数字媒体 · 实习作品集</p>
+			<div class="brand-group">
+				<div class="brand">
+					<h2 class="name">liuyingying</h2>
+					<p class="tagline">数字媒体 · 个人网站</p>
+				</div>
+
+				<div class="status">
+					<span class="dot"></span>
+					<p class="status-text">正在寻找数媒相关实习机会</p>
+				</div>
 			</div>
 
 			<div class="contact">
 				<p class="contact-title">联系我</p>
-				<a class="email" href="mailto:liuyingying@example.com">liuyingying@example.com</a>
-				<p class="location">广东 · 中国</p>
-			</div>
-
-			<div class="status">
-				<span class="dot"></span>
-				<p class="status-text">正在寻找数媒相关实习机会</p>
+				<nav class="socials" aria-label="社交链接">
+					<a class="social-btn" href="mailto:2228099764@qq.com" aria-label="邮箱" title="邮箱">
+						<Icon name="lucide:mail" size={18} />
+					</a>
+					<a class="social-btn" href="weixin://contacts/profile/lyy_work" aria-label="微信" title="微信">
+						<Icon name="simple-icons:wechat" size={18} />
+					</a>
+					<a class="social-btn" href="https://wpa.qq.com/msgrd?v=3&uin=2228099764&site=qq&menu=yes" target="_blank" rel="noopener" aria-label="QQ" title="QQ">
+						<Icon name="simple-icons:tencentqq" size={18} />
+					</a>
+				</nav>
 			</div>
 		</div>
 
 		<div class="bottom">
-			<nav class="socials" aria-label="社交链接">
-				<a class="social-btn" href="mailto:liuyingying@example.com" aria-label="邮件" title="邮件">
-					<Icon name="lucide:mail" size={18} />
-				</a>
-				<a class="social-btn" href="weixin://contacts/profile/lyy_work" aria-label="微信" title="微信">
-					<Icon name="simple-icons:wechat" size={18} />
-				</a>
-				<a class="social-btn" href="https://wpa.qq.com/msgrd?v=3&uin=123456789&site=qq&menu=yes" target="_blank" rel="noopener" aria-label="QQ" title="QQ">
-					<Icon name="simple-icons:tencentqq" size={18} />
-				</a>
-			</nav>
-			<p class="copy">© {year} liuyingying · 用 Astro 构建</p>
+			<p class="copy">© {year} liuyingying · Built with Astro · Design by lyy</p>
 		</div>
 	</div>
 </footer>
@@ -44,8 +44,7 @@ const year = new Date().getFullYear();
 	.site-footer {
 		position: relative;
 		border-top: 1px solid var(--line);
-		padding-block: 56px 48px;
-		background: var(--bg-soft);
+		padding-block: 36px 28px;
 	}
 	.site-footer::before {
 		content: '';
@@ -55,6 +54,7 @@ const year = new Date().getFullYear();
 		pointer-events: none;
 		background:
 			radial-gradient(circle at 10% 100%, color-mix(in srgb, var(--accent) 12%, transparent) 0%, transparent 35%),
+			radial-gradient(circle at 50% 50%, color-mix(in srgb, var(--accent) 6%, transparent) 0%, transparent 40%),
 			radial-gradient(circle at 90% 10%, color-mix(in srgb, var(--accent) 8%, transparent) 0%, transparent 30%);
 	}
 
@@ -63,18 +63,23 @@ const year = new Date().getFullYear();
 		z-index: 1;
 		display: flex;
 		flex-direction: column;
-		gap: 40px;
+		gap: 28px;
 	}
 
 	.footer-card {
 		display: grid;
-		grid-template-columns: 1.2fr 0.8fr 1fr;
-		gap: 32px;
-		padding: 28px;
-		background: var(--bg);
-		border: 1.5px solid var(--line);
-		border-radius: var(--radius);
-		box-shadow: 3px 3px 0 0 var(--line);
+		grid-template-columns: 1.2fr 0.8fr;
+		gap: 24px;
+		padding: 20px;
+		background: transparent;
+		border-radius: 20px;
+		position: relative;
+	}
+
+	.brand-group {
+		display: flex;
+		flex-direction: column;
+		gap: 20px;
 	}
 
 	.name {
@@ -89,6 +94,14 @@ const year = new Date().getFullYear();
 		margin: 0;
 		font-size: 14px;
 		color: var(--fg-muted);
+	}
+
+	.contact {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 8px;
+		justify-self: end;
 	}
 
 	.contact-title {
@@ -123,20 +136,19 @@ const year = new Date().getFullYear();
 		display: flex;
 		align-items: center;
 		gap: 12px;
-		padding: 14px 18px;
+		padding-block: 14px;
 		height: fit-content;
 		align-self: start;
-		border-radius: 999px;
-		background: color-mix(in srgb, var(--accent) 8%, transparent);
-		border: 1.5px solid color-mix(in srgb, var(--accent) 25%, transparent);
+		background: transparent;
 	}
 
 	.dot {
+		display: block;
 		width: 9px;
 		height: 9px;
-		border-radius: 50%;
-		background: var(--accent);
-		box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 16%, transparent);
+		border-radius: 1px;
+		background: var(--accent-blue);
+		box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent-blue) 16%, transparent);
 		animation: pulse 2.6s ease-in-out infinite;
 	}
 
@@ -159,11 +171,13 @@ const year = new Date().getFullYear();
 		align-items: center;
 		gap: 24px;
 		flex-wrap: wrap;
+		padding-inline: 20px;
 	}
 
 	.socials {
 		display: flex;
 		gap: 12px;
+		margin-top: 12px;
 	}
 
 	.social-btn {
@@ -172,16 +186,47 @@ const year = new Date().getFullYear();
 		justify-content: center;
 		width: 40px;
 		height: 40px;
-		color: var(--accent);
-		background: color-mix(in srgb, var(--accent) 8%, transparent);
-		border: 1.5px solid var(--accent);
+		color: var(--accent-blue);
+		background: color-mix(in srgb, var(--accent-blue) 8%, transparent);
+		border: 1.5px solid var(--accent-blue);
 		border-radius: 12px;
-		box-shadow: 3px 3px 0 0 var(--accent);
-		transition: transform 0.15s ease, box-shadow 0.15s ease;
+		box-shadow: 3px 3px 0 0 var(--accent-blue);
+		position: relative;
+		transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.2s ease;
 	}
 	.social-btn:hover {
-		transform: translate(2px, 2px);
-		box-shadow: 1px 1px 0 0 var(--accent);
+		transform: translate(1px, 1px);
+		box-shadow: 2px 2px 0 0 var(--accent-blue);
+	}
+	.social-btn:active {
+		transform: translate(3px, 3px);
+		box-shadow: 0 0 0 0 var(--accent-blue);
+	}
+
+	.social-btn:nth-child(2) {
+		color: var(--accent-yellow);
+		border-color: var(--accent-yellow);
+		background: color-mix(in srgb, var(--accent-yellow) 8%, transparent);
+		box-shadow: 3px 3px 0 0 var(--accent-yellow);
+	}
+	.social-btn:nth-child(2):hover {
+		box-shadow: 2px 2px 0 0 var(--accent-yellow);
+	}
+	.social-btn:nth-child(2):active {
+		box-shadow: 0 0 0 0 var(--accent-yellow);
+	}
+
+	.social-btn:nth-child(3) {
+		color: var(--accent-red);
+		border-color: var(--accent-red);
+		background: color-mix(in srgb, var(--accent-red) 8%, transparent);
+		box-shadow: 3px 3px 0 0 var(--accent-red);
+	}
+	.social-btn:nth-child(3):hover {
+		box-shadow: 2px 2px 0 0 var(--accent-red);
+	}
+	.social-btn:nth-child(3):active {
+		box-shadow: 0 0 0 0 var(--accent-red);
 	}
 
 	.copy {
@@ -195,7 +240,11 @@ const year = new Date().getFullYear();
 			grid-template-columns: 1fr;
 			gap: 24px;
 		}
-		.status { align-self: stretch; justify-content: center; }
+		.brand-group {
+			align-items: center;
+			text-align: center;
+		}
+		.status { justify-content: center; }
 		.bottom { flex-direction: column; align-items: flex-start; }
 	}
 </style>

@@ -21,6 +21,47 @@ const pageLinks = [
 	description="liuyingying 的作品索引：交互叙事、动态图形、生成式海报与 AR 装置实验。"
 >
 	<section class="head">
+		<div class="head-bg" aria-hidden="true">
+			<svg class="head-svg" viewBox="0 0 1200 400" preserveAspectRatio="xMidYMid slice">
+				<defs>
+					<linearGradient id="projGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+						<stop offset="0%" stop-color="currentColor" stop-opacity="0" />
+						<stop offset="20%" stop-color="currentColor" stop-opacity="0.06" />
+						<stop offset="80%" stop-color="currentColor" stop-opacity="0.06" />
+						<stop offset="100%" stop-color="currentColor" stop-opacity="0" />
+					</linearGradient>
+				</defs>
+
+				<!-- 网格 -->
+				<g stroke="var(--fg)" stroke-width="0.4" stroke-opacity="0.05">
+					<line x1="0" y1="80" x2="1200" y2="80" />
+					<line x1="0" y1="160" x2="1200" y2="160" />
+					<line x1="0" y1="240" x2="1200" y2="240" />
+					<line x1="0" y1="320" x2="1200" y2="320" />
+					<line x1="300" y1="0" x2="300" y2="400" />
+					<line x1="600" y1="0" x2="600" y2="400" />
+					<line x1="900" y1="0" x2="900" y2="400" />
+				</g>
+
+				<!-- 漂浮的几何图形 -->
+				<g stroke="var(--fg)" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+					<rect x="880" y="100" width="70" height="70" rx="4" transform="rotate(12, 915, 135)" stroke-opacity="0.12" />
+					<circle cx="1020" cy="280" r="40" stroke-opacity="0.1" />
+					<polygon points="1080,80 1110,140 1050,140" stroke-opacity="0.1" />
+					<rect x="980" y="180" width="50" height="50" rx="2" transform="rotate(-8, 1005, 205)" stroke-opacity="0.08" />
+					<circle cx="850" cy="340" r="24" stroke-opacity="0.08" />
+					<rect x="1080" y="220" width="44" height="44" rx="3" transform="rotate(18, 1102, 242)" stroke-opacity="0.08" />
+				</g>
+
+				<!-- 动态曲线 -->
+				<g stroke="var(--fg)" stroke-width="1" fill="none" stroke-linecap="round" stroke-opacity="0.08">
+					<path d="M650 260 Q 720 220 790 260 T 950 260" />
+					<path d="M700 120 Q 770 160 840 120 T 1000 120" />
+					<path d="M620 340 Q 690 300 760 340 T 900 340" />
+				</g>
+
+			</svg>
+		</div>
 		<div class="container">
 			<h1 class="title">做过的尝试 · 正在做的事</h1>
 			<p class="lede">
@@ -52,8 +93,25 @@ const pageLinks = [
 
 <style>
 	.head {
+		position: relative;
 		padding-block: clamp(48px, 7vw, 80px) clamp(28px, 4vw, 40px);
-		border-bottom: 1px solid var(--line);
+		overflow: hidden;
+	}
+	.head-bg {
+		position: absolute;
+		inset: 0;
+		z-index: 0;
+		pointer-events: none;
+		color: var(--fg);
+		opacity: 0.85;
+	}
+	.head-svg {
+		width: 100%;
+		height: 100%;
+	}
+	.head > .container {
+		position: relative;
+		z-index: 1;
 	}
 	.title {
 		font-size: clamp(32px, 5vw, 56px);
@@ -71,7 +129,7 @@ const pageLinks = [
 	}
 
 	.list {
-		padding-block: clamp(40px, 6vw, 64px);
+		padding-block: clamp(24px, 3vw, 36px) clamp(40px, 6vw, 64px);
 	}
 	.grid {
 		display: grid;
@@ -92,15 +150,20 @@ const pageLinks = [
 		gap: 12px;
 	}
 	.page-links li {
-		border: 1.5px solid var(--line);
-		border-radius: var(--radius-sm);
-		background: var(--bg);
+		border-radius: 14px;
+		position: relative;
+		background: transparent;
+		border: 1.5px solid var(--line-strong);
 		box-shadow: 3px 3px 0 0 var(--line);
-		transition: transform 0.15s ease, box-shadow 0.15s ease;
+		transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.2s ease;
 	}
 	.page-links li:hover {
-		transform: translate(2px, 2px);
-		box-shadow: 1px 1px 0 0 var(--line);
+		transform: translate(1px, 1px);
+		box-shadow: 2px 2px 0 0 var(--line);
+	}
+	.page-links li:active {
+		transform: translate(3px, 3px);
+		box-shadow: 0 0 0 0 var(--line);
 	}
 	.page-links a {
 		display: grid;
@@ -108,10 +171,8 @@ const pageLinks = [
 		padding: 20px 24px;
 		width: 100%;
 		color: var(--fg);
-		transition: color 0.2s;
-	}
-	.page-links a:hover {
-		color: var(--accent);
+		text-decoration: none;
+		border-radius: 14px;
 	}
 	.page-links .label {
 		grid-column: 1;
