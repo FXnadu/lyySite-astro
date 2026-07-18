@@ -1,14 +1,324 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import fs from 'node:fs';
 
-// 使用清理后的内容（已移除完整HTML结构、script和style标签）
-const womenHtml = fs.readFileSync('public/women-content-cleaned.html', 'utf-8');
+// 绘画作品列表 - 使用提取出的图片
+const paintings = [
+	{ src: '/images/huihua/img_003.webp', title: 'La Jungle', year: '2024', tech: '水彩' },
+	{ src: '/images/huihua/img_004.webp', title: 'Red', year: '2024', tech: '数码绘画' },
+	{ src: '/images/huihua/img_005.webp', title: 'Dance', year: '2024', tech: '水彩' },
+	{ src: '/images/huihua/img_006.webp', title: 'La Mercè', year: '2023', tech: '数码绘画' },
+	{ src: '/images/huihua/img_007.webp', title: 'Mrs Dalloway', year: '2023', tech: '数码绘画' },
+	{ src: '/images/huihua/img_008.webp', title: '静物', year: '2024', tech: '水彩' },
+	{ src: '/images/huihua/img_009.webp', title: '肖像习作', year: '2024', tech: '铅笔 / 数码上色' },
+	{ src: '/images/huihua/img_010.webp', title: 'Red Ⅱ', year: '2024', tech: '数码绘画' },
+	{ src: '/images/huihua/img_011.webp', title: '舞者', year: '2023', tech: '水彩' },
+	{ src: '/images/huihua/img_012.webp', title: '窗边', year: '2024', tech: '数码绘画' },
+	{ src: '/images/huihua/img_013.webp', title: '轮廓', year: '2024', tech: '水彩' },
+	{ src: '/images/huihua/img_014.webp', title: '花与瓶', year: '2023', tech: '水彩' },
+	{ src: '/images/huihua/img_015.webp', title: '叙事空间', year: '2024', tech: '数码绘画' },
+	{ src: '/images/huihua/img_016.webp', title: '侧颜', year: '2024', tech: '铅笔' },
+	{ src: '/images/huihua/img_017.webp', title: '光影练习', year: '2023', tech: '数码绘画' },
+	{ src: '/images/huihua/img_018.webp', title: '蓝调', year: '2024', tech: '水彩' },
+	{ src: '/images/huihua/img_019.webp', title: '容光', year: '2024', tech: '数码绘画' },
+	{ src: '/images/huihua/img_020.webp', title: '姿态', year: '2023', tech: '水彩' },
+	{ src: '/images/huihua/img_021.webp', title: '粉与灰', year: '2024', tech: '数码绘画' },
+	{ src: '/images/huihua/img_022.webp', title: '线的研究', year: '2023', tech: '数码绘画' },
+	{ src: '/images/huihua/img_023.webp', title: '午后', year: '2024', tech: '水彩' },
+	{ src: '/images/huihua/img_024.webp', title: '构图的尝试', year: '2024', tech: '数码绘画' },
+	{ src: '/images/huihua/img_025.webp', title: '暗面', year: '2023', tech: '铅笔' },
+	{ src: '/images/huihua/img_026.webp', title: '群像', year: '2024', tech: '数码绘画' },
+	{ src: '/images/huihua/img_027.webp', title: '镜中人', year: '2024', tech: '水彩' },
+	{ src: '/images/huihua/img_028.webp', title: '空白处', year: '2023', tech: '数码绘画' },
+	{ src: '/images/huihua/img_029.webp', title: '星与夜', year: '2024', tech: '数码绘画' },
+	{ src: '/images/huihua/img_030.webp', title: '呼吸', year: '2024', tech: '水彩' },
+	{ src: '/images/huihua/img_031.webp', title: '形与色', year: '2023', tech: '数码绘画' },
+	{ src: '/images/huihua/img_032.webp', title: '片段', year: '2024', tech: '水彩' },
+	{ src: '/images/huihua/img_033.webp', title: '渐变', year: '2024', tech: '数码绘画' },
+	{ src: '/images/huihua/img_034.webp', title: '逆光', year: '2023', tech: '水彩' },
+	{ src: '/images/huihua/img_035.webp', title: '失焦', year: '2024', tech: '数码绘画' },
+	{ src: '/images/huihua/img_036.webp', title: '纸上', year: '2023', tech: '水彩' },
+	{ src: '/images/huihua/img_037.webp', title: '最终的线条', year: '2024', tech: '数码绘画' },
+];
 ---
 
 <Layout
 	title="绘画 — liuyingying"
 	description="一些水彩与数码绘画的习作。"
 >
-	<Fragment set:html={womenHtml} />
+	<section class="hero">
+		<div class="container">
+			<h1 class="title">画下来的东西</h1>
+			<p class="lede">
+				水彩和数码板绘的练习合集。从线和面开始，慢慢地学会用色彩说话。
+				这里没有"完成品"，只有一段还在持续的练习。
+			</p>
+		</div>
+	</section>
+
+	<section class="gallery">
+		<div class="container">
+			<div class="list">
+				{paintings.map((p, i) => (
+					<div class={`item ${i % 2 === 0 ? '' : 'item--reverse'}`}>
+						<div class="item-image" data-index={i}>
+							<img
+								class="thumb"
+								src={p.src}
+								alt={p.title}
+								loading={i < 6 ? 'eager' : 'lazy'}
+							/>
+						</div>
+						<div class="item-info">
+							<h2 class="item-title">{p.title}</h2>
+							<p class="item-meta">{p.tech} · {p.year}</p>
+						</div>
+					</div>
+				))}
+			</div>
+		</div>
+	</section>
+
+	<!-- 灯箱 -->
+	<div class="lightbox" id="lightbox">
+		<div class="lb-backdrop" id="lbBackdrop"></div>
+		<div class="lb-wrap">
+			<button class="lb-nav" id="lbPrev" aria-label="上一张">
+				<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+			</button>
+			<div class="lb-image-wrap">
+				<img class="lb-image" id="lbImage" src="" alt="" />
+			</div>
+			<button class="lb-nav" id="lbNext" aria-label="下一张">
+				<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+			</button>
+			<button class="lb-close" id="lbClose" aria-label="关闭">
+				<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+			</button>
+		</div>
+	</div>
 </Layout>
+
+<script>
+	const items = /** @type {NodeListOf<HTMLElement>} */ (
+		document.querySelectorAll('.item-image')
+	);
+	const lb = document.getElementById('lightbox');
+	const lbImg = /** @type {HTMLImageElement} */ (document.getElementById('lbImage'));
+	const lbPrev = document.getElementById('lbPrev');
+	const lbNext = document.getElementById('lbNext');
+	const lbClose = document.getElementById('lbClose');
+	const lbBackdrop = document.getElementById('lbBackdrop');
+
+	let idx = -1;
+
+	function open(i) {
+		if (i < 0 || i >= items.length) return;
+		idx = i;
+		const img = /** @type {HTMLImageElement} */ (items[i].querySelector('.thumb'));
+		lbImg.src = img.src;
+		lbImg.alt = img.alt;
+		lb.classList.add('is-open');
+		document.body.style.overflow = 'hidden';
+	}
+
+	function close() {
+		lb.classList.remove('is-open');
+		document.body.style.overflow = '';
+		idx = -1;
+	}
+
+	function next() {
+		if (idx === -1) return;
+		open((idx + 1) % items.length);
+	}
+
+	function prev() {
+		if (idx === -1) return;
+		open((idx - 1 + items.length) % items.length);
+	}
+
+	items.forEach((el) =>
+		el.addEventListener('click', () => open(Number(el.dataset.index)))
+	);
+	lbNext?.addEventListener('click', next);
+	lbPrev?.addEventListener('click', prev);
+	lbClose?.addEventListener('click', close);
+	lbBackdrop?.addEventListener('click', close);
+
+	document.addEventListener('keydown', (e) => {
+		if (!lb.classList.contains('is-open')) return;
+		if (e.key === 'Escape') close();
+		if (e.key === 'ArrowRight') next();
+		if (e.key === 'ArrowLeft') prev();
+	});
+</script>
+
+<style>
+	/* ---- hero ---- */
+	.hero {
+		padding-block: clamp(56px, 8vw, 96px) clamp(28px, 4vw, 40px);
+		border-bottom: 1px solid var(--line);
+	}
+	.title {
+		font-size: clamp(32px, 5vw, 54px);
+		font-weight: 600;
+		letter-spacing: -0.01em;
+		line-height: 1.2;
+		margin: 0 0 16px;
+	}
+	.lede {
+		color: var(--fg-muted);
+		font-size: clamp(16px, 1.6vw, 18px);
+		max-width: 52ch;
+		line-height: 1.7;
+		margin: 0;
+	}
+
+	/* ---- list (alternating) ---- */
+	.gallery {
+		padding: 0;
+	}
+	.gallery .container {
+		max-width: none;
+		padding-inline: 0;
+	}
+	.list {
+		display: flex;
+		flex-direction: column;
+		gap: 0;
+	}
+	.item {
+		display: flex;
+		gap: 0;
+		align-items: stretch;
+	}
+	.item--reverse {
+		flex-direction: row-reverse;
+	}
+
+	.item-image {
+		flex: 0 0 50%;
+		min-width: 0;
+		cursor: pointer;
+		line-height: 0;
+	}
+	.thumb {
+		display: block;
+		width: 100%;
+		height: auto;
+	}
+
+	.item-info {
+		flex: 0 0 50%;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+	}
+	.item-title {
+		font-size: clamp(20px, 2.4vw, 28px);
+		font-weight: 500;
+		line-height: 1.3;
+		margin: 0 0 8px;
+	}
+	.item-meta {
+		color: var(--fg-muted);
+		font-size: clamp(13px, 1vw, 15px);
+		line-height: 1.6;
+		margin: 0;
+	}
+
+	@media (max-width: 700px) {
+		.item,
+		.item--reverse {
+			flex-direction: column;
+		}
+		.item-image {
+			flex: none;
+			width: 100%;
+		}
+		.item-info {
+			padding-top: 0;
+		}
+	}
+
+	/* ---- lightbox ---- */
+	.lightbox {
+		position: fixed;
+		inset: 0;
+		z-index: 999;
+		display: none;
+		align-items: center;
+		justify-content: center;
+	}
+	.lightbox.is-open {
+		display: flex;
+	}
+	.lb-backdrop {
+		position: absolute;
+		inset: 0;
+		background: rgba(0, 0, 0, 0.88);
+	}
+	.lb-wrap {
+		position: relative;
+		display: flex;
+		align-items: center;
+		gap: 8px;
+		max-width: 92vw;
+		max-height: 88vh;
+	}
+	.lb-image-wrap {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		max-height: 80vh;
+		overflow: hidden;
+		box-shadow: 0 8px 40px rgba(0,0,0,0.5);
+	}
+	.lb-image {
+		display: block;
+		max-width: calc(92vw - 100px);
+		max-height: 80vh;
+		object-fit: contain;
+	}
+	.lb-nav {
+		flex-shrink: 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 40px;
+		height: 40px;
+		border: none;
+		border-radius: 50%;
+		background: rgba(255,255,255,0.1);
+		color: #fff;
+		cursor: pointer;
+		transition: background 0.2s;
+	}
+	.lb-nav:hover {
+		background: rgba(255,255,255,0.22);
+	}
+	.lb-close {
+		position: absolute;
+		top: -44px;
+		right: 0;
+		width: 36px;
+		height: 36px;
+		border: none;
+		border-radius: 50%;
+		background: transparent;
+		color: rgba(255,255,255,0.6);
+		cursor: pointer;
+		transition: color 0.2s;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+	.lb-close:hover {
+		color: #fff;
+	}
+
+	@media (max-width: 540px) {
+		.lb-image { max-width: 80vw; max-height: 60vh; }
+	}
+</style>

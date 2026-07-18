@@ -8,10 +8,7 @@ const channels = [
 	{ label: '微信', value: 'lyy_work（备注来意）', href: null },
 ];
 
-const availability = [
-	{ period: '2026 春', note: '可到岗 3-5 天/周' },
-	{ period: '2026 暑期', note: '可全职实习 8-10 周' },
-];
+
 ---
 
 <Layout
@@ -27,7 +24,6 @@ const availability = [
 	<section class="contact">
 		<div class="container grid">
 			<div class="channels">
-				<h2>找我</h2>
 				<ul class="ch-list">
 				{
 					channels.map((c) => (
@@ -54,27 +50,6 @@ const availability = [
 				</a>
 			</div>
 
-			<aside class="availability">
-				<h2>可实习时间</h2>
-				<dl class="avail">
-					{
-						availability.map((a) => (
-							<div>
-								<dt>{a.period}</dt>
-								<dd>{a.note}</dd>
-							</div>
-						))
-					}
-				</dl>
-
-				<div class="note-card">
-					<h3>我想去的地方</h3>
-					<p>
-						交互设计、创意编程、动态图形与新媒体艺术方向。
-						我更想知道一家团队是怎么"想的"，而不是它"叫什么名字"。
-					</p>
-				</div>
-			</aside>
 		</div>
 	</section>
 
@@ -103,9 +78,10 @@ const availability = [
 	.contact { padding-block: clamp(40px, 6vw, 64px); border-bottom: 1px solid var(--line); }
 	.grid {
 		display: grid;
-		grid-template-columns: 1.4fr 1fr;
+		grid-template-columns: 1fr;
 		gap: 56px;
 		align-items: start;
+		max-width: 720px;
 	}
 
 	h2 {
@@ -116,7 +92,7 @@ const availability = [
 		text-transform: uppercase;
 		margin: 0 0 18px;
 	}
-	.channels h2:not(:first-child) { margin-top: 36px; }
+
 
 	.ch-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
 	.ch-list li {
@@ -163,50 +139,6 @@ const availability = [
 	.resume-btn:active {
 		transform: translate(3px, 3px);
 		box-shadow: 0 0 0 0 var(--accent);
-	}
-
-	.avail {
-		margin: 0;
-		display: grid;
-		gap: 12px;
-	}
-	.avail > div {
-		padding: 18px 20px;
-		background: var(--bg);
-		border: 1.5px solid var(--line);
-		border-radius: var(--radius-sm);
-		border-left: 3px solid var(--accent);
-		box-shadow: 3px 3px 0 0 var(--line);
-	}
-	.avail dt {
-		font-family: var(--font-mono);
-		font-size: 13px;
-		color: var(--accent);
-		margin-bottom: 4px;
-	}
-	.avail dd {
-		margin: 0;
-		color: var(--fg);
-		font-size: 15px;
-	}
-
-	.note-card {
-		margin-top: 28px;
-		padding: 24px;
-		border: 1.5px solid var(--line);
-		border-radius: var(--radius);
-		background: var(--bg);
-		box-shadow: 4px 4px 0 0 var(--line);
-	}
-	.note-card h3 {
-		font-size: 17px;
-		margin: 0 0 8px;
-	}
-	.note-card p {
-		margin: 0;
-		font-size: 14px;
-		color: var(--fg-muted);
-		line-height: 1.65;
 	}
 
 	.quote {

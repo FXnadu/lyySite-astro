@@ -111,6 +111,10 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url).toString(
 
 	main {
 		flex: 1 0 auto;
+		background:
+			radial-gradient(circle at 12% 25%, color-mix(in srgb, var(--accent) 10%, transparent) 0%, transparent 38%),
+			radial-gradient(circle at 88% 55%, color-mix(in srgb, var(--accent) 8%, transparent) 0%, transparent 32%),
+			radial-gradient(circle at 45% 88%, color-mix(in srgb, var(--accent) 6%, transparent) 0%, transparent 28%);
 	}
 
 	h1, h2, h3, h4 {
