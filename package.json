@@ -11,6 +11,11 @@
     "preview": "astro preview",
     "astro": "astro"
   },
+  "optionalDependencies": {
+    "@emnapi/core": "^1.11.2",
+    "@emnapi/runtime": "^1.11.2",
+    "@types/node": "^26.1.1"
+  },
   "dependencies": {
     "@fontsource/inter": "^5.2.8",
     "@fontsource/noto-sans-sc": "^5.2.9",
