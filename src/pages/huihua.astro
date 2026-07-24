@@ -1,43 +1,14 @@
 ---
 import Layout from '../layouts/Layout.astro';
 
-// 绘画作品列表 - 使用提取出的图片
+// 绘画作品列表
 const paintings = [
-	{ src: '/images/huihua/img_003.webp', title: 'La Jungle', year: '2024', tech: '水彩' },
-	{ src: '/images/huihua/img_004.webp', title: 'Red', year: '2024', tech: '数码绘画' },
-	{ src: '/images/huihua/img_005.webp', title: 'Dance', year: '2024', tech: '水彩' },
-	{ src: '/images/huihua/img_006.webp', title: 'La Mercè', year: '2023', tech: '数码绘画' },
-	{ src: '/images/huihua/img_007.webp', title: 'Mrs Dalloway', year: '2023', tech: '数码绘画' },
-	{ src: '/images/huihua/img_008.webp', title: '静物', year: '2024', tech: '水彩' },
-	{ src: '/images/huihua/img_009.webp', title: '肖像习作', year: '2024', tech: '铅笔 / 数码上色' },
-	{ src: '/images/huihua/img_010.webp', title: 'Red Ⅱ', year: '2024', tech: '数码绘画' },
-	{ src: '/images/huihua/img_011.webp', title: '舞者', year: '2023', tech: '水彩' },
-	{ src: '/images/huihua/img_012.webp', title: '窗边', year: '2024', tech: '数码绘画' },
-	{ src: '/images/huihua/img_013.webp', title: '轮廓', year: '2024', tech: '水彩' },
-	{ src: '/images/huihua/img_014.webp', title: '花与瓶', year: '2023', tech: '水彩' },
-	{ src: '/images/huihua/img_015.webp', title: '叙事空间', year: '2024', tech: '数码绘画' },
-	{ src: '/images/huihua/img_016.webp', title: '侧颜', year: '2024', tech: '铅笔' },
-	{ src: '/images/huihua/img_017.webp', title: '光影练习', year: '2023', tech: '数码绘画' },
-	{ src: '/images/huihua/img_018.webp', title: '蓝调', year: '2024', tech: '水彩' },
-	{ src: '/images/huihua/img_019.webp', title: '容光', year: '2024', tech: '数码绘画' },
-	{ src: '/images/huihua/img_020.webp', title: '姿态', year: '2023', tech: '水彩' },
-	{ src: '/images/huihua/img_021.webp', title: '粉与灰', year: '2024', tech: '数码绘画' },
-	{ src: '/images/huihua/img_022.webp', title: '线的研究', year: '2023', tech: '数码绘画' },
-	{ src: '/images/huihua/img_023.webp', title: '午后', year: '2024', tech: '水彩' },
-	{ src: '/images/huihua/img_024.webp', title: '构图的尝试', year: '2024', tech: '数码绘画' },
-	{ src: '/images/huihua/img_025.webp', title: '暗面', year: '2023', tech: '铅笔' },
-	{ src: '/images/huihua/img_026.webp', title: '群像', year: '2024', tech: '数码绘画' },
-	{ src: '/images/huihua/img_027.webp', title: '镜中人', year: '2024', tech: '水彩' },
-	{ src: '/images/huihua/img_028.webp', title: '空白处', year: '2023', tech: '数码绘画' },
-	{ src: '/images/huihua/img_029.webp', title: '星与夜', year: '2024', tech: '数码绘画' },
-	{ src: '/images/huihua/img_030.webp', title: '呼吸', year: '2024', tech: '水彩' },
-	{ src: '/images/huihua/img_031.webp', title: '形与色', year: '2023', tech: '数码绘画' },
-	{ src: '/images/huihua/img_032.webp', title: '片段', year: '2024', tech: '水彩' },
-	{ src: '/images/huihua/img_033.webp', title: '渐变', year: '2024', tech: '数码绘画' },
-	{ src: '/images/huihua/img_034.webp', title: '逆光', year: '2023', tech: '水彩' },
-	{ src: '/images/huihua/img_035.webp', title: '失焦', year: '2024', tech: '数码绘画' },
-	{ src: '/images/huihua/img_036.webp', title: '纸上', year: '2023', tech: '水彩' },
-	{ src: '/images/huihua/img_037.webp', title: '最终的线条', year: '2024', tech: '数码绘画' },
+	{ src: '/images/huihua/项目10.jpg', title: '项目10', year: '2025', tech: '数码绘画' },
+	{ src: '/images/huihua/小女孩_画板%201.jpg', title: '小女孩', year: '2025', tech: '数码绘画' },
+	{ src: '/images/huihua/艺术海报角版图.png', title: '艺术海报', year: '2025', tech: '数码绘画' },
+	{ src: '/images/huihua/3.jpg', title: '卡通人物', year: '2025', tech: '数码绘画' },
+	{ src: '/images/huihua/可爱的小猪.jpg', title: '可爱的小猪', year: '2025', tech: '数码绘画' },
+	{ src: '/images/huihua/山河_画板%201.jpg', title: '山河', year: '2025', tech: '数码绘画' },
 ];
 ---
 
@@ -158,6 +129,7 @@ const paintings = [
 	.hero {
 		padding-block: clamp(56px, 8vw, 96px) clamp(28px, 4vw, 40px);
 		border-bottom: 1px solid var(--line);
+		background: url('/images/14.jpg') right center / contain no-repeat;
 	}
 	.title {
 		font-size: clamp(32px, 5vw, 54px);

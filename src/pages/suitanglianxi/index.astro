@@ -1,0 +1,369 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+const categories = [
+	{
+		name: 'Upshop',
+		images: [
+			{ src: '/UI/Upshop/APP首页.png', title: 'APP首页' },
+			{ src: '/UI/Upshop/公司首页.jpg', title: '公司首页' },
+			{ src: '/UI/Upshop/公司简介.jpg', title: '公司简介' },
+			{ src: '/UI/Upshop/产品中心——列表页.jpg', title: '产品中心——列表页' },
+			{ src: '/UI/Upshop/产品中心——内容页.jpg', title: '产品中心——内容页' },
+			{ src: '/UI/Upshop/产品中心-内容页.png', title: '产品中心-内容页' },
+			{ src: '/UI/Upshop/精品推荐.jpg', title: '精品推荐' },
+			{ src: '/UI/Upshop/知识学堂.jpg', title: '知识学堂' },
+			{ src: '/UI/Upshop/商家加盟.jpg', title: '商家加盟' },
+			{ src: '/UI/Upshop/给我留言.jpg', title: '给我留言' },
+			{ src: '/UI/Upshop/给我留言.png', title: '给我留言' },
+			{ src: '/UI/Upshop/联系我们.jpg', title: '联系我们' },
+		],
+	},
+	{
+		name: 'BeeApp',
+		images: [
+			{ src: '/UI/beeapp/产品中心-列表页.png', title: '产品中心-列表页' },
+			{ src: '/UI/beeapp/产品中心列表页.PNG', title: '产品中心列表页' },
+			{ src: '/UI/beeapp/产品中心-内容页.png', title: '产品中心-内容页' },
+			{ src: '/UI/beeapp/产品中心内容页.PNG', title: '产品中心内容页' },
+			{ src: '/UI/beeapp/公司简介.png', title: '公司简介' },
+			{ src: '/UI/beeapp/app-公司简介.PNG', title: 'app-公司简介' },
+			{ src: '/UI/beeapp/新闻动态-内容页.png', title: '新闻动态-内容页' },
+			{ src: '/UI/beeapp/新闻动态内容页.PNG', title: '新闻动态内容页' },
+			{ src: '/UI/beeapp/新闻动态列表页.PNG', title: '新闻动态列表页' },
+			{ src: '/UI/beeapp/给我留言.png', title: '给我留言' },
+			{ src: '/UI/beeapp/联系我们.png', title: '联系我们' },
+		],
+	},
+	{
+		name: '英州姑娘',
+		images: [
+			{ src: '/UI/yzgirl/起始页.png', title: '起始页' },
+			{ src: '/UI/yzgirl/引导-1.png', title: '引导-1' },
+			{ src: '/UI/yzgirl/引导-2.png', title: '引导-2' },
+			{ src: '/UI/yzgirl/引导-3.png', title: '引导-3' },
+			{ src: '/UI/yzgirl/登录页.png', title: '登录页' },
+			{ src: '/UI/yzgirl/注册页.png', title: '注册页' },
+			{ src: '/UI/yzgirl/首页.png', title: '首页' },
+			{ src: '/UI/yzgirl/商城.png', title: '商城' },
+			{ src: '/UI/yzgirl/社区页.png', title: '社区页' },
+			{ src: '/UI/yzgirl/我的.png', title: '我的' },
+			{ src: '/UI/yzgirl/预约页.png', title: '预约页' },
+			{ src: '/UI/yzgirl/会员体系.png', title: '会员体系' },
+			{ src: '/UI/yzgirl/创新页1数字化体验.png', title: '创新页1数字化体验' },
+			{ src: '/UI/yzgirl/英州姑娘展板1.png', title: '英州姑娘展板1' },
+			{ src: '/UI/yzgirl/英州姑娘展板3.png', title: '英州姑娘展板3' },
+		],
+	},
+];
+
+// 构建全局扁平索引，用于灯箱
+interface Photo {
+	src: string;
+	title: string;
+	category: string;
+}
+const allPhotos: Photo[] = [];
+for (const cat of categories) {
+	for (const img of cat.images) {
+		allPhotos.push({ ...img, category: cat.name });
+	}
+}
+let globalIndex = 0;
+// 给每个分类中的图片分配全局索引
+const categoriesWithIndex = categories.map((cat) => {
+	const start = globalIndex;
+	const images = cat.images.map((img) => {
+		const idx = globalIndex++;
+		return { ...img, globalIdx: idx };
+	});
+	return { ...cat, images, start };
+});
+---
+
+<Layout
+	title="UI设计练习 — liuyingying"
+	description="UI 设计相关的课堂练习与实践记录。"
+>
+	<section class="hero">
+		<div class="container">
+			<h1 class="title">UI设计练习</h1>
+			<p class="lede">
+				这里用来存放 UI 设计课堂上的练习图片。界面稿、组件探索与设计尝试都被收集在这里。
+			</p>
+		</div>
+	</section>
+
+	{
+		categoriesWithIndex.map((cat) => (
+			<section class="category">
+				<div class="container">
+					<h2 class="cat-title">{cat.name}</h2>
+					<div class="grid">
+						{cat.images.map((img) => (
+							<figure
+								class="item"
+								data-global-index={img.globalIdx}
+							>
+								<img
+									class="thumb"
+									src={img.src}
+									alt={img.title}
+									loading="lazy"
+								/>
+								<figcaption class="caption">
+									<span class="caption-title">{img.title}</span>
+								</figcaption>
+							</figure>
+						))}
+					</div>
+				</div>
+			</section>
+		))
+	}
+
+	<!-- 灯箱 -->
+	<div class="lightbox" id="lightbox">
+		<div class="lb-backdrop" id="lbBackdrop"></div>
+		<div class="lb-wrap">
+			<button class="lb-nav" id="lbPrev" aria-label="上一张">
+				<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+			</button>
+			<div class="lb-image-wrap">
+				<img class="lb-image" id="lbImage" src="" alt="" />
+			</div>
+			<button class="lb-nav" id="lbNext" aria-label="下一张">
+				<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+			</button>
+			<button class="lb-close" id="lbClose" aria-label="关闭">
+				<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+			</button>
+		</div>
+	</div>
+</Layout>
+
+<script>
+	const items = /** @type {NodeListOf<HTMLElement>} */ (
+		document.querySelectorAll('.item')
+	);
+	const total = items.length;
+	const lb = document.getElementById('lightbox');
+	const lbImg = /** @type {HTMLImageElement} */ (document.getElementById('lbImage'));
+	const lbPrev = document.getElementById('lbPrev');
+	const lbNext = document.getElementById('lbNext');
+	const lbClose = document.getElementById('lbClose');
+	const lbBackdrop = document.getElementById('lbBackdrop');
+
+	let idx = -1;
+
+	function open(i) {
+		if (i < 0 || i >= total) return;
+		idx = i;
+		const img = /** @type {HTMLImageElement} */ (items[i].querySelector('.thumb'));
+		lbImg.src = img.src;
+		lbImg.alt = img.alt;
+		lb.classList.add('is-open');
+		document.body.style.overflow = 'hidden';
+	}
+
+	function close() {
+		lb.classList.remove('is-open');
+		document.body.style.overflow = '';
+		idx = -1;
+	}
+
+	function next() {
+		if (idx === -1) return;
+		open((idx + 1) % total);
+	}
+
+	function prev() {
+		if (idx === -1) return;
+		open((idx - 1 + total) % total);
+	}
+
+	items.forEach((el) =>
+		el.addEventListener('click', () =>
+			open(Number(el.dataset.globalIndex))
+		)
+	);
+	lbNext?.addEventListener('click', next);
+	lbPrev?.addEventListener('click', prev);
+	lbClose?.addEventListener('click', close);
+	lbBackdrop?.addEventListener('click', close);
+
+	document.addEventListener('keydown', (e) => {
+		if (!lb.classList.contains('is-open')) return;
+		if (e.key === 'Escape') close();
+		if (e.key === 'ArrowRight') next();
+		if (e.key === 'ArrowLeft') prev();
+	});
+</script>
+
+<style>
+	.hero {
+		padding-block: clamp(56px, 8vw, 96px) clamp(28px, 4vw, 40px);
+		border-bottom: 1px solid var(--line);
+	}
+	.title {
+		font-size: clamp(32px, 5vw, 54px);
+		font-weight: 600;
+		letter-spacing: -0.01em;
+		line-height: 1.2;
+		margin: 0 0 16px;
+	}
+	.lede {
+		color: var(--fg-muted);
+		font-size: clamp(16px, 1.6vw, 18px);
+		max-width: 50ch;
+		line-height: 1.7;
+		margin: 0;
+	}
+
+	/* ---- category ---- */
+	.category {
+		padding-block: clamp(36px, 5vw, 56px);
+		border-bottom: 1px solid var(--line);
+	}
+	.category:last-of-type {
+		border-bottom: none;
+	}
+
+	.cat-title {
+		font-size: clamp(22px, 3vw, 32px);
+		font-weight: 500;
+		margin: 0 0 24px;
+		letter-spacing: -0.01em;
+	}
+
+	/* ---- masonry ---- */
+	.grid {
+		columns: 3;
+		column-gap: 10px;
+	}
+	@media (max-width: 860px) {
+		.grid { columns: 2; }
+	}
+	@media (max-width: 540px) {
+		.grid { columns: 1; }
+	}
+
+	.item {
+		margin: 0 0 10px;
+		border-radius: var(--radius-sm);
+		overflow: hidden;
+		position: relative;
+		cursor: pointer;
+		background: var(--bg-soft);
+		break-inside: avoid;
+	}
+	.thumb {
+		display: block;
+		width: 100%;
+		height: auto;
+		transition: transform 0.3s ease;
+	}
+	.item:hover .thumb {
+		transform: scale(1.04);
+	}
+	.caption {
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		padding: 32px 16px 14px;
+		background: linear-gradient(transparent, rgba(0,0,0,0.55));
+		color: #fff;
+		opacity: 0;
+		transition: opacity 0.25s ease;
+	}
+	.item:hover .caption {
+		opacity: 1;
+	}
+	.caption-title {
+		display: block;
+		font-size: 14px;
+		font-weight: 500;
+	}
+
+	/* ---- lightbox ---- */
+	.lightbox {
+		position: fixed;
+		inset: 0;
+		z-index: 999;
+		display: none;
+		align-items: center;
+		justify-content: center;
+	}
+	.lightbox.is-open {
+		display: flex;
+	}
+	.lb-backdrop {
+		position: absolute;
+		inset: 0;
+		background: rgba(0, 0, 0, 0.88);
+	}
+	.lb-wrap {
+		position: relative;
+		display: flex;
+		align-items: center;
+		gap: 8px;
+		max-width: 92vw;
+		max-height: 88vh;
+	}
+	.lb-image-wrap {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		max-height: 80vh;
+		border-radius: var(--radius-sm);
+		overflow: hidden;
+		box-shadow: 0 8px 40px rgba(0,0,0,0.5);
+	}
+	.lb-image {
+		display: block;
+		max-width: calc(92vw - 100px);
+		max-height: 80vh;
+		object-fit: contain;
+	}
+	.lb-nav {
+		flex-shrink: 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 40px;
+		height: 40px;
+		border: none;
+		border-radius: 50%;
+		background: rgba(255,255,255,0.1);
+		color: #fff;
+		cursor: pointer;
+		transition: background 0.2s;
+	}
+	.lb-nav:hover {
+		background: rgba(255,255,255,0.22);
+	}
+	.lb-close {
+		position: absolute;
+		top: -44px;
+		right: 0;
+		width: 36px;
+		height: 36px;
+		border: none;
+		border-radius: 50%;
+		background: transparent;
+		color: rgba(255,255,255,0.6);
+		cursor: pointer;
+		transition: color 0.2s;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+	.lb-close:hover {
+		color: #fff;
+	}
+
+	@media (max-width: 540px) {
+		.lb-image { max-width: 80vw; max-height: 60vh; }
+	}
+</style>
