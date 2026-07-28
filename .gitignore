@@ -25,3 +25,9 @@ pnpm-debug.log*
 
 # scratch / working files
 示例/
+
+# wrangler files
+.wrangler
+.dev.vars*
+!.dev.vars.example
+!.env.example
