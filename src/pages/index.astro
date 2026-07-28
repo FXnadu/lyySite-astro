@@ -10,9 +10,9 @@ const featured = [...projects]
 	.slice(0, 3);
 
 const skills = [
-	{ group: '设计', items: ['品牌识别', '动态图形', '排印与版面', '影像叙事'] },
+	{ group: '设计', items: ['appUI设计', 'webUI设计', 'Photoshop', 'maya'] },
 	{ group: '代码', items: ['JavaScript', 'Three.js / WebGL', 'p5.js', 'TouchDesigner'] },
-	{ group: '工艺', items: ['Risograph', '拼贴', '声音采集', 'AR / WebXR'] },
+	{ group: 'AI', items: ['会使用Codex', 'workbuddy', 'traework', 'AI绘图'] },
 ];
 
 const timeline = [
@@ -149,16 +149,6 @@ const timeline = [
 		</div>
 	</section>
 
-	<!-- MANIFESTO -->
-	<section class="manifesto">
-		<div class="container">
-			<blockquote>
-				<p>
-					愿意接受不漂亮的过程、未完成的版本与诚实的失败。
-				</p>
-			</blockquote>
-		</div>
-	</section>
 </Layout>
 
 <script is:inline>
@@ -553,48 +543,6 @@ const timeline = [
 		font-size: 13px;
 		color: var(--fg-dim);
 		flex-shrink: 0;
-	}
-
-	/* Manifesto */
-	.manifesto {
-		padding-block: clamp(64px, 9vw, 96px);
-	}
-
-	.manifesto blockquote {
-		margin: 0;
-		text-align: center;
-		padding: clamp(32px, 5vw, 56px) clamp(24px, 4vw, 48px);
-		border-radius: 24px;
-		position: relative;
-	}
-	
-	.manifesto p {
-		font-family: var(--font-display);
-		font-style: italic;
-		font-size: clamp(22px, 2.8vw, 32px);
-		font-weight: 400;
-		line-height: 1.55;
-		color: var(--fg);
-		max-width: 34ch;
-		margin: 0 auto;
-	}
-	.manifesto p::before {
-		content: '“';
-		color: var(--accent-red);
-		margin-right: 0.1em;
-		font-size: 1.3em;
-		line-height: 0;
-		vertical-align: middle;
-		font-style: normal;
-	}
-	.manifesto p::after {
-		content: '”';
-		color: var(--accent-red);
-		margin-left: 0.1em;
-		font-size: 1.3em;
-		line-height: 0;
-		vertical-align: middle;
-		font-style: normal;
 	}
 
 	@media (max-width: 960px) {
