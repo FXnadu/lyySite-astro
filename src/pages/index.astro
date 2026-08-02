@@ -2,6 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import { Icon } from 'astro-icon/components';
 import { getCollection } from 'astro:content';
+import fs from 'node:fs';
 
 const projects = await getCollection('projects', (entry) => entry.data.featured);
 
@@ -9,20 +10,8 @@ const featured = [...projects]
 	.sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime())
 	.slice(0, 3);
 
-const skills = [
-	{ group: '设计', items: ['appUI设计', 'webUI设计', 'Photoshop', 'maya'] },
-	{ group: '代码', items: ['JavaScript', 'Three.js / WebGL', 'p5.js', 'TouchDesigner'] },
-	{ group: 'AI', items: ['会使用Codex', 'workbuddy', 'traework', 'AI绘图'] },
-];
-
-const timeline = [
-	{ year: '2018', title: '初识设计', desc: '高中担任校刊美编，第一次意识到"布局"是一种说话方式。' },
-	{ year: '2021', title: '考入数字媒体艺术专业', desc: '开始系统学习视听语言、动态图形与交互设计基础。' },
-	{ year: '2023', title: '校园独立放映展策展', desc: '与同学策划三场主题短片联映，主导整体视觉与现场动线。' },
-	{ year: '2024', title: '商业插画 / 品牌合作', desc: '为两家本地独立咖啡馆设计季节性视觉物料。' },
-	{ year: '2025', title: 'AR 装置驻地创作', desc: '在地市级博物馆完成《回声》驻地项目并长期展出。' },
-];
-
+const resumeFiles = fs.readdirSync('public/resume').filter((f) => f.endsWith('.pdf')).sort();
+const resumePath = resumeFiles[0] ? `/resume/${resumeFiles[0]}` : null;
 
 ---
 
@@ -33,37 +22,24 @@ const timeline = [
 			<div class="hero-text">
 				<h1 class="title">
 					liuyingying（lyy）<br />
-					<span class="subtitle">数字媒体艺术</span>
+					<span class="subtitle">数字媒体技术</span>
 				</h1>
 				<p class="lede">
-					liuyingying（lyy），数字媒体艺术在读，2026 届，base 广东，正在找实习。这个站收录了过去两年跟叙事有关的尝试——交互影像、动态设计、生成式视觉、还有自己印的 zine。有的做完了，有的还在改，也有一些不太满意的。
+					本人为 27 届数字媒体技术专业学生，熟练运用 PR、剪映进行短视频批量剪辑；精通 PS、AI 完成海报、图标、UI 界面及小红书封面设计，可借助 AI 工具辅助创作；掌握 3dmax、Maya 基础三维制作，具备扎实的色彩与平面构成审美，拥有线上短视频代剪、账号运营兼职经验，适配各类内容制作需求。
 				</p>
 
+				{resumePath && (
+					<div class="cta">
+						<a class="btn" href={resumePath} download>
+							<Icon name="lucide:download" size={18} />
+							下载 PDF 简历
+						</a>
+					</div>
+				)}
+
 			</div>
 
 
-		</div>
-	</section>
-
-	<!-- SKILLS -->
-	<section class="skills">
-		<div class="container">
-			<header class="section-head">
-				<h2><Icon name="lucide:wand-2" size={24} /> 我能做什么</h2>
-				<span class="index">01 · 能力</span>
-			</header>
-			<div class="skill-grid">
-				{
-					skills.map((s) => (
-						<div class="skill-col">
-							<h3>{s.group}</h3>
-							<ul>
-								{s.items.map((it) => <li>{it}</li>)}
-							</ul>
-						</div>
-					))
-				}
-			</div>
 		</div>
 	</section>
 
@@ -74,51 +50,21 @@ const timeline = [
 				<h2><Icon name="lucide:notebook-pen" size={24} /> 简述</h2>
 			</header>
 			<div class="grid">
-			<div class="bio">
-				<p>
-					就读于某省属艺术院校数字媒体艺术专业，目前大三。过去三年里，我从"会拼版的人"逐渐变成愿意"写一点代码"的人，
-					因为我相信，在数媒领域里，good 和 great 之间的差距，常常取决于你愿不愿意多走半步到工程里去看一眼。
-				</p>
-				<p>
-					我不擅长一次性完成。更愿意把作品做成持续修订的过程：第一版不漂亮没关系，但每修订一次，边界就该清晰一寸。
-				</p>
-			</div>
 			<aside class="info">
 				<div class="avatar">
 					<img src="/images/logo.png" alt="liuyingying 头像" width="96" height="96" />
 				</div>
 				<h2>信息</h2>
 				<dl>
-					<dt>专业</dt><dd>数字媒体艺术</dd>
-					<dt>方向</dt><dd>视频剪辑，建模</dd>
+					<dt>专业</dt><dd>数字媒体技术</dd>
+					<dt>方向</dt><dd>短视频剪辑、平面视觉设计</dd>
 					<dt>毕业</dt><dd>2027 届</dd>
 					<dt>城市</dt><dd>广东 / 求职中</dd>
 				</dl>
+				<h2>个人简介</h2>
+				<p>27 届数字媒体技术在校生，熟练使用 PR、剪映进行短视频剪辑；掌握 PS、AI 平面设计与 UI 制作，具备线上短视频批量剪辑兼职经验，拥有良好审美，学习适应能力强。</p>
 			</aside>
 		</div>
-		</div>
-	</section>
-
-	<!-- TIMELINE -->
-	<section class="timeline-section">
-		<div class="container">
-			<header class="section-head">
-				<h2><Icon name="lucide:bike" size={24} /> 路径</h2>
-				<span class="index">A · 时间线</span>
-			</header>
-			<ol class="timeline">
-				{
-					[...timeline].reverse().map((item) => (
-						<li>
-							<span class="y">{item.year}</span>
-							<div class="t">
-								<h3>{item.title}</h3>
-								<p>{item.desc}</p>
-							</div>
-						</li>
-					))
-				}
-			</ol>
 		</div>
 	</section>
 
@@ -180,7 +126,7 @@ const timeline = [
 		padding-block: calc(72px + clamp(48px, 8vw, 88px)) clamp(40px, 5vw, 64px);
 		overflow: hidden;
 		position: relative;
-		background: linear-gradient(135deg, var(--accent-blue) 0%, #38b6ff 100%);
+		background: linear-gradient(135deg, var(--accent-pink) 0%, #f9a8d4 100%);
 		color: #fff;
 	}
 	.hero::before {
@@ -255,11 +201,6 @@ const timeline = [
 		border-color: rgba(255,255,255,0.9);
 	}
 
-	.skills {
-		padding-block: clamp(48px, 7vw, 72px);
-		border-bottom: 1px solid var(--line);
-	}
-
 	.section-head {
 		display: flex;
 		justify-content: space-between;
@@ -288,71 +229,6 @@ const timeline = [
 		letter-spacing: 0.04em;
 	}
 
-	.skill-grid {
-		display: grid;
-		grid-template-columns: repeat(3, 1fr);
-		gap: 16px;
-	}
-
-	.skill-col {
-		padding: 22px;
-		border: 1.5px solid var(--line-strong);
-		border-radius: 14px;
-		position: relative;
-	}
-
-	.skill-col:nth-child(1) {
-		border-color: var(--accent-blue);
-		box-shadow: 3px 3px 0 0 var(--accent-blue);
-	}
-	.skill-col:nth-child(2) {
-		border-color: var(--accent-yellow);
-		box-shadow: 3px 3px 0 0 var(--accent-yellow);
-	}
-	.skill-col:nth-child(3) {
-		border-color: var(--accent-red);
-		box-shadow: 3px 3px 0 0 var(--accent-red);
-	}
-
-	.skill-col h3 {
-		font-family: var(--font-mono);
-		font-size: 12px;
-		font-weight: 600;
-		color: var(--fg);
-		text-transform: uppercase;
-		letter-spacing: 0.08em;
-		margin: 0 0 14px;
-		padding-left: 14px;
-		position: relative;
-	}
-	.skill-col h3::before {
-		content: '';
-		position: absolute;
-		left: 0;
-		top: 2px;
-		bottom: 2px;
-		width: 4px;
-		border-radius: 2px;
-	}
-	.skill-col:nth-child(1) h3::before { background: var(--accent-blue); }
-	.skill-col:nth-child(2) h3::before { background: var(--accent-yellow); }
-	.skill-col:nth-child(3) h3::before { background: var(--accent-red); }
-
-	.skill-col ul {
-		list-style: none;
-		padding: 0;
-		margin: 0;
-		display: flex;
-		flex-direction: column;
-		gap: 6px;
-	}
-
-	.skill-col li {
-		font-size: 15px;
-		color: var(--fg);
-		line-height: 1.65;
-	}
-
 	/* About */
 	.about {
 		padding-block: clamp(48px, 7vw, 72px);
@@ -360,24 +236,27 @@ const timeline = [
 	}
 	.grid {
 		display: grid;
-		grid-template-columns: 2fr 1fr;
+		grid-template-columns: 1fr;
 		gap: 48px;
 		align-items: start;
 	}
-	.bio h2, .info h2 {
+	.info h2 {
 		font-family: var(--font-mono);
 		font-size: 13px;
 		font-weight: 600;
 		color: var(--fg);
 		letter-spacing: 0.06em;
 		text-transform: uppercase;
-		margin-bottom: 20px;
+		margin: 0 0 20px;
 	}
-	.bio p {
-		font-size: 16px;
-		color: var(--fg-muted);
+	.info h2:not(:first-of-type) {
+		margin-top: 24px;
+	}
+	.info p {
+		font-size: 14px;
+		color: var(--fg);
 		line-height: 1.75;
-		margin-bottom: 14px;
+		margin: 0;
 	}
 	.info {
 		padding: 28px 28px 26px;
@@ -420,62 +299,6 @@ const timeline = [
 		margin: 0;
 		color: var(--fg);
 		font-size: 14px;
-	}
-
-	/* Timeline */
-	.timeline-section {
-		padding-block: clamp(40px, 6vw, 64px);
-		border-bottom: 1px solid var(--line);
-	}
-	.timeline {
-		list-style: none;
-		padding: 0;
-		margin: 0;
-		position: relative;
-	}
-	.timeline::before {
-		content: '';
-		position: absolute;
-		left: 84px;
-		top: 28px;
-		bottom: 28px;
-		width: 1px;
-		background: var(--line-strong);
-	}
-	.timeline li {
-		display: grid;
-		grid-template-columns: 72px 1fr;
-		gap: 24px;
-		padding-block: 16px 20px;
-		position: relative;
-	}
-	.timeline li::after {
-		content: '';
-		position: absolute;
-		left: 78px;
-		top: 21px;
-		width: 13px;
-		height: 13px;
-		border-radius: 3px;
-		background: var(--accent-blue);
-		box-shadow: 2px 2px 0 0 color-mix(in srgb, var(--accent-blue) 50%, transparent);
-	}
-	.timeline .y {
-		font-family: var(--font-mono);
-		font-size: 13px;
-		color: var(--accent-blue);
-		text-align: right;
-		padding-top: 2px;
-	}
-	.timeline .t h3 {
-		font-size: 18px;
-		margin: 0 0 6px;
-	}
-	.timeline .t p {
-		margin: 0;
-		color: var(--fg-muted);
-		font-size: 15px;
-		line-height: 1.6;
 	}
 
 	/* Featured */
@@ -547,7 +370,6 @@ const timeline = [
 
 	@media (max-width: 960px) {
 		.hero-grid { grid-template-columns: 1fr; }
-		.skill-grid { grid-template-columns: 1fr; }
 		.grid { grid-template-columns: 1fr; gap: 24px; }
 	}
 </style>

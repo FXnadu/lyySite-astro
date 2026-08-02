@@ -4,10 +4,10 @@ import CoverArt from './CoverArt.astro';
 
 export interface Props {
 	project: CollectionEntry<'projects'>;
-	priority?: boolean;
+	index?: number;
 }
 
-const { project, priority = false } = Astro.props;
+const { project, index = 0 } = Astro.props;
 const { title, description, tags, pubDate, cover } = project.data;
 
 // Map cover key to generative SVG poster composition
@@ -20,130 +20,109 @@ const palette: Record<string, [string, string]> = {
 };
 const [c1, c2] = palette[cover ?? 'motion-brand'] ?? palette['motion-brand'];
 const slug = project.id;
+const num = String(index + 1).padStart(2, '0');
 ---
 
-<article class="card" data-tags={tags.join('|')}>
-	<a class="poster" href={`/projects/${slug}`} aria-label={`${title} 作品详情`}>
+<article class="work">
+	<a class="cover" href={`/projects/${slug}`} aria-label={`${title} 作品详情`}>
 		<CoverArt cover={cover} c1={c1} c2={c2} slug={slug} />
 		<span class="view">查看 →</span>
 	</a>
 
 	<div class="meta">
 		<div class="row">
-			<time class="date" datetime={pubDate.toISOString()}>
-				{pubDate.toLocaleDateString('zh-CN', { year: 'numeric', month: '2-digit' })}
+			<span class="num">{num}</span>
+			<time class="year" datetime={pubDate.toISOString()}>
+				{pubDate.getFullYear()}
 			</time>
 		</div>
-		<h3 class="title"><a href={`/projects/${slug}`}>{title}</a></h3>
-		<p class="desc">{description}</p>
+		<h2 class="title"><a href={`/projects/${slug}`}>{title}</a></h2>
 		{
 			tags.length > 0 && (
-				<ul class="tags">
-					{tags.map((tag) => <li>{tag}</li>)}
-				</ul>
+				<p class="tags">{tags.join(' · ')}</p>
 			)
 		}
 	</div>
 </article>
 
 <style>
-	.card {
+	.work {
 		display: flex;
 		flex-direction: column;
-		height: 100%;
-		background: var(--bg);
-		border: 1px solid var(--line);
-		border-radius: var(--radius);
-		overflow: hidden;
-		transition: transform 0.2s ease, box-shadow 0.2s ease;
-	}
-	.card:hover {
-		box-shadow: 0 4px 20px rgba(0,0,0,0.08);
 	}
 
-	.poster {
+	.cover {
 		position: relative;
 		display: block;
-		aspect-ratio: 16 / 9;
+		aspect-ratio: 4 / 5;
 		overflow: hidden;
+		border-radius: var(--radius);
 		background: #000;
+		box-shadow: var(--shadow-md);
+	}
+	.cover :global(.cover-art) {
+		transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+	}
+	.work:hover .cover :global(.cover-art) {
+		transform: scale(1.04);
 	}
 
 	.view {
 		position: absolute;
-		right: 10px;
-		bottom: 10px;
+		inset: 0;
+		display: flex;
+		align-items: flex-end;
+		justify-content: flex-end;
+		padding: 18px;
 		font-family: var(--font-mono);
-		font-size: 11px;
+		font-size: 12px;
+		letter-spacing: 0.04em;
 		color: #fff;
+		background: linear-gradient(to top, rgba(0,0,0,0.35), transparent 45%);
 		opacity: 0;
-		transition: opacity 0.25s;
+		transition: opacity 0.3s ease;
 	}
-	.poster:hover .view {
-		opacity: 0.7;
+	.work:hover .view {
+		opacity: 1;
 	}
 
 	.meta {
-		padding: 12px;
+		padding: 16px 4px 0;
 		display: flex;
 		flex-direction: column;
-		flex: 1;
+		gap: 6px;
 	}
 
 	.row {
 		display: flex;
-		align-items: center;
-		gap: 8px;
-		margin-bottom: 6px;
-	}
-
-	.date {
+		align-items: baseline;
+		gap: 10px;
 		font-family: var(--font-mono);
-		font-size: 11px;
+		font-size: 12px;
 		color: var(--fg-dim);
 	}
+	.num {
+		color: var(--accent);
+	}
+
 	.title {
 		font-family: var(--font-display);
-		font-size: 16px;
+		font-size: clamp(18px, 1.6vw, 22px);
 		font-weight: 600;
-		margin: 0 0 4px;
 		line-height: 1.3;
+		margin: 0;
 	}
 	.title a {
 		color: var(--fg);
+		transition: color 0.2s;
 	}
 	.title a:hover {
 		color: var(--accent);
 	}
 
-	.desc {
+	.tags {
 		font-size: 13px;
 		color: var(--fg-muted);
-		line-height: 1.5;
-		margin: 0 0 10px;
-		flex: 1;
-		display: -webkit-box;
-		-webkit-line-clamp: 2;
-		-webkit-box-orient: vertical;
-		overflow: hidden;
-	}
-
-	.tags {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 4px;
-		list-style: none;
-		padding: 0;
 		margin: 0;
-	}
-	.tags li {
-		font-size: 10px;
-		font-family: var(--font-mono);
-		color: var(--accent);
-		padding: 2px 7px;
-		border: 1px solid var(--accent);
-		border-radius: 999px;
-		background: color-mix(in srgb, var(--accent) 8%, transparent);
-		box-shadow: 2px 2px 0 0 var(--accent);
 	}
 </style>

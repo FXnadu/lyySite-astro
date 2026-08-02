@@ -1,107 +1,323 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import ProjectCard from '../../components/ProjectCard.astro';
+import { Icon } from 'astro-icon/components';
 import { getCollection } from 'astro:content';
 
 const projects = await getCollection('projects');
+const featured = [...projects]
+	.sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime())
+	.slice(0, 3);
 
-const sorted = [...projects].sort(
-	(a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime(),
-);
-
-const pageLinks = [
-	{ href: '/huihua', label: '绘画', desc: '一些水彩与数码绘画的习作。' },
-	{ href: '/lianxi', label: '练习', desc: '存放练习图片与随手记录的地方。' },
-	{ href: '/suitanglianxi', label: 'UI设计练习', desc: 'UI 设计相关的课堂练习与实践记录。' },
-	{ href: '/sheying', label: '摄影', desc: '用镜头捕捉光影与日常的片刻。' },
+const categories = [
+	{
+		slug: 'video',
+		title: '短视频剪辑',
+		desc: '账号运营、批量剪辑与叙事节奏探索',
+		tag: 'PR / 剪映',
+		icon: 'lucide:film',
+		color: '#ec4899',
+		link: '/projects/video',
+	},
+	{
+		slug: 'graphic',
+		title: '平面视觉设计',
+		desc: '海报、封面、图标与视觉排版',
+		tag: 'PS / AI',
+		icon: 'lucide:pen-tool',
+		color: '#f59e0b',
+		link: '/projects/graphic',
+	},
+	{
+		slug: 'ui',
+		title: 'UI 界面设计',
+		desc: 'APP 界面、网页与设计练习',
+		tag: 'UI / UX',
+		icon: 'lucide:layout',
+		color: '#8b5cf6',
+		link: '/suitanglianxi',
+	},
+	{
+		slug: '3d',
+		title: '三维基础创作',
+		desc: '3D 建模与基础渲染练习',
+		tag: '3dmax / Maya',
+		icon: 'lucide:box',
+		color: '#10b981',
+		link: '/projects/3d',
+	},
+	{
+		slug: 'painting',
+		title: '绘画习作',
+		desc: '水彩与数码板绘练习',
+		tag: '绘画',
+		icon: 'lucide:brush',
+		color: '#06b6d4',
+		link: '/huihua',
+	},
+	{
+		slug: 'daily',
+		title: '日常练习',
+		desc: '素材、草稿与各种尝试',
+		tag: '练习',
+		icon: 'lucide:sparkles',
+		color: '#f472b6',
+		link: '/lianxi',
+	},
 ];
 ---
 
 <Layout
 	title="作品 — liuyingying"
-	description="liuyingying 的作品索引：交互叙事、动态图形、生成式海报与 AR 装置实验。"
+	description="liuyingying 的作品集入口：短视频剪辑、平面视觉设计、UI 界面、三维基础与绘画习作。"
 >
-	<section class="head">
+	<header class="p-head">
 		<div class="container">
-			<div class="head-text">
-				<h1 class="title">作品集</h1>
-				<p class="lede">
-					收录了个人项目与课堂作品，涵盖交互设计、视觉创作与前端开发等方向。
-				</p>
+			<p class="eyebrow">PORTFOLIO</p>
+			<h1 class="title">作品</h1>
+			<p class="lede">
+				这里是我的作品集入口。不同方向的作品被分门别类整理，点击任意卡片即可查看该类别下的具体内容。
+			</p>
+		</div>
+	</header>
+
+	<section class="categories-section">
+		<div class="container">
+			<div class="section-bar">
+				<h2 class="section-title">分类浏览</h2>
+				<p class="section-desc">共 {categories.length} 个作品类别</p>
 			</div>
-			<img class="head-image" src="/images/17.jpg" alt="" aria-hidden="true" />
-		</div>
-	</section>
 
-	<section class="list container">
-		<div class="grid" data-grid>
-			{sorted.map((project) => <ProjectCard project={project} />)}
-		</div>
-
-		<ul class="page-links">
-			{
-				pageLinks.map((p) => (
-					<li>
-						<a href={p.href}>
-							<span class="label">{p.label}</span>
-							<span class="desc">{p.desc}</span>
+			<div class="category-grid">
+				{
+					categories.map((cat, i) => (
+						<a class="category-card" href={cat.link} style={`--card-accent: ${cat.color}`}>
+							<span class="card-num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+							<div class="card-icon">
+								<Icon name={cat.icon} size={24} />
+							</div>
+							<div class="card-body">
+								<h3 class="card-title">{cat.title}</h3>
+								<p class="card-desc">{cat.desc}</p>
+								<div class="card-footer">
+									<span class="card-tag">{cat.tag}</span>
+									<span class="card-arrow" aria-hidden="true">→</span>
+								</div>
+							</div>
 						</a>
-					</li>
-				))
-			}
-		</ul>
+					))
+				}
+			</div>
+		</div>
 	</section>
+
+	{
+		featured.length > 0 && (
+			<section class="featured-section">
+				<div class="container">
+					<div class="section-bar">
+						<h2 class="section-title">精选项目</h2>
+						<p class="section-desc">值得单独展开说明的作品</p>
+					</div>
+
+					<ul class="featured-list">
+						{featured.map((project) => (
+							<li>
+								<a href={`/projects/${project.id}`}>
+									<span class="featured-title">{project.data.title}</span>
+									<span class="featured-tags">
+										{project.data.tags.slice(0, 3).join(' · ')}
+									</span>
+								</a>
+							</li>
+						))}
+					</ul>
+				</div>
+			</section>
+		)
+	}
 </Layout>
 
 <style>
-	.head {
-		padding-block: clamp(48px, 7vw, 80px) clamp(28px, 4vw, 40px);
-		overflow: hidden;
+	/* ── 页头 ── */
+	.p-head {
+		padding-block: clamp(72px, 12vw, 140px) clamp(40px, 6vw, 72px);
 	}
-	.head > .container {
-		display: grid;
-		grid-template-columns: 1fr auto;
-		align-items: center;
-		gap: clamp(24px, 4vw, 48px);
+	.p-head > .container {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
 	}
-	.head-text {
-		min-width: 0;
-	}
-	.head-image {
-		width: clamp(180px, 35vw, 520px);
-		height: auto;
-		mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, #000 30%, transparent 80%);
-		-webkit-mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, #000 30%, transparent 80%);
+	.eyebrow {
+		font-family: var(--font-mono);
+		font-size: 13px;
+		letter-spacing: 0.22em;
+		color: var(--accent);
+		margin: 0 0 18px;
 	}
 	.title {
-		font-size: clamp(32px, 5vw, 56px);
+		font-size: clamp(44px, 8vw, 96px);
 		font-weight: 600;
-		line-height: 1.1;
-		letter-spacing: -0.01em;
-		margin-bottom: 16px;
+		line-height: 1.05;
+		letter-spacing: -0.02em;
+		margin: 0 0 24px;
 	}
 	.lede {
 		color: var(--fg-muted);
-		font-size: clamp(16px, 1.6vw, 18px);
-		max-width: 60ch;
-		line-height: 1.7;
-		margin-bottom: 28px;
+		font-size: clamp(16px, 1.6vw, 19px);
+		max-width: 56ch;
+		line-height: 1.75;
+		margin: 0;
 	}
 
-	.list {
-		padding-block: clamp(24px, 3vw, 36px) clamp(40px, 6vw, 64px);
+	/* ── 公共 section 标题 ── */
+	.section-bar {
+		display: flex;
+		justify-content: space-between;
+		align-items: baseline;
+		gap: 16px;
+		margin-bottom: 32px;
+		flex-wrap: wrap;
 	}
-	.grid {
+	.section-title {
+		font-family: var(--font-display);
+		font-size: clamp(22px, 3vw, 32px);
+		font-weight: 500;
+		margin: 0;
+	}
+	.section-desc {
+		font-family: var(--font-mono);
+		font-size: 13px;
+		color: var(--fg-dim);
+		margin: 0;
+	}
+
+	/* ── 分类卡片 ── */
+	.categories-section {
+		padding-block: clamp(24px, 4vw, 48px) clamp(56px, 8vw, 96px);
+		border-bottom: 1px solid var(--line);
+	}
+	.category-grid {
 		display: grid;
-		grid-template-columns: repeat(4, 1fr);
+		grid-template-columns: repeat(3, 1fr);
 		gap: 20px;
 	}
 
-	@media (max-width: 1100px) { .grid { grid-template-columns: repeat(3, 1fr); } }
-	@media (max-width: 860px) { .grid { grid-template-columns: repeat(2, 1fr); } }
-	@media (max-width: 540px) { .grid { grid-template-columns: 1fr; } }
+	.category-card {
+		--card-accent: var(--accent);
+		display: grid;
+		grid-template-columns: auto 1fr;
+		align-items: start;
+		gap: 16px;
+		padding: 22px;
+		background: var(--bg);
+		border: 1.5px solid var(--line);
+		border-radius: var(--radius);
+		box-shadow: 4px 4px 0 0 var(--line);
+		transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.2s ease;
+		position: relative;
+		overflow: hidden;
+	}
+	.category-card::before {
+		content: '';
+		position: absolute;
+		inset: 0;
+		pointer-events: none;
+		background: radial-gradient(
+			circle at 100% 0%,
+			color-mix(in srgb, var(--card-accent) 12%, transparent) 0%,
+			transparent 40%
+		);
+		opacity: 0;
+		transition: opacity 0.25s ease;
+	}
+	.category-card:hover {
+		transform: translate(-2px, -2px);
+		box-shadow: 6px 6px 0 0 color-mix(in srgb, var(--card-accent) 35%, var(--line));
+		border-color: color-mix(in srgb, var(--card-accent) 50%, var(--line));
+	}
+	.category-card:hover::before {
+		opacity: 1;
+	}
+	.category-card:hover .card-arrow {
+		transform: translateX(4px);
+	}
+	.category-card:hover .card-icon {
+		background: color-mix(in srgb, var(--card-accent) 18%, var(--bg));
+	}
 
-	.page-links {
+	.card-num {
+		position: absolute;
+		top: 14px;
+		right: 16px;
+		font-family: var(--font-mono);
+		font-size: 12px;
+		color: var(--fg-dim);
+		opacity: 0.6;
+	}
+	.card-icon {
+		grid-row: span 2;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 48px;
+		height: 48px;
+		flex-shrink: 0;
+		color: var(--card-accent);
+		background: color-mix(in srgb, var(--card-accent) 10%, var(--bg));
+		border: 1.5px solid color-mix(in srgb, var(--card-accent) 40%, var(--line));
+		border-radius: 12px;
+		box-shadow: 2px 2px 0 0 color-mix(in srgb, var(--card-accent) 30%, var(--line));
+		transition: background 0.2s ease;
+	}
+	.card-body {
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+		min-width: 0;
+	}
+	.card-title {
+		font-family: var(--font-display);
+		font-size: clamp(18px, 1.7vw, 22px);
+		font-weight: 600;
+		line-height: 1.25;
+		margin: 0;
+		color: var(--fg);
+	}
+	.card-desc {
+		font-size: 14px;
+		color: var(--fg-muted);
+		line-height: 1.6;
+		margin: 0;
+	}
+	.card-footer {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 12px;
+		margin-top: 4px;
+	}
+	.card-tag {
+		font-family: var(--font-mono);
+		font-size: 11px;
+		letter-spacing: 0.04em;
+		color: var(--card-accent);
+		padding: 4px 10px;
+		border: 1.5px solid color-mix(in srgb, var(--card-accent) 50%, var(--line));
+		border-radius: 999px;
+		background: color-mix(in srgb, var(--card-accent) 8%, var(--bg));
+	}
+	.card-arrow {
+		font-family: var(--font-mono);
+		font-size: 18px;
+		color: var(--card-accent);
+		transition: transform 0.2s ease;
+	}
+
+	/* ── 精选项目 ── */
+	.featured-section {
+		padding-block: clamp(56px, 8vw, 96px);
+	}
+	.featured-list {
 		list-style: none;
 		padding: 0;
 		margin: 0;
@@ -109,41 +325,47 @@ const pageLinks = [
 		flex-direction: column;
 		gap: 12px;
 	}
-	.page-links li {
-		border-radius: 14px;
-		position: relative;
-		background: transparent;
-		border: 1.5px solid var(--line-strong);
+	.featured-list li a {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 16px;
+		padding: 18px 20px;
+		background: var(--bg);
+		border: 1.5px solid var(--line);
+		border-radius: var(--radius-sm);
 		box-shadow: 3px 3px 0 0 var(--line);
-		transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.2s ease;
+		transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.2s ease;
 	}
-	.page-links li:hover {
-		transform: translate(1px, 1px);
-		box-shadow: 2px 2px 0 0 var(--line);
+	.featured-list li a:hover {
+		transform: translate(-1px, -1px);
+		box-shadow: 4px 4px 0 0 var(--line);
+		border-color: var(--accent);
 	}
-	.page-links li:active {
-		transform: translate(3px, 3px);
-		box-shadow: 0 0 0 0 var(--line);
-	}
-	.page-links a {
-		display: grid;
-		gap: 8px 24px;
-		padding: 20px 24px;
-		width: 100%;
+	.featured-title {
+		font-size: 18px;
+		font-weight: 500;
 		color: var(--fg);
-		text-decoration: none;
-		border-radius: 14px;
 	}
-	.page-links .label {
-		grid-column: 1;
-		font-size: clamp(18px, 2.2vw, 24px);
-		font-weight: 600;
-	}
-	.page-links .desc {
-		grid-column: 1;
-		font-size: 14px;
-		color: var(--fg-muted);
-		line-height: 1.55;
+	.featured-tags {
+		font-family: var(--font-mono);
+		font-size: 12px;
+		color: var(--fg-dim);
+		flex-shrink: 0;
 	}
 
+	/* ── 响应式 ── */
+	@media (max-width: 980px) {
+		.category-grid { grid-template-columns: repeat(2, 1fr); }
+	}
+	@media (max-width: 620px) {
+		.category-grid { grid-template-columns: 1fr; }
+		.category-card { grid-template-columns: auto 1fr; }
+		.section-bar { margin-bottom: 24px; }
+		.featured-list li a {
+			flex-direction: column;
+			align-items: flex-start;
+			gap: 6px;
+		}
+	}
 </style>

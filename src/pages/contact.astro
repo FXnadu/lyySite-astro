@@ -1,21 +1,16 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { Icon } from 'astro-icon/components';
+import fs from 'node:fs';
 
 const channels = [
-	{ label: '邮箱', value: '2228099764@qq.com', href: 'mailto:2228099764@qq.com' },
-	{ label: 'QQ', value: '2228099764', href: 'https://wpa.qq.com/msgrd?v=3&uin=2228099764&site=qq&menu=yes' },
-	{ label: '微信', value: 'lyy_work', href: 'weixin://contacts/profile/lyy_work' },
-	{ label: '手机', value: '暂未公开', href: null },
+	{ label: '邮箱', value: '1753500838@qq.com', href: 'mailto:1753500838@qq.com' },
+	{ label: 'QQ', value: '1753500838', href: 'https://wpa.qq.com/msgrd?v=3&uin=1753500838&site=qq&menu=yes' },
+	{ label: '微信', value: 'L-D_220815', href: null },
 ];
 
-const socials = [
-	{ label: 'Bilibili', icon: 'simple-icons:bilibili' },
-	{ label: '小红书', icon: 'simple-icons:xiaohongshu' },
-	{ label: '微博', icon: 'simple-icons:sinaweibo' },
-	{ label: '站酷', icon: 'simple-icons:zcool' },
-];
-
+const resumeFiles = fs.readdirSync('public/resume').filter((f) => f.endsWith('.pdf')).sort();
+const resumePath = resumeFiles[0] ? `/resume/${resumeFiles[0]}` : null;
 
 ---
 
@@ -28,7 +23,6 @@ const socials = [
 			<div class="hero-text">
 				<h1 class="title">联系与简历</h1>
 			</div>
-			<img class="hero-image" src="/images/13.png" alt="" aria-hidden="true" />
 		</div>
 	</section>
 
@@ -48,28 +42,26 @@ const socials = [
 								) : (
 									<span>{c.value}</span>
 								)}
+								<button class="copy-btn" type="button" data-copy={c.value} aria-label="复制" title="复制">
+									<Icon name="lucide:copy" size={16} class="copy-icon" />
+									<Icon name="lucide:check" size={16} class="check-icon" />
+								</button>
 							</div>
 						</li>
 					))
 				}
 				</ul>
 
-				<h2>简历</h2>
-				<a class="resume-btn" href="/resume.pdf" download>
-					下载 PDF 简历
-					<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 4v12m0 0l-5-5m5 5l5-5M4 20h16"/></svg>
-				</a>
-
-				<h2>社交账号</h2>
-				<div class="social-btns">
-				{
-					socials.map((s) => (
-						<a class="social-btn social-btn--placeholder" href="#" aria-label={s.label} title={s.label}>
-							<Icon name={s.icon} size={20} />
+				{resumePath && (
+					<>
+						<h2>简历</h2>
+						<a class="resume-btn" href={resumePath} download>
+							下载 PDF 简历
+							<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 4v12m0 0l-5-5m5 5l5-5M4 20h16"/></svg>
 						</a>
-					))
-				}
-				</div>
+					</>
+				)}
+
 			</div>
 
 		</div>
@@ -78,6 +70,26 @@ const socials = [
 
 </Layout>
 
+<script>
+	document.querySelectorAll('.copy-btn').forEach((btn) => {
+		btn.addEventListener('click', async () => {
+			const text = btn.dataset.copy || '';
+			try {
+				await navigator.clipboard.writeText(text);
+			} catch {
+				const input = document.createElement('input');
+				input.value = text;
+				document.body.appendChild(input);
+				input.select();
+				document.execCommand('copy');
+				document.body.removeChild(input);
+			}
+			btn.classList.add('copied');
+			setTimeout(() => btn.classList.remove('copied'), 1500);
+		});
+	});
+</script>
+
 <style>
 	.hero {
 		padding-block: clamp(56px, 8vw, 96px) clamp(28px, 4vw, 40px);
@@ -85,19 +97,13 @@ const socials = [
 		overflow: hidden;
 	}
 	.hero > .container {
-		display: grid;
-		grid-template-columns: 1fr auto;
-		align-items: center;
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
 		gap: clamp(24px, 4vw, 48px);
 	}
 	.hero-text {
 		min-width: 0;
-	}
-	.hero-image {
-		width: clamp(180px, 35vw, 520px);
-		height: auto;
-		mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, #000 30%, transparent 80%);
-		-webkit-mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, #000 30%, transparent 80%);
 	}
 	.title {
 		font-size: clamp(32px, 5vw, 54px);
@@ -150,7 +156,12 @@ const socials = [
 		color: var(--fg-dim);
 		letter-spacing: 0.06em;
 	}
-	.ch-value { font-size: 16px; }
+	.ch-value {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		font-size: 16px;
+	}
 	.ch-value a {
 		color: var(--fg);
 		text-decoration: none;
@@ -161,6 +172,33 @@ const socials = [
 		border-bottom-color: var(--accent-yellow);
 	}
 	.ch-value span { color: var(--fg); }
+
+	.copy-btn {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 32px;
+		height: 32px;
+		padding: 0;
+		color: var(--fg-muted);
+		background: transparent;
+		border: 1px solid var(--line);
+		border-radius: 8px;
+		cursor: pointer;
+		transition: color 0.2s, border-color 0.2s, background 0.2s;
+	}
+	.copy-btn:hover {
+		color: var(--accent);
+		border-color: var(--accent);
+		background: color-mix(in srgb, var(--accent) 10%, transparent);
+	}
+	.copy-btn .check-icon { display: none; }
+	.copy-btn.copied .copy-icon { display: none; }
+	.copy-btn.copied .check-icon { display: inline-flex; }
+	.copy-btn.copied {
+		color: var(--accent);
+		border-color: var(--accent);
+	}
 
 	.resume-btn {
 		display: inline-flex;
@@ -183,30 +221,6 @@ const socials = [
 	.resume-btn:active {
 		transform: translate(3px, 3px);
 		box-shadow: 0 0 0 0 var(--accent-red);
-	}
-
-	.social-btns {
-		display: flex;
-		gap: 12px;
-		flex-wrap: wrap;
-	}
-
-	.social-btn {
-		display: inline-flex;
-		align-items: center;
-		justify-content: center;
-		width: 44px;
-		height: 44px;
-		color: var(--fg-muted);
-		background: transparent;
-		border: 1.5px dashed var(--line-strong);
-		border-radius: 12px;
-		opacity: 0.45;
-		transition: opacity 0.2s ease, border-color 0.2s ease;
-	}
-	.social-btn:hover {
-		opacity: 0.7;
-		border-color: var(--fg-muted);
 	}
 
 	.quote {

@@ -1,0 +1,304 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import { Icon } from 'astro-icon/components';
+
+// 短视频作品列表
+// src 可以是外部链接（如 CDN / OSS），也可以是本地文件路径（如 /works/video/xxx.mp4）
+const videos = [
+	{
+		title: '王者荣耀-嫦娥-剪辑',
+		desc: '王者荣耀嫦娥角色剪辑练习',
+		poster: '',
+		src: 'https://deepwhite-workspace.oss-cn-guangzhou.aliyuncs.com/%E7%8E%8B%E8%80%85%E8%8D%A3%E8%80%80-%E5%AB%A6%E5%A8%A5-%E5%89%AA%E8%BE%91.mp4',
+		tools: ['剪映'],
+		duration: '00:42',
+		date: '2025',
+	},
+	{
+		title: '美食',
+		desc: '美食短视频剪辑',
+		poster: '',
+		src: 'https://deepwhite-workspace.oss-cn-guangzhou.aliyuncs.com/%E7%BE%8E%E9%A3%9F.mp4',
+		tools: ['剪映'],
+		duration: '',
+		date: '2025',
+	},
+	{
+		title: '婚礼',
+		desc: '婚礼剪辑',
+		poster: '',
+		src: 'https://deepwhite-workspace.oss-cn-guangzhou.aliyuncs.com/%E5%A9%9A%E7%A4%BC.mp4',
+		tools: ['剪映'],
+		duration: '',
+		date: '2025',
+	},
+	{
+		title: 'vlog',
+		desc: 'vlog 短视频',
+		poster: '',
+		src: 'https://deepwhite-workspace.oss-cn-guangzhou.aliyuncs.com/vlog.mp4',
+		tools: ['剪映'],
+		duration: '',
+		date: '2025',
+	},
+];
+
+const hasVideos = true;
+---
+
+<Layout
+	title="短视频剪辑 — liuyingying"
+	description="liuyingying 的短视频剪辑作品集：账号运营、批量剪辑与叙事节奏探索。"
+>
+	<header class="p-head">
+		<div class="container">
+			<a class="back" href="/projects">
+				<Icon name="lucide:arrow-left" size={16} />
+				返回作品
+			</a>
+			<h1 class="title">短视频剪辑</h1>
+			
+		</div>
+	</header>
+
+	<section class="gallery-section">
+		<div class="container">
+			{
+				hasVideos ? (
+					<div class="video-grid">
+						{
+							videos.map((video) => (
+								<article class="video-card">
+									<div class="player">
+										<video
+											controls
+											preload="metadata"
+											poster={video.poster}
+											src={video.src}
+										/>
+									</div>
+									<div class="meta">
+										<div class="title-row">
+											<h2 class="video-title">{video.title}</h2>
+											<div class="tools">
+												{video.tools.map((tool) => <span class="tag">{tool}</span>)}
+											</div>
+										</div>
+									</div>
+								</article>
+							))
+						}
+					</div>
+				) : (
+					<div class="empty">
+						<div class="empty-icon">
+							<Icon name="lucide:folder-open" size={48} />
+						</div>
+						<h2 class="empty-title">视频素材待补充</h2>
+						<p class="empty-desc">
+							请把视频文件（以及可选的封面图）复制到项目目录下的
+							<code>public/works/video/</code>，然后打开
+							<code>src/pages/projects/video/index.astro</code> 修改
+							<code>videos</code> 数组中的路径和信息。
+						</p>
+						<div class="empty-steps">
+							<p>建议步骤：</p>
+							<ol>
+								<li>在 <code>public</code> 下新建 <code>works/video/</code> 文件夹</li>
+								<li>放入 <code>1.mp4</code>、<code>2.mp4</code> 等视频文件</li>
+								<li>（可选）放入同名的封面图 <code>1-cover.jpg</code></li>
+								<li>在代码里把 <code>hasVideos</code> 改成 <code>true</code></li>
+								<li>把 <code>videos</code> 数组中的示例替换成真实信息</li>
+							</ol>
+						</div>
+					</div>
+				)
+			}
+		</div>
+	</section>
+</Layout>
+
+<style>
+	.p-head {
+		padding-block: clamp(56px, 8vw, 96px) clamp(28px, 4vw, 40px);
+		border-bottom: 1px solid var(--line);
+	}
+	.back {
+		display: inline-flex;
+		align-items: center;
+		gap: 6px;
+		font-family: var(--font-mono);
+		font-size: 13px;
+		color: var(--accent);
+		padding: 8px 14px;
+		border: 1.5px solid var(--accent);
+		border-radius: 10px;
+		background: color-mix(in srgb, var(--accent) 8%, transparent);
+		box-shadow: 2px 2px 0 0 var(--accent);
+		margin-bottom: 22px;
+		transition: transform 0.15s ease, box-shadow 0.15s ease;
+	}
+	.back:hover {
+		transform: translate(1px, 1px);
+		box-shadow: 1px 1px 0 0 var(--accent);
+	}
+	.title {
+		font-size: clamp(32px, 5vw, 54px);
+		font-weight: 600;
+		letter-spacing: -0.01em;
+		line-height: 1.2;
+		margin: 0 0 16px;
+	}
+	.lede {
+		color: var(--fg-muted);
+		font-size: clamp(16px, 1.6vw, 18px);
+		max-width: 56ch;
+		line-height: 1.7;
+		margin: 0;
+	}
+	.lede code {
+		font-family: var(--font-mono);
+		font-size: 0.9em;
+		color: var(--accent);
+		background: color-mix(in srgb, var(--accent) 8%, transparent);
+		padding: 2px 6px;
+		border-radius: 6px;
+	}
+
+	.gallery-section {
+		padding-block: clamp(40px, 6vw, 64px);
+	}
+
+	.video-grid {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		gap: 28px;
+	}
+	.video-card {
+		background: var(--bg);
+		border: 1.5px solid var(--line);
+		border-radius: 5px;
+		box-shadow: 4px 4px 0 0 var(--line);
+		overflow: hidden;
+		clip-path: inset(0 round 5px);
+	}
+	.player {
+		aspect-ratio: 16 / 9;
+		background: var(--bg-soft);
+		line-height: 0;
+		position: relative;
+		overflow: hidden;
+		border-radius: 5px 5px 0 0;
+		clip-path: inset(0 round 5px 5px 0 0);
+	}
+	.player video {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		display: block;
+		cursor: pointer;
+		border-radius: 5px 5px 0 0;
+	}
+	.player:fullscreen,
+	.player:fullscreen video {
+		border-radius: 0;
+		clip-path: none;
+	}
+	.meta {
+		padding: 18px 20px 20px;
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+	}
+	.video-title {
+		font-family: var(--font-display);
+		font-size: 20px;
+		font-weight: 600;
+		line-height: 1.3;
+		margin: 0;
+	}
+	.title-row {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 12px;
+		flex-wrap: wrap;
+	}
+	.tools {
+		display: flex;
+		gap: 6px;
+		flex-wrap: wrap;
+		flex-shrink: 0;
+	}
+	.tag {
+		font-family: var(--font-mono);
+		font-size: 12px;
+		color: var(--accent);
+		padding: 3px 8px;
+		border: 1.5px solid var(--accent);
+		border-radius: 999px;
+		background: color-mix(in srgb, var(--accent) 8%, transparent);
+	}
+	.empty {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		text-align: center;
+		padding-block: clamp(56px, 10vw, 120px);
+		max-width: 640px;
+		margin-inline: auto;
+	}
+	.empty-icon {
+		color: var(--accent);
+		margin-bottom: 18px;
+		opacity: 0.8;
+	}
+	.empty-title {
+		font-family: var(--font-display);
+		font-size: clamp(22px, 3vw, 28px);
+		font-weight: 600;
+		margin: 0 0 10px;
+	}
+	.empty-desc {
+		font-size: 15px;
+		color: var(--fg-muted);
+		line-height: 1.7;
+		margin: 0 0 24px;
+	}
+	.empty-desc code,
+	.empty-steps code {
+		font-family: var(--font-mono);
+		font-size: 0.9em;
+		color: var(--accent);
+		background: color-mix(in srgb, var(--accent) 8%, transparent);
+		padding: 2px 6px;
+		border-radius: 6px;
+	}
+	.empty-steps {
+		text-align: left;
+		background: var(--bg-soft);
+		border: 1.5px solid var(--line);
+		border-radius: var(--radius-sm);
+		padding: 20px 24px;
+		width: 100%;
+	}
+	.empty-steps p {
+		font-weight: 500;
+		margin: 0 0 12px;
+	}
+	.empty-steps ol {
+		margin: 0;
+		padding-left: 1.2em;
+		font-size: 14px;
+		color: var(--fg-muted);
+		line-height: 1.8;
+	}
+	.empty-steps li {
+		margin-bottom: 6px;
+	}
+
+	@media (max-width: 860px) {
+		.video-grid { grid-template-columns: 1fr; }
+	}
+</style>
+
