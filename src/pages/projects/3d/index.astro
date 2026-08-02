@@ -1,0 +1,308 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import { Image } from 'astro:assets';
+import { Icon } from 'astro-icon/components';
+import path from 'node:path';
+import type { ImageMetadata } from 'astro';
+
+// 自动导入 src/assets/works/3d/ 下的图片
+const modules = import.meta.glob('/src/assets/works/3d/*.{jpg,jpeg,png,webp,gif,avif,bmp}', {
+	eager: true,
+});
+
+function getFileNameWithoutExt(filePath: string) {
+	return path.basename(filePath, path.extname(filePath));
+}
+
+function extractImage(mod: unknown): ImageMetadata | undefined {
+	if (!mod || typeof mod !== 'object') return undefined;
+	const rec = mod as Record<string, unknown>;
+	const target = rec.default || rec;
+	if (target && typeof target === 'object' && typeof (target as ImageMetadata).src === 'string') {
+		return target as ImageMetadata;
+	}
+	return undefined;
+}
+
+const images = Object.entries(modules)
+	.map(([filePath, mod]) => {
+		const image = extractImage(mod);
+		if (!image) return null;
+		return {
+			title: getFileNameWithoutExt(filePath),
+			image,
+			width: image.width,
+			height: image.height,
+		};
+	})
+	.filter((item): item is { title: string; image: ImageMetadata; width: number; height: number } => item !== null);
+
+const hasImages = images.length > 0;
+---
+
+<Layout
+	title="三维基础创作 — liuyingying"
+	description="liuyingying 的三维基础创作作品集：3D 建模与基础渲染练习。"
+>
+	<header class="p-head">
+		<div class="container">
+			<a class="back" href="/projects">
+				<Icon name="lucide:arrow-left" size={16} />
+				返回作品
+			</a>
+			<h1 class="title">三维基础创作</h1>
+			<p class="lede">
+				3D 建模与基础渲染练习，使用 3dmax、Maya 进行创作。点击下方图片可放大查看。
+			</p>
+		</div>
+	</header>
+
+	<section class="gallery-section">
+		<div class="container">
+			{
+				hasImages ? (
+					<div class="image-grid">
+						{
+							images.map((img) => (
+								<article class="image-card">
+									<button class="thumb" type="button" data-src={img.image.src} aria-label={`查看 ${img.title}`}>
+										<Image src={img.image} alt={img.title} width={img.width} height={img.height} loading="lazy" decoding="async" />
+									</button>
+									<h2 class="image-title">{img.title}</h2>
+								</article>
+							))
+						}
+					</div>
+				) : (
+					<div class="empty">
+						<div class="empty-icon">
+							<Icon name="lucide:folder-open" size={48} />
+						</div>
+						<h2 class="empty-title">三维作品待补充</h2>
+						<p class="empty-desc">
+							请把三维渲染图片放入 <code>src/assets/works/3d/</code>，页面会自动读取。
+						</p>
+					</div>
+				)
+			}
+		</div>
+	</section>
+
+	<div class="lightbox" id="lightbox" hidden>
+		<button class="lightbox-close" type="button" aria-label="关闭">
+			<Icon name="lucide:x" size={28} />
+		</button>
+		<img class="lightbox-img" src="" alt="" />
+	</div>
+</Layout>
+
+<script>
+	const lightbox = document.getElementById('lightbox');
+	const lightboxImg = lightbox?.querySelector('.lightbox-img');
+	const closeBtn = lightbox?.querySelector('.lightbox-close');
+
+	document.querySelectorAll('.thumb').forEach((btn) => {
+		btn.addEventListener('click', () => {
+			const src = btn.dataset.src;
+			if (!src || !lightboxImg || !lightbox) return;
+			lightboxImg.src = src;
+			lightboxImg.alt = btn.querySelector('img')?.alt || '';
+			lightbox.hidden = false;
+			document.body.style.overflow = 'hidden';
+		});
+	});
+
+	function close() {
+		if (!lightbox) return;
+		lightbox.hidden = true;
+		if (lightboxImg) lightboxImg.src = '';
+		document.body.style.overflow = '';
+	}
+
+	closeBtn?.addEventListener('click', close);
+	lightbox?.addEventListener('click', (e) => {
+		if (e.target === lightbox) close();
+	});
+	document.addEventListener('keydown', (e) => {
+		if (e.key === 'Escape') close();
+	});
+</script>
+
+<style>
+	.container {
+		width: min(1200px, calc(100% - 48px));
+		margin-inline: auto;
+	}
+	.p-head {
+		padding-block: clamp(48px, 8vw, 80px) 24px;
+	}
+	.back {
+		display: inline-flex;
+		align-items: center;
+		gap: 6px;
+		font-family: var(--font-mono);
+		font-size: 13px;
+		color: var(--accent);
+		text-decoration: none;
+		padding: 8px 14px;
+		border: 1.5px solid var(--accent);
+		border-radius: 10px;
+		background: color-mix(in srgb, var(--accent) 8%, transparent);
+		box-shadow: 2px 2px 0 0 var(--accent);
+		margin-bottom: 22px;
+		transition: transform 0.15s ease, box-shadow 0.15s ease;
+	}
+	.back:hover {
+		transform: translate(1px, 1px);
+		box-shadow: 1px 1px 0 0 var(--accent);
+	}
+	.title {
+		font-size: clamp(32px, 5vw, 54px);
+		font-weight: 600;
+		letter-spacing: -0.01em;
+		line-height: 1.2;
+		margin: 0 0 16px;
+	}
+	.lede {
+		color: var(--fg-muted);
+		font-size: clamp(16px, 1.6vw, 18px);
+		max-width: 56ch;
+		line-height: 1.7;
+		margin: 0;
+	}
+	.lede code {
+		font-family: var(--font-mono);
+		font-size: 0.9em;
+		color: var(--accent);
+		background: color-mix(in srgb, var(--accent) 8%, transparent);
+		padding: 2px 6px;
+		border-radius: 6px;
+	}
+
+	.gallery-section {
+		padding-block: clamp(40px, 6vw, 64px);
+	}
+	.image-grid {
+		column-count: 3;
+		column-gap: 28px;
+	}
+	.image-card {
+		background: var(--bg);
+		border: 1.5px solid var(--line);
+		border-radius: 5px;
+		box-shadow: 4px 4px 0 0 var(--line);
+		overflow: hidden;
+		clip-path: inset(0 round 5px);
+		break-inside: avoid;
+		margin-bottom: 28px;
+	}
+	.thumb {
+		width: 100%;
+		background: var(--bg-soft);
+		border: none;
+		padding: 0;
+		margin: 0;
+		cursor: zoom-in;
+		overflow: hidden;
+		line-height: 0;
+		border-radius: 5px 5px 0 0;
+		clip-path: inset(0 round 5px 5px 0 0);
+	}
+	.thumb :global(img) {
+		width: 100%;
+		height: auto;
+		display: block;
+		transition: transform 0.25s ease;
+	}
+	.thumb:hover :global(img) {
+		transform: scale(1.03);
+	}
+	.image-title {
+		font-family: var(--font-display);
+		font-size: 16px;
+		font-weight: 600;
+		line-height: 1.3;
+		margin: 0;
+		padding: 14px 16px;
+	}
+	.empty {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		text-align: center;
+		padding-block: clamp(56px, 10vw, 120px);
+		max-width: 640px;
+		margin-inline: auto;
+	}
+	.empty-icon {
+		color: var(--accent);
+		margin-bottom: 18px;
+		opacity: 0.8;
+	}
+	.empty-title {
+		font-family: var(--font-display);
+		font-size: clamp(22px, 3vw, 28px);
+		font-weight: 600;
+		margin: 0 0 10px;
+	}
+	.empty-desc {
+		font-size: 15px;
+		color: var(--fg-muted);
+		line-height: 1.7;
+		margin: 0;
+	}
+	.empty-desc code {
+		font-family: var(--font-mono);
+		font-size: 0.9em;
+		color: var(--accent);
+		background: color-mix(in srgb, var(--accent) 8%, transparent);
+		padding: 2px 6px;
+		border-radius: 6px;
+	}
+
+	.lightbox {
+		position: fixed;
+		inset: 0;
+		z-index: 1000;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		background: rgba(0, 0, 0, 0.9);
+		padding: 40px;
+	}
+	.lightbox[hidden] {
+		display: none;
+	}
+	.lightbox-img {
+		max-width: 100%;
+		max-height: 100%;
+		object-fit: contain;
+		border-radius: 4px;
+	}
+	.lightbox-close {
+		position: absolute;
+		top: 20px;
+		right: 20px;
+		width: 44px;
+		height: 44px;
+		border: none;
+		border-radius: 50%;
+		background: rgba(255, 255, 255, 0.15);
+		color: #fff;
+		cursor: pointer;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		transition: background 0.2s ease;
+	}
+	.lightbox-close:hover {
+		background: rgba(255, 255, 255, 0.3);
+	}
+
+	@media (max-width: 1024px) {
+		.image-grid { column-count: 2; }
+	}
+	@media (max-width: 640px) {
+		.image-grid { column-count: 1; }
+	}
+</style>

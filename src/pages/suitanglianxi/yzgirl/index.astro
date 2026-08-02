@@ -1,0 +1,160 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+
+const images = [
+	{ src: '/UI/yzgirl/起始页.webp', title: '起始页' },
+	{ src: '/UI/yzgirl/引导-1.webp', title: '引导-1' },
+	{ src: '/UI/yzgirl/引导-2.webp', title: '引导-2' },
+	{ src: '/UI/yzgirl/引导-3.webp', title: '引导-3' },
+	{ src: '/UI/yzgirl/登录页.webp', title: '登录页' },
+	{ src: '/UI/yzgirl/注册页.webp', title: '注册页' },
+	{ src: '/UI/yzgirl/首页.webp', title: '首页' },
+	{ src: '/UI/yzgirl/商城.webp', title: '商城' },
+	{ src: '/UI/yzgirl/社区页.webp', title: '社区页' },
+	{ src: '/UI/yzgirl/我的.webp', title: '我的' },
+	{ src: '/UI/yzgirl/预约页.webp', title: '预约页' },
+	{ src: '/UI/yzgirl/会员体系.webp', title: '会员体系' },
+	{ src: '/UI/yzgirl/创新页1数字化体验.webp', title: '创新页1数字化体验' },
+	{ src: '/UI/yzgirl/英州姑娘展板1.webp', title: '英州姑娘展板1' },
+	{ src: '/UI/yzgirl/英州姑娘展板3.webp', title: '英州姑娘展板3' },
+];
+---
+
+<Layout
+	title="英州姑娘 UI 设计 — liuyingying"
+	description="英州姑娘 APP 界面设计练习。"
+>
+	<section class="hero">
+		<div class="container">
+			<a class="back" href="/suitanglianxi">← 返回 UI 界面设计</a>
+			<h1 class="title">英州姑娘</h1>
+			<p class="lede">英州姑娘 APP 界面设计练习作品。</p>
+		</div>
+	</section>
+
+	{
+		images.length > 0 ? (
+			<section class="gallery">
+				<div class="container">
+					<div class="grid">
+						{images.map((img) => (
+							<figure class="item">
+								<img class="thumb" src={img.src} alt={img.title} loading="lazy" />
+								<figcaption class="caption">
+									<span class="caption-title">{img.title}</span>
+								</figcaption>
+							</figure>
+						))}
+					</div>
+				</div>
+			</section>
+		) : (
+			<section class="empty">
+				<div class="container">
+					<p class="empty-text">暂无作品，请将图片放入 <code>public/UI/yzgirl/</code> 文件夹。</p>
+				</div>
+			</section>
+		)
+	}
+</Layout>
+
+<style>
+	.hero {
+		padding-block: clamp(40px, 6vw, 72px) clamp(24px, 3vw, 36px);
+		border-bottom: 1px solid var(--line);
+	}
+	.back {
+		display: inline-block;
+		font-size: 14px;
+		color: var(--fg-muted);
+		text-decoration: none;
+		margin-bottom: 16px;
+		transition: color 0.2s;
+	}
+	.back:hover {
+		color: var(--accent);
+	}
+	.title {
+		font-size: clamp(32px, 5vw, 54px);
+		font-weight: 600;
+		letter-spacing: -0.01em;
+		line-height: 1.2;
+		margin: 0 0 16px;
+	}
+	.lede {
+		color: var(--fg-muted);
+		font-size: clamp(16px, 1.6vw, 18px);
+		max-width: 50ch;
+		line-height: 1.7;
+		margin: 0;
+	}
+
+	.gallery {
+		padding-block: clamp(36px, 5vw, 56px);
+	}
+
+	.grid {
+		columns: 3;
+		column-gap: 10px;
+	}
+	@media (max-width: 860px) {
+		.grid { columns: 2; }
+	}
+	@media (max-width: 540px) {
+		.grid { columns: 1; }
+	}
+
+	.item {
+		margin: 0 0 10px;
+		border-radius: var(--radius-sm);
+		overflow: hidden;
+		position: relative;
+		cursor: pointer;
+		background: var(--bg-soft);
+		break-inside: avoid;
+	}
+	.thumb {
+		display: block;
+		width: 100%;
+		height: auto;
+		transition: transform 0.3s ease;
+	}
+	.item:hover .thumb {
+		transform: scale(1.04);
+	}
+	.caption {
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		padding: 32px 16px 14px;
+		background: linear-gradient(transparent, rgba(0,0,0,0.55));
+		color: #fff;
+		opacity: 0;
+		transition: opacity 0.25s ease;
+	}
+	.item:hover .caption {
+		opacity: 1;
+	}
+	.caption-title {
+		display: block;
+		font-size: 14px;
+		font-weight: 500;
+	}
+
+	.empty {
+		padding-block: clamp(48px, 8vw, 80px);
+		text-align: center;
+	}
+	.empty-text {
+		color: var(--fg-muted);
+		font-size: 16px;
+	}
+	.empty-text code {
+		font-family: var(--font-mono);
+		font-size: 13px;
+		background: var(--bg-soft);
+		padding: 2px 8px;
+		border-radius: 4px;
+	}
+</style>

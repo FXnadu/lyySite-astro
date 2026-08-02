@@ -3,12 +3,47 @@ import Layout from '../layouts/Layout.astro';
 
 // 绘画作品列表
 const paintings = [
-	{ src: '/images/huihua/项目10.jpg', title: '项目10', year: '2025', tech: '数码绘画' },
-	{ src: '/images/huihua/小女孩_画板%201.jpg', title: '小女孩', year: '2025', tech: '数码绘画' },
-	{ src: '/images/huihua/艺术海报角版图.jpg', title: '艺术海报', year: '2025', tech: '数码绘画' },
-	{ src: '/images/huihua/3.jpg', title: '卡通人物', year: '2025', tech: '数码绘画' },
-	{ src: '/images/huihua/可爱的小猪.jpg', title: '可爱的小猪', year: '2025', tech: '数码绘画' },
-	{ src: '/images/huihua/山河_画板%201.jpg', title: '山河', year: '2025', tech: '数码绘画' },
+	{ src: '/images/paintings/shouhui-01.webp', title: '手绘练习 01', tech: '手绘', year: '2025' },
+	{ src: '/images/paintings/shouhui-02.webp', title: '手绘练习 02', tech: '手绘', year: '2025' },
+	{ src: '/images/paintings/shouhui-03.webp', title: '手绘练习 03', tech: '手绘', year: '2025' },
+	{ src: '/images/paintings/shouhui-04.webp', title: '手绘练习 04', tech: '手绘', year: '2025' },
+	{ src: '/images/paintings/shouhui-05.webp', title: '手绘练习 05', tech: '手绘', year: '2025' },
+	{ src: '/images/paintings/shouhui-06.webp', title: '手绘练习 06', tech: '手绘', year: '2025' },
+	{ src: '/images/paintings/shouhui-07.webp', title: '手绘练习 07', tech: '手绘', year: '2025' },
+	{ src: '/images/paintings/shouhui-08.webp', title: '手绘练习 08', tech: '手绘', year: '2025' },
+	{ src: '/images/paintings/shouhui-09.webp', title: '手绘练习 09', tech: '手绘', year: '2025' },
+	{ src: '/images/paintings/shouhui-10.webp', title: '手绘练习 10', tech: '手绘', year: '2025' },
+	{ src: '/images/paintings/shouhui-11.webp', title: '手绘练习 11', tech: '手绘', year: '2025' },
+	{ src: '/images/paintings/shouhui-12.webp', title: '手绘练习 12', tech: '手绘', year: '2025' },
+	{ src: '/images/paintings/shouhui-13.webp', title: '手绘练习 13', tech: '手绘', year: '2025' },
+	{ src: '/images/paintings/shouhui-14.webp', title: '手绘练习 14', tech: '手绘', year: '2025' },
+	{ src: '/images/paintings/shouhui-15.webp', title: '手绘练习 15', tech: '手绘', year: '2025' },
+	{ src: '/images/paintings/shouhui-16.webp', title: '手绘练习 16', tech: '手绘', year: '2025' },
+	{ src: '/images/paintings/sumiao-01.webp', title: '素描练习 01', tech: '素描', year: '2025' },
+	{ src: '/images/paintings/sumiao-02.webp', title: '素描练习 02', tech: '素描', year: '2025' },
+	{ src: '/images/paintings/sumiao-03.webp', title: '素描练习 03', tech: '素描', year: '2025' },
+	{ src: '/images/paintings/sumiao-04.webp', title: '素描练习 04', tech: '素描', year: '2025' },
+	{ src: '/images/paintings/sumiao-05.webp', title: '素描练习 05', tech: '素描', year: '2025' },
+	{ src: '/images/paintings/sumiao-06.webp', title: '素描练习 06', tech: '素描', year: '2025' },
+	{ src: '/images/paintings/sumiao-07.webp', title: '素描练习 07', tech: '素描', year: '2025' },
+	{ src: '/images/paintings/sumiao-08.webp', title: '素描练习 08', tech: '素描', year: '2025' },
+	{ src: '/images/paintings/sumiao-09.webp', title: '素描练习 09', tech: '素描', year: '2025' },
+	{ src: '/images/paintings/sumiao-10.webp', title: '素描练习 10', tech: '素描', year: '2025' },
+	{ src: '/images/paintings/sumiao-11.webp', title: '素描练习 11', tech: '素描', year: '2025' },
+	{ src: '/images/paintings/sumiao-12.webp', title: '素描练习 12', tech: '素描', year: '2025' },
+	{ src: '/images/paintings/sumiao-13.webp', title: '素描练习 13', tech: '素描', year: '2025' },
+	{ src: '/images/paintings/sumiao-14.webp', title: '素描练习 14', tech: '素描', year: '2025' },
+	{ src: '/images/paintings/sumiao-15.webp', title: '素描练习 15', tech: '素描', year: '2025' },
+	{ src: '/images/paintings/sumiao-16.webp', title: '素描练习 16', tech: '素描', year: '2025' },
+	{ src: '/images/paintings/sumiao-17.webp', title: '素描练习 17', tech: '素描', year: '2025' },
+	{ src: '/images/paintings/sumiao-18.webp', title: '素描练习 18', tech: '素描', year: '2025' },
+	{ src: '/images/paintings/sumiao-19.webp', title: '素描练习 19', tech: '素描', year: '2025' },
+	{ src: '/images/paintings/sumiao-20.webp', title: '素描练习 20', tech: '素描', year: '2025' },
+	{ src: '/images/paintings/sumiao2-01.webp', title: '综合练习 01', tech: '素描', year: '2025' },
+	{ src: '/images/paintings/sumiao2-02.webp', title: '综合练习 02', tech: '素描', year: '2025' },
+	{ src: '/images/paintings/sumiao2-03.webp', title: '综合练习 03', tech: '素描', year: '2025' },
+	{ src: '/images/paintings/sumiao2-04.webp', title: '综合练习 04', tech: '素描', year: '2025' },
+	{ src: '/images/paintings/sumiao2-05.webp', title: '综合练习 05', tech: '素描', year: '2025' },
 ];
 ---
 
@@ -27,45 +62,53 @@ const paintings = [
 
 	<section class="gallery">
 		<div class="container">
-			<div class="list">
-				{paintings.map((p, i) => (
-					<div class={`item ${i % 2 === 0 ? '' : 'item--reverse'}`}>
-						<div class="item-image" data-index={i}>
-							<img
-								class="thumb"
-								src={p.src}
-								alt={p.title}
-								loading={i < 6 ? 'eager' : 'lazy'}
-							/>
+			{paintings.length > 0 ? (
+				<div class="list">
+					{paintings.map((p, i) => (
+						<div class={`item ${i % 2 === 0 ? '' : 'item--reverse'}`}>
+							<div class="item-image" data-index={i}>
+								<img
+									class="thumb"
+									src={p.src}
+									alt={p.title}
+									loading={i < 6 ? 'eager' : 'lazy'}
+								/>
+							</div>
+							<div class="item-info">
+								<h2 class="item-title">{p.title}</h2>
+								<p class="item-meta">{p.tech} · {p.year}</p>
+							</div>
 						</div>
-						<div class="item-info">
-							<h2 class="item-title">{p.title}</h2>
-							<p class="item-meta">{p.tech} · {p.year}</p>
-						</div>
-					</div>
-				))}
-			</div>
+					))}
+				</div>
+			) : (
+				<div class="empty">
+					<h2 class="empty-title">暂无绘画作品</h2>
+					<p class="empty-desc">绘画习作内容待补充，请稍后再来。</p>
+				</div>
+			)}
 		</div>
 	</section>
 
-	<!-- 灯箱 -->
-	<div class="lightbox" id="lightbox">
-		<div class="lb-backdrop" id="lbBackdrop"></div>
-		<div class="lb-wrap">
-			<button class="lb-nav" id="lbPrev" aria-label="上一张">
-				<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
-			</button>
-			<div class="lb-image-wrap">
-				<img class="lb-image" id="lbImage" src="" alt="" />
+	{paintings.length > 0 && (
+		<div class="lightbox" id="lightbox">
+			<div class="lb-backdrop" id="lbBackdrop"></div>
+			<div class="lb-wrap">
+				<button class="lb-nav" id="lbPrev" aria-label="上一张">
+					<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+				</button>
+				<div class="lb-image-wrap">
+					<img class="lb-image" id="lbImage" src="" alt="" />
+				</div>
+				<button class="lb-nav" id="lbNext" aria-label="下一张">
+					<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+				</button>
+				<button class="lb-close" id="lbClose" aria-label="关闭">
+					<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+				</button>
 			</div>
-			<button class="lb-nav" id="lbNext" aria-label="下一张">
-				<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
-			</button>
-			<button class="lb-close" id="lbClose" aria-label="关闭">
-				<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
-			</button>
 		</div>
-	</div>
+	)}
 </Layout>
 
 <script>
@@ -141,6 +184,23 @@ const paintings = [
 		font-size: clamp(16px, 1.6vw, 18px);
 		max-width: 52ch;
 		line-height: 1.7;
+		margin: 0;
+	}
+
+	/* ---- empty ---- */
+	.empty {
+		text-align: center;
+		padding: clamp(48px, 8vw, 80px) 24px;
+	}
+	.empty-title {
+		font-size: clamp(18px, 2vw, 22px);
+		font-weight: 500;
+		margin: 0 0 8px;
+		color: var(--fg-muted);
+	}
+	.empty-desc {
+		color: var(--fg-muted);
+		font-size: 14px;
 		margin: 0;
 	}
 
