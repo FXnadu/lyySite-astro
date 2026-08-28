@@ -46,8 +46,8 @@ const navTitle = TITLES[path] ?? '';
 ---
 
 <header class="site-header" data-autohide={autohide ? 'true' : undefined}>
-	<!-- 移动端：小程序式导航栏 -->
-	<div class="mini-nav">
+	<!-- 移动端：小程序式导航栏（首页无需显示，当前页由底部 TabBar 标识） -->
+	<div class="mini-nav" hidden={isHome}>
 		<button class="mini-back" type="button" aria-label="返回" hidden={isHome}>
 			<Icon name="lucide:chevron-left" size={22} />
 		</button>
@@ -276,9 +276,11 @@ const navTitle = TITLES[path] ?? '';
 			transform: none;
 			pointer-events: auto;
 			z-index: 60;
-			background: rgba(255, 255, 255, 0.92);
-			backdrop-filter: blur(24px) saturate(160%);
-			border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+			/* 悬浮卡片风格：header 本身透明，仅留状态栏安全区 */
+			background: transparent;
+			backdrop-filter: none;
+			border-bottom: none;
+			padding-top: env(safe-area-inset-top);
 		}
 		/* 首页 autohide 在移动端关闭：导航栏常驻顶部 */
 		.site-header[data-autohide="true"] {
@@ -291,15 +293,17 @@ const navTitle = TITLES[path] ?? '';
 			display: none;
 		}
 
-		/* 导航栏：居中标题 + 左侧返回 + 右侧胶囊 */
+		/* 导航栏：悬浮圆角卡片，与页面卡片风格统一 */
 		.mini-nav {
 			display: flex;
 			align-items: center;
 			justify-content: center;
 			position: relative;
-			height: calc(46px + env(safe-area-inset-top));
-			padding-top: env(safe-area-inset-top);
-			box-sizing: border-box;
+			height: 46px;
+			margin: 8px 16px 4px;
+			background: #fff;
+			border-radius: 16px;
+			box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 		}
 		.mini-title {
 			font-size: 16px;
@@ -314,23 +318,25 @@ const navTitle = TITLES[path] ?? '';
 		.mini-back {
 			position: absolute;
 			left: 8px;
-			top: calc(env(safe-area-inset-top) + 5px);
+			top: 5px;
 			display: flex;
 			align-items: center;
 			justify-content: center;
 			width: 36px;
 			height: 36px;
 			border: none;
-			background: rgba(0, 0, 0, 0.04);
+			background: transparent;
 			color: var(--fg);
-			border-radius: 50%;
 			-webkit-tap-highlight-color: transparent;
-			transition: background 0.15s;
+			transition: opacity 0.15s;
 		}
 		.mini-back:active {
-			background: rgba(0, 0, 0, 0.1);
+			opacity: 0.5;
 		}
 		.mini-back[hidden] {
+			display: none;
+		}
+		.mini-nav[hidden] {
 			display: none;
 		}
 

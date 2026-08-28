@@ -175,8 +175,6 @@ const featured = [...projects]
 		.category-grid { grid-template-columns: repeat(2, 1fr); }
 	}
 	@media (max-width: 620px) {
-		.category-grid { grid-template-columns: 1fr; }
-		.category-card { grid-template-columns: auto 1fr; }
 		.section-bar { margin-bottom: 24px; }
 		.featured-list li a {
 			flex-direction: column;
@@ -211,26 +209,8 @@ const featured = [...projects]
 			font-size: 18px;
 		}
 		.category-grid {
+			grid-template-columns: repeat(3, 1fr);
 			gap: 12px;
-		}
-		.category-card {
-			background: #fff;
-			border: none;
-			box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-			border-radius: 16px;
-			padding: 18px;
-			grid-template-columns: auto 1fr;
-		}
-		.category-card::before {
-			display: none;
-		}
-		.card-icon {
-			background: color-mix(in srgb, var(--card-accent) 12%, #fff);
-			box-shadow: none;
-			border: none;
-		}
-		.card-tag {
-			background: color-mix(in srgb, var(--card-accent) 8%, #fff);
 		}
 
 		.featured-section {

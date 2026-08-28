@@ -317,7 +317,8 @@ const hasVideos = true;
 			padding-block: 4px 24px;
 		}
 		.video-grid {
-			gap: 14px;
+			grid-template-columns: repeat(2, 1fr);
+			gap: 12px;
 		}
 		.video-card {
 			background: #fff;
@@ -335,10 +336,21 @@ const hasVideos = true;
 			border-radius: 0;
 		}
 		.meta {
-			padding: 14px 14px 16px;
+			padding: 12px 12px 14px;
 		}
 		.video-title {
-			font-size: 17px;
+			font-size: 14px;
+		}
+		.tag {
+			font-size: 11px;
+			padding: 2px 6px;
+		}
+	}
+
+	@media (max-width: 420px) {
+		.video-grid {
+			grid-template-columns: repeat(2, 1fr);
+			gap: 10px;
 		}
 	}
 </style>

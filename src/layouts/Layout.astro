@@ -204,15 +204,19 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url).toString(
 		}
 		main {
 			background: #f6f6f8;
-			/* 避让固定导航栏与底部 TabBar */
-			padding-top: calc(46px + env(safe-area-inset-top));
+			/* 避让悬浮导航栏卡片与固定底部 TabBar */
+			padding-top: calc(58px + env(safe-area-inset-top));
 			padding-bottom: calc(58px + env(safe-area-inset-bottom));
+		}
+		/* 移动端首页无顶部导航栏，内容顶到最上方 */
+		main:has(.mini-home) {
+			padding-top: 0;
 		}
 		.container {
 			padding-inline: 16px;
 		}
 		:where(h1, h2, h3) {
-			scroll-margin-top: calc(60px + env(safe-area-inset-top));
+			scroll-margin-top: calc(66px + env(safe-area-inset-top));
 		}
 		/* 页内大标题移动端隐藏：顶部导航栏已显示对应标题 */
 		.title {

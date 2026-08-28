@@ -62,7 +62,7 @@ const resumePath = resumeFiles[0] ? `/resume/${resumeFiles[0]}` : null;
 
 		<!-- 基本信息 -->
 		<section class="m-section">
-			<h2 class="m-section-title">基本信息</h2>
+			<h2 class="m-section-title"><Icon name="lucide:user-round" size={14} /> 基本信息</h2>
 			<div class="m-card m-info">
 				<dl>
 					<dt>专业</dt><dd>数字媒体技术</dd>
@@ -79,7 +79,7 @@ const resumePath = resumeFiles[0] ? `/resume/${resumeFiles[0]}` : null;
 
 		<!-- 作品分类 -->
 		<section class="m-section">
-			<h2 class="m-section-title">作品集</h2>
+			<h2 class="m-section-title"><Icon name="lucide:briefcase" size={14} /> 作品集</h2>
 			<div class="m-card m-categories">
 				{
 					categories.map((cat) => (
@@ -434,12 +434,18 @@ const resumePath = resumeFiles[0] ? `/resume/${resumeFiles[0]}` : null;
 			margin-bottom: 12px;
 		}
 		.m-section-title {
+			display: inline-flex;
+			align-items: center;
+			gap: 6px;
 			font-family: var(--font-sans);
 			font-size: 17px;
 			font-weight: 600;
 			color: rgba(26, 26, 46, 0.55);
 			margin: 0 0 10px;
 			padding-inline: 4px;
+		}
+		.m-section-title :global(svg) {
+			opacity: 0.85;
 		}
 
 		/* 资料卡 */

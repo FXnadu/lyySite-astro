@@ -328,8 +328,8 @@ const hasImages = images.length > 0;
 			padding-block: 4px 24px;
 		}
 		.image-grid {
-			column-count: 1;
-			column-gap: 0;
+			column-count: 2;
+			column-gap: 12px;
 		}
 		.image-card {
 			background: #fff;
@@ -337,15 +337,32 @@ const hasImages = images.length > 0;
 			border-radius: 16px;
 			box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 			clip-path: none;
-			margin-bottom: 14px;
+			margin-bottom: 12px;
 		}
 		.thumb {
 			border-radius: 0;
 			clip-path: none;
 		}
 		.image-title {
-			font-size: 15px;
-			padding: 12px 14px;
+			font-size: 13px;
+			padding: 10px 12px;
+		}
+	}
+
+	@media (max-width: 420px) {
+		.container {
+			padding-inline: 12px;
+		}
+		.image-grid {
+			column-count: 2;
+			column-gap: 10px;
+		}
+		.image-card {
+			margin-bottom: 10px;
+		}
+		.image-title {
+			font-size: 12px;
+			padding: 8px 10px;
 		}
 	}
 </style>
