@@ -1,69 +1,13 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import { Icon } from 'astro-icon/components';
 import { getCollection } from 'astro:content';
+import CategoryCard from '../../components/CategoryCard.astro';
+import { categories } from '../../data/categories';
 
 const projects = await getCollection('projects');
 const featured = [...projects]
 	.sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime())
 	.slice(0, 3);
-
-const categories = [
-	{
-		slug: 'video',
-		title: '短视频剪辑',
-		desc: '账号运营、批量剪辑与叙事节奏探索',
-		tag: 'PR / 剪映',
-		icon: 'lucide:film',
-		color: '#ec4899',
-		link: '/projects/video',
-	},
-	{
-		slug: 'graphic',
-		title: '平面视觉设计',
-		desc: '海报、封面、图标与视觉排版',
-		tag: 'PS / AI',
-		icon: 'lucide:pen-tool',
-		color: '#f59e0b',
-		link: '/projects/graphic',
-	},
-	{
-		slug: 'ui',
-		title: 'UI 界面设计',
-		desc: 'APP 界面、网页与设计练习',
-		tag: 'UI / UX',
-		icon: 'lucide:layout',
-		color: '#8b5cf6',
-		link: '/suitanglianxi',
-	},
-	{
-		slug: '3d',
-		title: '三维基础创作',
-		desc: '3D 建模与基础渲染练习',
-		tag: '3dmax / Maya',
-		icon: 'lucide:box',
-		color: '#10b981',
-		link: '/projects/3d',
-	},
-	{
-		slug: 'painting',
-		title: '绘画习作',
-		desc: '水彩与数码板绘练习',
-		tag: '绘画',
-		icon: 'lucide:brush',
-		color: '#06b6d4',
-		link: '/huihua',
-	},
-	{
-		slug: 'daily',
-		title: '日常练习',
-		desc: '素材、草稿与各种尝试',
-		tag: '练习',
-		icon: 'lucide:sparkles',
-		color: '#f472b6',
-		link: '/lianxi',
-	},
-];
 ---
 
 <Layout
@@ -88,24 +32,7 @@ const categories = [
 			</div>
 
 			<div class="category-grid">
-				{
-					categories.map((cat, i) => (
-						<a class="category-card" href={cat.link} style={`--card-accent: ${cat.color}`}>
-							<span class="card-num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
-							<div class="card-icon">
-								<Icon name={cat.icon} size={24} />
-							</div>
-							<div class="card-body">
-								<h3 class="card-title">{cat.title}</h3>
-								<p class="card-desc">{cat.desc}</p>
-								<div class="card-footer">
-									<span class="card-tag">{cat.tag}</span>
-									<span class="card-arrow" aria-hidden="true">→</span>
-								</div>
-							</div>
-						</a>
-					))
-				}
+				{categories.map((cat, i) => <CategoryCard cat={cat} index={i} />)}
 			</div>
 		</div>
 	</section>
@@ -202,117 +129,6 @@ const categories = [
 		gap: 20px;
 	}
 
-	.category-card {
-		--card-accent: var(--accent);
-		display: grid;
-		grid-template-columns: auto 1fr;
-		align-items: start;
-		gap: 16px;
-		padding: 22px;
-		background: var(--bg);
-		border: 1.5px solid var(--line);
-		border-radius: var(--radius);
-		box-shadow: 4px 4px 0 0 var(--line);
-		transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.2s ease;
-		position: relative;
-		overflow: hidden;
-	}
-	.category-card::before {
-		content: '';
-		position: absolute;
-		inset: 0;
-		pointer-events: none;
-		background: radial-gradient(
-			circle at 100% 0%,
-			color-mix(in srgb, var(--card-accent) 12%, transparent) 0%,
-			transparent 40%
-		);
-		opacity: 0;
-		transition: opacity 0.25s ease;
-	}
-	.category-card:hover {
-		transform: translate(-2px, -2px);
-		box-shadow: 6px 6px 0 0 color-mix(in srgb, var(--card-accent) 35%, var(--line));
-		border-color: color-mix(in srgb, var(--card-accent) 50%, var(--line));
-	}
-	.category-card:hover::before {
-		opacity: 1;
-	}
-	.category-card:hover .card-arrow {
-		transform: translateX(4px);
-	}
-	.category-card:hover .card-icon {
-		background: color-mix(in srgb, var(--card-accent) 18%, var(--bg));
-	}
-
-	.card-num {
-		position: absolute;
-		top: 14px;
-		right: 16px;
-		font-family: var(--font-mono);
-		font-size: 12px;
-		color: var(--fg-dim);
-		opacity: 0.6;
-	}
-	.card-icon {
-		grid-row: span 2;
-		display: inline-flex;
-		align-items: center;
-		justify-content: center;
-		width: 48px;
-		height: 48px;
-		flex-shrink: 0;
-		color: var(--card-accent);
-		background: color-mix(in srgb, var(--card-accent) 10%, var(--bg));
-		border: 1.5px solid color-mix(in srgb, var(--card-accent) 40%, var(--line));
-		border-radius: 12px;
-		box-shadow: 2px 2px 0 0 color-mix(in srgb, var(--card-accent) 30%, var(--line));
-		transition: background 0.2s ease;
-	}
-	.card-body {
-		display: flex;
-		flex-direction: column;
-		gap: 8px;
-		min-width: 0;
-	}
-	.card-title {
-		font-family: var(--font-display);
-		font-size: clamp(18px, 1.7vw, 22px);
-		font-weight: 600;
-		line-height: 1.25;
-		margin: 0;
-		color: var(--fg);
-	}
-	.card-desc {
-		font-size: 14px;
-		color: var(--fg-muted);
-		line-height: 1.6;
-		margin: 0;
-	}
-	.card-footer {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		gap: 12px;
-		margin-top: 4px;
-	}
-	.card-tag {
-		font-family: var(--font-mono);
-		font-size: 11px;
-		letter-spacing: 0.04em;
-		color: var(--card-accent);
-		padding: 4px 10px;
-		border: 1.5px solid color-mix(in srgb, var(--card-accent) 50%, var(--line));
-		border-radius: 999px;
-		background: color-mix(in srgb, var(--card-accent) 8%, var(--bg));
-	}
-	.card-arrow {
-		font-family: var(--font-mono);
-		font-size: 18px;
-		color: var(--card-accent);
-		transition: transform 0.2s ease;
-	}
-
 	/* ── 精选项目 ── */
 	.featured-section {
 		padding-block: clamp(56px, 8vw, 96px);
@@ -366,6 +182,89 @@ const categories = [
 			flex-direction: column;
 			align-items: flex-start;
 			gap: 6px;
+		}
+	}
+
+	/* ── 移动端：小程序化 ── */
+	@media (max-width: 720px) {
+		/* 眉题与大标题移动端隐藏（顶部导航栏已显示标题），仅留一行描述 */
+		.p-head {
+			padding-block: 6px 16px;
+		}
+		.p-head .eyebrow {
+			display: none;
+		}
+		.p-head .lede {
+			font-size: 13px;
+			line-height: 1.6;
+			color: var(--fg-dim);
+		}
+
+		.categories-section {
+			padding-block: 6px 12px;
+			border-bottom: none;
+		}
+		.section-bar {
+			margin-bottom: 16px;
+		}
+		.section-title {
+			font-size: 18px;
+		}
+		.category-grid {
+			gap: 12px;
+		}
+		.category-card {
+			background: #fff;
+			border: none;
+			box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+			border-radius: 16px;
+			padding: 18px;
+			grid-template-columns: auto 1fr;
+		}
+		.category-card::before {
+			display: none;
+		}
+		.card-icon {
+			background: color-mix(in srgb, var(--card-accent) 12%, #fff);
+			box-shadow: none;
+			border: none;
+		}
+		.card-tag {
+			background: color-mix(in srgb, var(--card-accent) 8%, #fff);
+		}
+
+		.featured-section {
+			padding-block: 22px 8px;
+		}
+		.featured-list {
+			gap: 12px;
+		}
+		.featured-list li a {
+			flex-direction: row;
+			align-items: center;
+			gap: 12px;
+			padding: 16px 18px;
+			background: #fff;
+			border: none;
+			border-radius: 16px;
+			box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+		}
+		/* 微信列表风格：右侧箭头 */
+		.featured-list li a::after {
+			content: '';
+			width: 7px;
+			height: 7px;
+			border-top: 1.5px solid #c7c7cc;
+			border-right: 1.5px solid #c7c7cc;
+			transform: rotate(45deg);
+			flex-shrink: 0;
+			margin-left: auto;
+		}
+		.featured-tags {
+			flex-shrink: 1;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
 		}
 	}
 </style>

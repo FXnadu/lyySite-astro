@@ -1,0 +1,156 @@
+---
+import { Icon } from 'astro-icon/components';
+import type { Category } from '../data/categories';
+
+export interface Props {
+	cat: Category;
+	index: number;
+}
+
+const { cat, index } = Astro.props;
+---
+
+<a class="category-card" href={cat.link} style={`--card-accent: ${cat.color}`}>
+	<span class="card-num" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+	<div class="card-icon">
+		<Icon name={cat.icon} size={24} />
+	</div>
+	<div class="card-body">
+		<h3 class="card-title">{cat.title}</h3>
+		<p class="card-desc">{cat.desc}</p>
+		<div class="card-footer">
+			<span class="card-tag">{cat.tag}</span>
+			<span class="card-arrow" aria-hidden="true">→</span>
+		</div>
+	</div>
+</a>
+
+<style>
+	.category-card {
+		--card-accent: var(--accent);
+		display: grid;
+		grid-template-columns: auto 1fr;
+		align-items: start;
+		gap: 16px;
+		padding: 22px;
+		background: var(--bg);
+		border: 1.5px solid var(--line);
+		border-radius: var(--radius);
+		box-shadow: 4px 4px 0 0 var(--line);
+		transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.2s ease;
+		position: relative;
+		overflow: hidden;
+	}
+	.category-card::before {
+		content: '';
+		position: absolute;
+		inset: 0;
+		pointer-events: none;
+		background: radial-gradient(
+			circle at 100% 0%,
+			color-mix(in srgb, var(--card-accent) 12%, transparent) 0%,
+			transparent 40%
+		);
+		opacity: 0;
+		transition: opacity 0.25s ease;
+	}
+	.category-card:hover {
+		transform: translate(-2px, -2px);
+		box-shadow: 6px 6px 0 0 color-mix(in srgb, var(--card-accent) 35%, var(--line));
+		border-color: color-mix(in srgb, var(--card-accent) 50%, var(--line));
+	}
+	.category-card:hover::before {
+		opacity: 1;
+	}
+	.category-card:hover .card-arrow {
+		transform: translateX(4px);
+	}
+	.category-card:hover .card-icon {
+		background: color-mix(in srgb, var(--card-accent) 18%, var(--bg));
+	}
+
+	.card-num {
+		position: absolute;
+		top: 14px;
+		right: 16px;
+		font-family: var(--font-mono);
+		font-size: 12px;
+		color: var(--fg-dim);
+		opacity: 0.6;
+	}
+	.card-icon {
+		grid-row: span 2;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 48px;
+		height: 48px;
+		flex-shrink: 0;
+		color: var(--card-accent);
+		background: color-mix(in srgb, var(--card-accent) 10%, var(--bg));
+		border: 1.5px solid color-mix(in srgb, var(--card-accent) 40%, var(--line));
+		border-radius: 12px;
+		box-shadow: 2px 2px 0 0 color-mix(in srgb, var(--card-accent) 30%, var(--line));
+		transition: background 0.2s ease;
+	}
+	.card-body {
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+		min-width: 0;
+	}
+	.card-title {
+		font-family: var(--font-display);
+		font-size: clamp(18px, 1.7vw, 22px);
+		font-weight: 600;
+		line-height: 1.25;
+		margin: 0;
+		color: var(--fg);
+	}
+	.card-desc {
+		font-size: 14px;
+		color: var(--fg-muted);
+		line-height: 1.6;
+		margin: 0;
+	}
+	.card-footer {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 12px;
+		margin-top: 4px;
+	}
+	.card-tag {
+		font-family: var(--font-mono);
+		font-size: 11px;
+		letter-spacing: 0.04em;
+		color: var(--card-accent);
+		padding: 4px 10px;
+		border: 1.5px solid color-mix(in srgb, var(--card-accent) 50%, var(--line));
+		border-radius: 999px;
+		background: color-mix(in srgb, var(--card-accent) 8%, var(--bg));
+	}
+	.card-arrow {
+		font-family: var(--font-mono);
+		font-size: 18px;
+		color: var(--card-accent);
+		transition: transform 0.2s ease;
+	}
+
+	@media (max-width: 620px) {
+		.category-card {
+			padding: 18px;
+			gap: 14px;
+		}
+		.card-icon {
+			width: 44px;
+			height: 44px;
+		}
+		.card-title {
+			font-size: 17px;
+		}
+		.card-desc {
+			font-size: 13px;
+		}
+	}
+</style>

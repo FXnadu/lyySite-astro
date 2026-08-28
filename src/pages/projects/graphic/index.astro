@@ -305,4 +305,47 @@ const hasImages = images.length > 0;
 	@media (max-width: 640px) {
 		.image-grid { column-count: 1; }
 	}
+
+	/* ── 移动端：小程序化 ── */
+	@media (max-width: 720px) {
+		.container {
+			width: 100%;
+			padding-inline: 16px;
+		}
+		.p-head {
+			padding-block: 6px 20px;
+		}
+		.back {
+			display: none; /* 返回交给小程序导航栏 */
+		}
+		.title {
+			font-size: 28px;
+		}
+		.lede {
+			font-size: 14px;
+		}
+		.gallery-section {
+			padding-block: 4px 24px;
+		}
+		.image-grid {
+			column-count: 1;
+			column-gap: 0;
+		}
+		.image-card {
+			background: #fff;
+			border: none;
+			border-radius: 16px;
+			box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+			clip-path: none;
+			margin-bottom: 14px;
+		}
+		.thumb {
+			border-radius: 0;
+			clip-path: none;
+		}
+		.image-title {
+			font-size: 15px;
+			padding: 12px 14px;
+		}
+	}
 </style>

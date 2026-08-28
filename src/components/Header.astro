@@ -15,9 +15,45 @@ const nav = [
 	{ href: '/projects', label: '作品', icon: 'lucide:palette' },
 	{ href: '/contact', label: '联系', icon: 'lucide:feather' },
 ];
+
+// ── 移动端：小程序式底部 TabBar ──
+const tabs = [
+	{ href: '/', label: '首页', icon: 'lucide:home' },
+	{ href: '/projects', label: '作品', icon: 'lucide:layout-grid' },
+	{ href: '/contact', label: '联系', icon: 'lucide:mail' },
+];
+
+const isHome = path === '/';
+
+// 小程序导航栏标题；动态详情页标题由 JS 从 <title> 补充
+const TITLES: Record<string, string> = {
+	'/': '首页',
+	'/projects': '作品',
+	'/projects/video': '短视频剪辑',
+	'/projects/graphic': '平面视觉设计',
+	'/projects/3d': '三维基础创作',
+	'/huihua': '绘画习作',
+	'/sheying': '摄影',
+	'/lianxi': '练习',
+	'/contact': '联系与简历',
+	'/suitanglianxi': 'UI 界面设计',
+	'/suitanglianxi/upan': 'U盘',
+	'/suitanglianxi/fengmi': '蜂蜜',
+	'/suitanglianxi/naaisi': '纳爱斯',
+	'/suitanglianxi/yzgirl': '英州姑娘',
+};
+const navTitle = TITLES[path] ?? '';
 ---
 
 <header class="site-header" data-autohide={autohide ? 'true' : undefined}>
+	<!-- 移动端：小程序式导航栏 -->
+	<div class="mini-nav">
+		<button class="mini-back" type="button" aria-label="返回" hidden={isHome}>
+			<Icon name="lucide:chevron-left" size={22} />
+		</button>
+		<span class="mini-title">{navTitle}</span>
+	</div>
+
 	<div class="container bar">
 		<a class="brand" href="/" aria-label="返回首页">
 			<img class="mark" src="/images/logo.webp" alt="" aria-hidden="true" />
@@ -57,6 +93,22 @@ const nav = [
 		</nav>
 	</div>
 </header>
+
+<!-- 移动端：底部 TabBar（独立于 header，避免被 header 的 transform 影响定位） -->
+<nav class="tabbar" aria-label="底部导航">
+	{
+		tabs.map((t) => (
+			<a
+				class:list={['tab', { active: isActive(t.href) }]}
+				href={t.href}
+				aria-current={isActive(t.href) ? 'page' : undefined}
+			>
+				<Icon name={t.icon} size={22} />
+				<span>{t.label}</span>
+			</a>
+		))
+	}
+</nav>
 
 <style>
 	/* ── 默认粘性顶栏（所有页面） ── */
@@ -209,46 +261,140 @@ const nav = [
 		transform: translateY(-3.5px) rotate(-45deg);
 	}
 
-	@media (max-width: 720px) {
-		.menu-toggle { display: flex; }
+	/* ── 移动端的小程序式元素默认隐藏 ── */
+	.mini-nav,
+	.tabbar {
+		display: none;
+	}
 
-		.primary-nav {
-			position: absolute;
-			top: 72px;
+	/* ── 移动端：小程序化布局 ── */
+	@media (max-width: 720px) {
+		.site-header {
+			position: fixed;
 			left: 0;
 			right: 0;
-			flex-direction: column;
-			align-items: stretch;
-			gap: 2px;
-			padding: 12px 24px 20px;
-			background: var(--bg);
-			border-bottom: 1px solid var(--line);
-			transform: translateY(-12px);
-			opacity: 0;
-			pointer-events: none;
-			transition: opacity 0.18s ease, transform 0.18s ease;
+			transform: none;
+			pointer-events: auto;
+			z-index: 60;
+			background: rgba(255, 255, 255, 0.92);
+			backdrop-filter: blur(24px) saturate(160%);
+			border-bottom: none;
 		}
-
-		.primary-nav[data-open='true'] {
-			opacity: 1;
-			transform: translateY(0);
+		/* 首页 autohide 在移动端关闭：导航栏常驻顶部 */
+		.site-header[data-autohide="true"] {
+			transform: none;
 			pointer-events: auto;
 		}
-
-		.nav-link {
-			padding: 14px 0;
-			font-size: 16px;
-			margin: 0;
+		.bar,
+		.menu-toggle,
+		.primary-nav {
+			display: none;
 		}
-		.nav-link::after {
-			bottom: 4px;
+
+		/* 导航栏：居中标题 + 左侧返回 + 右侧胶囊 */
+		.mini-nav {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			position: relative;
+			height: calc(46px + env(safe-area-inset-top));
+			padding-top: env(safe-area-inset-top);
+			box-sizing: border-box;
+		}
+		.mini-title {
+			font-size: 16px;
+			font-weight: 600;
+			color: var(--fg);
+			letter-spacing: 0.01em;
+			max-width: 52%;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+		.mini-back {
+			position: absolute;
+			left: 4px;
+			top: calc(env(safe-area-inset-top) + 4px);
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			width: 38px;
+			height: 38px;
+			border: none;
+			background: transparent;
+			color: var(--fg);
+			border-radius: 50%;
+			-webkit-tap-highlight-color: transparent;
+		}
+		.mini-back:active {
+			background: rgba(0, 0, 0, 0.05);
+		}
+		.mini-back[hidden] {
+			display: none;
+		}
+
+		/* 底部 TabBar */
+		.tabbar {
+			display: grid;
+			grid-template-columns: repeat(3, 1fr);
+			position: fixed;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			z-index: 60;
+			background: rgba(255, 255, 255, 0.96);
+			backdrop-filter: blur(24px) saturate(160%);
+			border-top: 1px solid rgba(0, 0, 0, 0.06);
+			box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.04);
+			padding-bottom: env(safe-area-inset-bottom);
+		}
+		.tab {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			gap: 3px;
+			padding: 7px 0 6px;
+			font-size: 11px;
+			font-weight: 500;
+			color: var(--fg-dim);
+			-webkit-tap-highlight-color: transparent;
+			transition: color 0.2s;
+		}
+		.tab.active {
+			color: var(--accent);
+		}
+		.tab :global(svg) {
+			transition: transform 0.2s;
+		}
+		.tab.active :global(svg) {
+			transform: translateY(-1px);
 		}
 	}
 </style>
 
 <script is:inline>
 	(function () {
-		// ── Hamburger ──
+		// ── 小程序导航栏标题（动态详情页从 <title> 读取） ──
+		const titleEl = document.querySelector('.mini-title');
+		if (titleEl && !titleEl.textContent.trim()) {
+			const t = (document.title || '').split('—')[0].trim();
+			if (t) titleEl.textContent = t;
+		}
+
+		// ── 小程序返回按钮（有历史则返回，否则回首页） ──
+		const backBtn = document.querySelector('.mini-back');
+		if (backBtn) {
+			backBtn.addEventListener('click', () => {
+				if (window.history.length > 1) {
+					window.history.back();
+				} else {
+					window.location.href = '/';
+				}
+			});
+		}
+
+		// ── Hamburger（桌面端） ──
 		const btn = document.querySelector('.menu-toggle');
 		const nav = document.getElementById('primary-nav');
 		if (btn && nav) {

@@ -47,9 +47,8 @@ const resumePath = resumeFiles[0] ? `/resume/${resumeFiles[0]}` : null;
 		z-index: 0;
 		pointer-events: none;
 		background:
-			radial-gradient(circle at 10% 100%, color-mix(in srgb, var(--accent) 12%, transparent) 0%, transparent 35%),
-			radial-gradient(circle at 50% 50%, color-mix(in srgb, var(--accent) 6%, transparent) 0%, transparent 40%),
-			radial-gradient(circle at 90% 10%, color-mix(in srgb, var(--accent) 8%, transparent) 0%, transparent 30%);
+			radial-gradient(circle at 10% 100%, color-mix(in srgb, var(--accent) 5%, transparent) 0%, transparent 28%),
+			radial-gradient(circle at 90% 10%, color-mix(in srgb, var(--accent) 4%, transparent) 0%, transparent 22%);
 	}
 
 	.container {
@@ -136,15 +135,34 @@ const resumePath = resumeFiles[0] ? `/resume/${resumeFiles[0]}` : null;
 	}
 
 	@media (max-width: 720px) {
+		.site-footer {
+			padding-block: 20px 16px;
+			border-top-color: transparent;
+		}
+		.site-footer::before {
+			display: none;
+		}
 		.footer-card {
 			flex-direction: column;
 			align-items: center;
 			gap: 16px;
+			padding: 16px;
 		}
 		.brand-group {
 			align-items: center;
 			text-align: center;
 		}
-		.bottom { flex-direction: column; align-items: flex-start; }
+		.name { font-size: 20px; }
+		.bottom {
+			flex-direction: column;
+			align-items: center;
+			padding-inline: 16px;
+			gap: 8px;
+		}
+		.copy { text-align: center; }
+		/* 操作按钮组（下载简历/联系我）移动端隐藏 */
+		.actions {
+			display: none;
+		}
 	}
 </style>

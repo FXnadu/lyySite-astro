@@ -300,5 +300,46 @@ const hasVideos = true;
 	@media (max-width: 860px) {
 		.video-grid { grid-template-columns: 1fr; }
 	}
+
+	/* ── 移动端：小程序化 ── */
+	@media (max-width: 720px) {
+		.p-head {
+			padding-block: 6px 20px;
+			border-bottom: none;
+		}
+		.back {
+			display: none; /* 返回交给小程序导航栏 */
+		}
+		.title {
+			font-size: 28px;
+		}
+		.gallery-section {
+			padding-block: 4px 24px;
+		}
+		.video-grid {
+			gap: 14px;
+		}
+		.video-card {
+			background: #fff;
+			border: none;
+			border-radius: 16px;
+			box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+			clip-path: none;
+			overflow: hidden;
+		}
+		.player {
+			border-radius: 0;
+			clip-path: none;
+		}
+		.player video {
+			border-radius: 0;
+		}
+		.meta {
+			padding: 14px 14px 16px;
+		}
+		.video-title {
+			font-size: 17px;
+		}
+	}
 </style>
 

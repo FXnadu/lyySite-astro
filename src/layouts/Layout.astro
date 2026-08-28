@@ -62,15 +62,15 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url).toString(
 
 <style is:global>
 	:root {
-		--bg: #f8f7f5;
-		--bg-soft: #ede9e4;
+		--bg: #fbfbfb;
+		--bg-soft: #f5f3ef;
 		--fg: #1a1a2e;
 		--fg-muted: #5c5c6a;
 		--fg-dim: #8e8e9a;
-		--accent-pink: #f472b6;
-		--accent-blue: #f472b6;
-		--accent-yellow: #f9a8d4;
-		--accent-red: #ec4899;
+		--accent-pink: #e879a9;
+		--accent-blue: #e879a9;
+		--accent-yellow: #e879a9;
+		--accent-red: #e879a9;
 		--accent: var(--accent-pink);
 		--line: rgba(26, 26, 46, 0.08);
 		--line-strong: rgba(26, 26, 46, 0.15);
@@ -114,9 +114,8 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url).toString(
 	main {
 		flex: 1 0 auto;
 		background:
-			radial-gradient(circle at 12% 25%, color-mix(in srgb, var(--accent) 10%, transparent) 0%, transparent 38%),
-			radial-gradient(circle at 88% 55%, color-mix(in srgb, var(--accent) 8%, transparent) 0%, transparent 32%),
-			radial-gradient(circle at 45% 88%, color-mix(in srgb, var(--accent) 6%, transparent) 0%, transparent 28%);
+			radial-gradient(circle at 8% 20%, color-mix(in srgb, var(--accent) 4%, transparent) 0%, transparent 30%),
+			radial-gradient(circle at 92% 80%, color-mix(in srgb, var(--accent) 3%, transparent) 0%, transparent 26%);
 	}
 
 	h1, h2, h3, h4 {
@@ -194,6 +193,33 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url).toString(
 		}
 		main {
 			animation: none;
+		}
+	}
+
+	/* ── 移动端：整体"小程序化" ── */
+	@media (max-width: 720px) {
+		body {
+			background: #f6f6f8; /* 小程序灰底 */
+		}
+		main {
+			background: #f6f6f8;
+			/* 避让固定导航栏与底部 TabBar */
+			padding-top: calc(46px + env(safe-area-inset-top));
+			padding-bottom: calc(58px + env(safe-area-inset-bottom));
+		}
+		.container {
+			padding-inline: 16px;
+		}
+		:where(h1, h2, h3) {
+			scroll-margin-top: calc(60px + env(safe-area-inset-top));
+		}
+		/* 页内大标题移动端隐藏：顶部导航栏已显示对应标题 */
+		.title {
+			display: none;
+		}
+		/* 仅含大标题的页头整体隐藏（如"联系与简历"） */
+		.hero:has(.title:only-child) {
+			display: none;
 		}
 	}
 </style>

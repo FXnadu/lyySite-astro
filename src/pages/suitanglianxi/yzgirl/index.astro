@@ -157,4 +157,53 @@ const images = [
 		padding: 2px 8px;
 		border-radius: 4px;
 	}
+
+	/* 移动端小程序化：单列白色圆角卡片、标题常显 */
+	@media (max-width: 720px) {
+		.hero {
+			padding-block: 6px 18px;
+			border-bottom: none;
+		}
+		.back { display: none; }
+		.title {
+			font-size: 24px;
+			margin-bottom: 8px;
+		}
+		.lede {
+			font-size: 14px;
+			line-height: 1.6;
+		}
+
+		.gallery {
+			padding-block: 12px;
+		}
+		.grid {
+			columns: 1;
+			column-gap: 0;
+		}
+		.item {
+			margin: 0 0 12px;
+			padding: 10px;
+			border-radius: 16px;
+			background: #fff;
+			box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+		}
+		.thumb {
+			border-radius: 12px;
+		}
+		.item:hover .thumb {
+			transform: none;
+		}
+		.caption {
+			position: static;
+			padding: 10px 4px 2px;
+			background: none;
+			color: var(--fg);
+			opacity: 1;
+		}
+		.caption-title {
+			font-size: 14px;
+			font-weight: 600;
+		}
+	}
 </style>

@@ -26,6 +26,15 @@ const resumePath = resumeFiles[0] ? `/resume/${resumeFiles[0]}` : null;
 		</div>
 	</section>
 
+	<!-- 移动端：个人资料卡（微信"我"风格） -->
+	<div class="m-pcard">
+		<img class="m-pcard-avatar" src="/images/logo.webp" alt="liuyingying 头像" width="56" height="56" />
+		<div class="m-pcard-info">
+			<span class="m-pcard-name">liuyingying</span>
+			<span class="m-pcard-sub">数字媒体技术 · 广东 / 求职中</span>
+		</div>
+	</div>
+
 	<section class="contact">
 		<div class="container grid">
 			<div class="channels">
@@ -237,8 +246,118 @@ const resumePath = resumeFiles[0] ? `/resume/${resumeFiles[0]}` : null;
 		line-height: 1.5;
 	}
 
+	/* 移动端个人资料卡（桌面端隐藏） */
+	.m-pcard {
+		display: none;
+	}
+
 	@media (max-width: 720px) {
 		.grid { grid-template-columns: 1fr; gap: 40px; }
 		.ch-list li { grid-template-columns: 80px 1fr; gap: 10px; }
+	}
+
+	/* ── 移动端：小程序"我的-设置"样式 ── */
+	@media (max-width: 720px) {
+		.hero {
+			padding-block: 6px 18px;
+			border-bottom: none;
+		}
+		.title {
+			font-size: 28px;
+		}
+		/* 个人资料卡 */
+		.m-pcard {
+			display: flex;
+			align-items: center;
+			gap: 14px;
+			margin: 6px 0 10px;
+			padding: 16px;
+			background: #fff;
+			border-radius: 16px;
+			box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+		}
+		.m-pcard-avatar {
+			width: 56px;
+			height: 56px;
+			border-radius: 12px;
+			object-fit: cover;
+		}
+		.m-pcard-info {
+			display: flex;
+			flex-direction: column;
+			gap: 4px;
+			min-width: 0;
+		}
+		.m-pcard-name {
+			font-size: 18px;
+			font-weight: 600;
+			color: var(--fg);
+		}
+		.m-pcard-sub {
+			font-size: 12px;
+			color: var(--fg-dim);
+		}
+		.contact {
+			padding-block: 2px 28px;
+			border-bottom: none;
+		}
+		h2 {
+			margin: 24px 4px 12px;
+			font-size: 13px;
+			letter-spacing: 0.02em;
+		}
+		.ch-list {
+			border-top: none;
+			background: #fff;
+			border-radius: 16px;
+			box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+			padding: 0 16px;
+			overflow: hidden;
+		}
+		.ch-list li {
+			grid-template-columns: auto 1fr auto;
+			align-items: center;
+			gap: 10px;
+			padding: 15px 0;
+		}
+		.ch-label {
+			font-family: var(--font-sans);
+			font-size: 14px;
+			color: var(--fg);
+			padding-right: 6px;
+		}
+		.ch-value {
+			justify-content: flex-end;
+			gap: 8px;
+			font-size: 14px;
+		}
+		.ch-value a,
+		.ch-value span {
+			max-width: 100%;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+		}
+		.copy-btn {
+			flex-shrink: 0;
+			width: 30px;
+			height: 30px;
+		}
+		.resume-btn {
+			width: 100%;
+			justify-content: center;
+			box-shadow: none;
+			border: none;
+			background: var(--accent);
+			color: #fff;
+			border-radius: 14px;
+			padding: 14px 20px;
+			font-size: 15px;
+			font-weight: 500;
+		}
+		.resume-btn:hover {
+			transform: none;
+			box-shadow: none;
+		}
 	}
 </style>

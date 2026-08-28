@@ -292,4 +292,64 @@ const formatted = pubDate.toLocaleDateString('zh-CN', {
 		color: var(--fg);
 	}
 	.arrow { color: var(--fg-dim); }
+
+	/* ── 移动端：小程序化 ── */
+	@media (max-width: 720px) {
+		.p-head {
+			padding-block: 6px 20px;
+		}
+		.back {
+			display: none; /* 返回交给小程序导航栏 */
+		}
+		.ttl {
+			font-size: 28px;
+			margin-bottom: 12px;
+		}
+		.desc {
+			font-size: 15px;
+			margin-bottom: 16px;
+		}
+		.meta-row {
+			font-size: 12px;
+		}
+		.tags {
+			margin-top: 16px;
+		}
+		.banner {
+			padding-top: 2px;
+		}
+		.banner-shape {
+			border: none;
+			box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+			border-radius: 16px;
+		}
+		.prose-wrap {
+			padding-block: 14px 8px;
+		}
+		.prose {
+			background: #fff;
+			border-radius: 16px;
+			box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+			padding: 20px 18px;
+			box-sizing: border-box;
+		}
+		.prose :global(p) {
+			font-size: 15px;
+			line-height: 1.8;
+		}
+		.related {
+			padding-block: 8px 24px;
+			border-top: none;
+		}
+		.rel-list a {
+			background: #fff;
+			border: none;
+			border-radius: 16px;
+			box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+			padding: 15px 16px;
+		}
+		.r-title {
+			font-size: 15px;
+		}
+	}
 </style>

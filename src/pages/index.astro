@@ -1,22 +1,17 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { Icon } from 'astro-icon/components';
-import { getCollection } from 'astro:content';
+import CategoryCard from '../components/CategoryCard.astro';
+import { categories } from '../data/categories';
 import fs from 'node:fs';
-
-const projects = await getCollection('projects', (entry) => entry.data.featured);
-
-const featured = [...projects]
-	.sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime())
-	.slice(0, 3);
 
 const resumeFiles = fs.readdirSync('public/resume').filter((f) => f.endsWith('.pdf')).sort();
 const resumePath = resumeFiles[0] ? `/resume/${resumeFiles[0]}` : null;
 
 ---
 
-<Layout autohideHeader={true}>
-	<!-- HERO -->
+<Layout autohideHeader={false}>
+	<!-- HERO（桌面端） -->
 	<section class="hero">
 		<div class="container hero-grid">
 			<div class="hero-text">
@@ -28,14 +23,18 @@ const resumePath = resumeFiles[0] ? `/resume/${resumeFiles[0]}` : null;
 					本人为 27 届数字媒体技术专业学生，熟练运用 PR、剪映进行短视频批量剪辑；精通 PS、AI 完成海报、图标、UI 界面及小红书封面设计，可借助 AI 工具辅助创作；掌握 3dmax、Maya 基础三维制作，具备扎实的色彩与平面构成审美，拥有线上短视频代剪、账号运营兼职经验，适配各类内容制作需求。
 				</p>
 
-				{resumePath && (
-					<div class="cta">
+				<div class="cta">
+					<a class="btn btn-primary" href="/projects">
+						<Icon name="lucide:briefcase" size={18} />
+						查看作品
+					</a>
+					{resumePath && (
 						<a class="btn" href={resumePath} download>
 							<Icon name="lucide:download" size={18} />
-							下载 PDF 简历
+							下载简历
 						</a>
-					</div>
-				)}
+					)}
+				</div>
 
 			</div>
 
@@ -43,7 +42,64 @@ const resumePath = resumeFiles[0] ? `/resume/${resumeFiles[0]}` : null;
 		</div>
 	</section>
 
-	<!-- ABOUT -->
+	<!-- 移动端：小程序首页 -->
+	<div class="mini-home">
+		<!-- 资料卡 -->
+		<section class="m-card m-profile">
+			<img class="m-avatar" src="/images/logo.webp" alt="liuyingying 头像" width="96" height="96" />
+			<div class="m-profile-info">
+				<h1 class="m-name">liuyingying（lyy）</h1>
+				<p class="m-tags">数字媒体技术 · 27 届 · 广东</p>
+				<div class="m-cta">
+					{resumePath && (
+						<a class="m-cta-primary" href={resumePath} download>
+							<Icon name="lucide:download" size={15} /> 简历
+						</a>
+					)}
+				</div>
+			</div>
+		</section>
+
+		<!-- 基本信息 -->
+		<section class="m-section">
+			<h2 class="m-section-title">基本信息</h2>
+			<div class="m-card m-info">
+				<dl>
+					<dt>专业</dt><dd>数字媒体技术</dd>
+					<dt>方向</dt><dd>短视频剪辑、平面视觉设计</dd>
+					<dt>毕业</dt><dd>2027 届</dd>
+					<dt>城市</dt><dd>广东 / 求职中</dd>
+				</dl>
+				<p class="m-bio">
+					27 届数字媒体技术在校生，熟练使用 PR、剪映进行短视频剪辑；掌握 PS、AI 平面设计与 UI 制作，具备线上短视频批量剪辑兼职经验，拥有良好审美，学习适应能力强。
+				</p>
+			</div>
+		</section>
+
+		<!-- 作品分类 -->
+		<section class="m-section">
+			<h2 class="m-section-title">作品集</h2>
+			<div class="m-card m-categories">
+				{
+					categories.map((cat) => (
+						<a class="m-category" href={cat.link}>
+							<span class="m-category-title">{cat.title}</span>
+							<span class="m-category-tag">{cat.tag}</span>
+							<Icon class="m-category-arrow" name="lucide:chevron-right" size={16} />
+						</a>
+					))
+				}
+				<!-- 摄影习作（不在全局分类中，仅移动端补充入口） -->
+				<a class="m-category" href="/sheying">
+					<span class="m-category-title">摄影习作</span>
+					<span class="m-category-tag">摄影</span>
+					<Icon class="m-category-arrow" name="lucide:chevron-right" size={16} />
+				</a>
+			</div>
+		</section>
+	</div>
+
+	<!-- ABOUT（桌面端） -->
 	<section class="about" id="about">
 		<div class="container">
 			<header class="section-head">
@@ -68,77 +124,45 @@ const resumePath = resumeFiles[0] ? `/resume/${resumeFiles[0]}` : null;
 		</div>
 	</section>
 
-	<!-- FEATURED -->
+	<!-- PORTFOLIO（桌面端） -->
 	<section class="featured">
 		<div class="container">
 			<header class="section-head">
-				<h2><Icon name="lucide:sparkle" size={24} /> 精选作品</h2>
-				<a class="more" href="/projects">查看全部 →</a>
+				<h2><Icon name="lucide:sparkle" size={24} /> 作品集</h2>
 			</header>
-			<ul class="featured-list">
-				{
-					featured.map((project) => (
-						<li>
-							<a href={`/projects/${project.id}`}>
-								<span class="title">{project.data.title}</span>
-								<time class="date" datetime={project.data.pubDate.toISOString()}>
-									{project.data.pubDate.toLocaleDateString('zh-CN', {
-										year: 'numeric',
-										month: '2-digit',
-									})}
-								</time>
-							</a>
-						</li>
-					))
-				}
-			</ul>
+			<div class="category-grid">
+				{categories.map((cat, i) => <CategoryCard cat={cat} index={i} />)}
+			</div>
 		</div>
 	</section>
 
 </Layout>
 
-<script is:inline>
-	(function () {
-		// 首页顶栏自动隐藏：滚动经过 banner 后再出现
-		const header = document.querySelector('.site-header');
-		const hero = document.querySelector('.hero');
-		if (!header || !hero) return;
-
-		header.dataset.visible = 'false';
-
-		const observer = new IntersectionObserver(
-			([entry]) => {
-				header.dataset.visible = String(!entry.isIntersecting);
-			},
-			{ threshold: 0 }
-		);
-		observer.observe(hero);
-	})();
-</script>
-
 <style>
 	.hero {
-		min-height: 100vh;
-		min-height: 100svh;
+		min-height: 88vh;
+		min-height: 88svh;
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
-		padding-block: calc(72px + clamp(48px, 8vw, 88px)) clamp(40px, 5vw, 64px);
+		padding-block: calc(72px + clamp(40px, 6vw, 72px)) clamp(48px, 6vw, 72px);
 		overflow: hidden;
 		position: relative;
-		background: linear-gradient(135deg, var(--accent-pink) 0%, #f9a8d4 100%);
-		color: #fff;
+		background:
+			radial-gradient(circle at 85% 20%, color-mix(in srgb, var(--accent) 10%, transparent) 0%, transparent 32%),
+			linear-gradient(135deg, #ffffff 0%, #faf8f6 55%, #f5f0ec 100%);
+		color: var(--fg);
 	}
 	.hero::before {
 		content: '';
 		position: absolute;
 		z-index: 0;
-		top: -20%;
-		right: -6%;
-		width: 420px;
-		height: 420px;
+		bottom: -10%;
+		left: -4%;
+		width: 360px;
+		height: 360px;
 		border-radius: 50%;
-		background: radial-gradient(circle, rgba(255,255,255,0.16) 0%, transparent 70%);
+		background: radial-gradient(circle, color-mix(in srgb, var(--accent) 8%, transparent) 0%, transparent 65%);
 		pointer-events: none;
 	}
 
@@ -166,12 +190,12 @@ const resumePath = resumeFiles[0] ? `/resume/${resumeFiles[0]}` : null;
 	.subtitle {
 		font-size: 0.45em;
 		font-weight: 400;
-		color: rgba(255,255,255,0.72);
+		color: var(--fg-dim);
 	}
 
 	.lede {
 		font-size: clamp(16px, 1.6vw, 19px);
-		color: rgba(255,255,255,0.82);
+		color: rgba(26, 26, 46, 0.82);
 		line-height: 1.75;
 		max-width: 50ch;
 		margin-bottom: 28px;
@@ -189,16 +213,29 @@ const resumePath = resumeFiles[0] ? `/resume/${resumeFiles[0]}` : null;
 		align-items: center;
 		gap: 8px;
 		font-family: var(--font-display);
-		font-size: 17px;
+		font-size: 16px;
 		font-weight: 500;
-		color: #fff;
-		padding-bottom: 3px;
-		border-bottom: 2px solid rgba(255,255,255,0.42);
-		transition: gap 0.25s, border-color 0.25s;
+		color: var(--fg);
+		padding: 12px 22px;
+		border-radius: 999px;
+		border: 1.5px solid var(--line-strong);
+		background: rgba(255, 255, 255, 0.6);
+		backdrop-filter: blur(4px);
+		transition: gap 0.25s, border-color 0.25s, background 0.25s;
 	}
 	.btn:hover {
 		gap: 14px;
-		border-color: rgba(255,255,255,0.9);
+		border-color: var(--accent);
+		background: rgba(255, 255, 255, 0.9);
+	}
+	.btn-primary {
+		color: #fff;
+		background: var(--accent);
+		border-color: var(--accent);
+	}
+	.btn-primary:hover {
+		background: color-mix(in srgb, var(--accent) 88%, #000);
+		border-color: color-mix(in srgb, var(--accent) 88%, #000);
 	}
 
 	.section-head {
@@ -330,46 +367,203 @@ const resumePath = resumeFiles[0] ? `/resume/${resumeFiles[0]}` : null;
 		box-shadow: 0 0 0 0 var(--accent);
 	}
 
-	.featured-list {
-		list-style: none;
-		padding: 0;
-		margin: 0;
-		display: flex;
-		flex-direction: column;
-		gap: 4px;
+	.category-grid {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: 20px;
 	}
-	.featured-list li {
-		border-bottom: 1px solid var(--line);
+	@media (max-width: 980px) {
+		.category-grid { grid-template-columns: repeat(2, 1fr); }
 	}
-	.featured-list li:last-child {
-		border-bottom: none;
-	}
-	.featured-list a {
-		display: flex;
-		justify-content: space-between;
-		align-items: baseline;
-		gap: 16px;
-		padding: 16px 0;
-		font-size: 17px;
-		color: var(--fg);
-		text-decoration: none;
-		transition: color 0.2s;
-	}
-	.featured-list a:hover {
-		color: var(--accent);
-	}
-	.featured-list .title {
-		font-weight: 500;
-	}
-	.featured-list .date {
-		font-family: var(--font-mono);
-		font-size: 13px;
-		color: var(--fg-dim);
-		flex-shrink: 0;
+
+	@media (max-width: 720px) {
+		.hero {
+			min-height: auto;
+			padding-block: calc(72px + 32px) 48px;
+		}
+		.hero-grid { grid-template-columns: 1fr; }
+		.title {
+			font-size: clamp(34px, 10vw, 48px);
+			margin-bottom: 18px;
+		}
+		.subtitle { font-size: 0.5em; }
+		.lede {
+			font-size: 15px;
+			margin-bottom: 24px;
+		}
+		.cta {
+			flex-direction: column;
+			align-items: stretch;
+			gap: 12px;
+		}
+		.btn {
+			justify-content: center;
+			font-size: 15px;
+			padding: 14px 22px;
+		}
+		.grid { grid-template-columns: 1fr; gap: 24px; }
 	}
 
 	@media (max-width: 960px) {
 		.hero-grid { grid-template-columns: 1fr; }
 		.grid { grid-template-columns: 1fr; gap: 24px; }
+	}
+
+	/* ── 移动端：小程序首页（桌面端隐藏） ── */
+	.mini-home {
+		display: none;
+	}
+	@media (max-width: 720px) {
+		/* 桌面端区块整体隐藏 */
+		.hero,
+		.about,
+		.featured {
+			display: none;
+		}
+		.mini-home {
+			display: block;
+			padding-bottom: 16px;
+		}
+
+		/* 通用卡片 */
+		.m-card {
+			background: #fff;
+			border-radius: 16px;
+			box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+			margin-bottom: 12px;
+		}
+		.m-section-title {
+			font-family: var(--font-sans);
+			font-size: 14px;
+			font-weight: 600;
+			color: rgba(26, 26, 46, 0.55);
+			margin: 0 0 10px;
+			padding-inline: 4px;
+		}
+
+		/* 资料卡 */
+		.m-profile {
+			display: flex;
+			align-items: center;
+			gap: 14px;
+			padding: 18px 16px;
+			margin-top: 4px;
+		}
+		.m-avatar {
+			width: 64px;
+			height: 64px;
+			border-radius: 50%;
+			object-fit: cover;
+			flex-shrink: 0;
+			border: 2px solid #fff;
+			box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+		}
+		.m-profile-info {
+			flex: 1;
+			min-width: 0;
+		}
+		.m-name {
+			font-family: var(--font-display);
+			font-size: 18px;
+			font-weight: 600;
+			margin: 0 0 4px;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+		.m-tags {
+			font-size: 12px;
+			color: var(--fg-muted);
+			margin: 0 0 10px;
+		}
+		.m-cta {
+			display: flex;
+			gap: 8px;
+		}
+		.m-cta a {
+			display: inline-flex;
+			align-items: center;
+			gap: 4px;
+			font-size: 12px;
+			padding: 6px 14px;
+			border-radius: 999px;
+			-webkit-tap-highlight-color: transparent;
+		}
+		.m-cta-primary {
+			color: #fff;
+			background: var(--accent);
+		}
+
+		/* 作品分类 */
+		.m-categories {
+			padding: 4px 16px;
+			overflow: hidden;
+		}
+		.m-category {
+			display: flex;
+			align-items: center;
+			gap: 10px;
+			padding: 13px 0;
+			border-bottom: 1px solid var(--line);
+			color: var(--fg);
+			-webkit-tap-highlight-color: transparent;
+		}
+		.m-category:last-child {
+			border-bottom: none;
+		}
+		.m-category:active {
+			background: rgba(0, 0, 0, 0.02);
+		}
+		.m-category-title {
+			flex: 1;
+			font-size: 15px;
+			font-weight: 500;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+		.m-category-tag {
+			font-family: var(--font-mono);
+			font-size: 11px;
+			color: var(--accent);
+			padding: 3px 10px;
+			border: 1px solid var(--accent);
+			border-radius: 999px;
+			flex-shrink: 0;
+		}
+		.m-category-arrow {
+			color: var(--fg-dim);
+			flex-shrink: 0;
+		}
+
+		/* 基本信息 */
+		.m-info {
+			padding: 16px;
+		}
+		.m-info dl {
+			display: grid;
+			grid-template-columns: auto 1fr;
+			gap: 9px 16px;
+			margin: 0 0 14px;
+		}
+		.m-info dt {
+			font-size: 12px;
+			font-weight: 600;
+			color: var(--accent);
+			padding-top: 2px;
+		}
+		.m-info dd {
+			margin: 0;
+			font-size: 14px;
+			color: var(--fg);
+		}
+		.m-bio {
+			font-size: 13px;
+			line-height: 1.75;
+			color: var(--fg-muted);
+			margin: 0;
+			padding-top: 12px;
+			border-top: 1px solid var(--line);
+		}
 	}
 </style>
