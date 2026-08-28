@@ -26,6 +26,13 @@ const categories = [
 		desc: '英州姑娘 APP 界面设计',
 		color: '#ec4899',
 	},
+	{
+		slug: 'game',
+		title: 'MOLLY拾色之旅',
+		desc: '木疙瘩 H5 互动游戏 · 随堂练习',
+		color: '#e879a9',
+		href: '/game/index.html',
+	},
 ];
 ---
 
@@ -47,7 +54,7 @@ const categories = [
 			<div class="grid">
 				{
 					categories.map((cat) => (
-						<a class="card" href={`/suitanglianxi/${cat.slug}`} style={`--card-accent: ${cat.color}`}>
+						<a class="card" href={cat.href ?? `/suitanglianxi/${cat.slug}`} style={`--card-accent: ${cat.color}`}>
 							<div class="card-body">
 								<h2 class="card-title">{cat.title}</h2>
 								<p class="card-desc">{cat.desc}</p>

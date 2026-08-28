@@ -81,6 +81,13 @@ const resumePath = resumeFiles[0] ? `/resume/${resumeFiles[0]}` : null;
 		<section class="m-section">
 			<h2 class="m-section-title"><Icon name="lucide:briefcase" size={14} /> 作品集</h2>
 			<div class="m-card m-categories">
+				<!-- 游戏作品：置顶于作品集上方 -->
+				<a class="m-category m-game" href="/game/index.html">
+					<Icon class="m-game-icon" name="lucide:gamepad-2" size={17} />
+					<span class="m-category-title">MOLLY拾色之旅</span>
+					<span class="m-category-tag">H5 游戏</span>
+					<Icon class="m-category-arrow" name="lucide:chevron-right" size={16} />
+				</a>
 				{
 					categories.map((cat) => (
 						<a class="m-category" href={cat.link}>
@@ -553,6 +560,24 @@ const resumePath = resumeFiles[0] ? `/resume/${resumeFiles[0]}` : null;
 		}
 		.m-category-arrow {
 			color: var(--fg-dim);
+			flex-shrink: 0;
+		}
+
+		/* 游戏作品入口：置顶高亮 */
+		.m-game {
+			border-radius: 12px;
+			margin: 10px 0 12px;
+			padding: 13px 12px;
+			background: linear-gradient(135deg, #fdf2f8 0%, #fce7f3 100%);
+			border: 1px solid #f9a8d4;
+			border-bottom: 1px solid #f9a8d4;
+		}
+		.m-game .m-category-title {
+			color: #be185d;
+			font-size: 15px;
+		}
+		.m-game-icon {
+			color: #be185d;
 			flex-shrink: 0;
 		}
 
