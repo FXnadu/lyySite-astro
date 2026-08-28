@@ -278,7 +278,7 @@ const navTitle = TITLES[path] ?? '';
 			z-index: 60;
 			background: rgba(255, 255, 255, 0.92);
 			backdrop-filter: blur(24px) saturate(160%);
-			border-bottom: none;
+			border-bottom: 1px solid rgba(0, 0, 0, 0.06);
 		}
 		/* 首页 autohide 在移动端关闭：导航栏常驻顶部 */
 		.site-header[data-autohide="true"] {
@@ -313,21 +313,22 @@ const navTitle = TITLES[path] ?? '';
 		}
 		.mini-back {
 			position: absolute;
-			left: 4px;
-			top: calc(env(safe-area-inset-top) + 4px);
+			left: 8px;
+			top: calc(env(safe-area-inset-top) + 5px);
 			display: flex;
 			align-items: center;
 			justify-content: center;
-			width: 38px;
-			height: 38px;
+			width: 36px;
+			height: 36px;
 			border: none;
-			background: transparent;
+			background: rgba(0, 0, 0, 0.04);
 			color: var(--fg);
 			border-radius: 50%;
 			-webkit-tap-highlight-color: transparent;
+			transition: background 0.15s;
 		}
 		.mini-back:active {
-			background: rgba(0, 0, 0, 0.05);
+			background: rgba(0, 0, 0, 0.1);
 		}
 		.mini-back[hidden] {
 			display: none;

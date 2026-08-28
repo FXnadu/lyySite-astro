@@ -66,6 +66,7 @@ const resumePath = resumeFiles[0] ? `/resume/${resumeFiles[0]}` : null;
 			<div class="m-card m-info">
 				<dl>
 					<dt>专业</dt><dd>数字媒体技术</dd>
+					<dt>学校</dt><dd><span class="m-obf" data-n="广东建设职业技术学院（专科）"></span></dd>
 					<dt>方向</dt><dd>短视频剪辑、平面视觉设计</dd>
 					<dt>毕业</dt><dd>2027 届</dd>
 					<dt>城市</dt><dd>广东 / 求职中</dd>
@@ -561,6 +562,10 @@ const resumePath = resumeFiles[0] ? `/resume/${resumeFiles[0]}` : null;
 			margin: 0;
 			font-size: 14px;
 			color: var(--fg);
+		}
+		/* 学校等敏感信息由 CSS content 渲染，源码不含明文，防爬虫抓取 */
+		.m-obf::before {
+			content: attr(data-n);
 		}
 		.m-bio {
 			font-size: 13px;
