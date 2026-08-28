@@ -48,15 +48,15 @@ const resumePath = resumeFiles[0] ? `/resume/${resumeFiles[0]}` : null;
 		<section class="m-card m-profile">
 			<img class="m-avatar" src="/images/logo.webp" alt="liuyingying 头像" width="96" height="96" />
 			<div class="m-profile-info">
-				<h1 class="m-name">liuyingying（lyy）</h1>
+				<h1 class="m-name" data-n="刘滢滢（lyy）"></h1>
 				<p class="m-tags">数字媒体技术 · 27 届 · 广东</p>
-				<div class="m-cta">
-					{resumePath && (
-						<a class="m-cta-primary" href={resumePath} download>
-							<Icon name="lucide:download" size={15} /> 简历
-						</a>
-					)}
-				</div>
+			</div>
+			<div class="m-cta">
+				{resumePath && (
+					<a class="m-cta-primary" href={resumePath} download>
+						<Icon name="lucide:download" size={15} /> 简历
+					</a>
+				)}
 			</div>
 		</section>
 
@@ -434,7 +434,7 @@ const resumePath = resumeFiles[0] ? `/resume/${resumeFiles[0]}` : null;
 		}
 		.m-section-title {
 			font-family: var(--font-sans);
-			font-size: 14px;
+			font-size: 17px;
 			font-weight: 600;
 			color: rgba(26, 26, 46, 0.55);
 			margin: 0 0 10px;
@@ -476,9 +476,14 @@ const resumePath = resumeFiles[0] ? `/resume/${resumeFiles[0]}` : null;
 			color: var(--fg-muted);
 			margin: 0 0 10px;
 		}
+		/* 姓名由 CSS content 渲染，源码不含明文，防爬虫直接抓取 */
+		.m-name::before {
+			content: attr(data-n);
+		}
 		.m-cta {
 			display: flex;
 			gap: 8px;
+			flex-shrink: 0;
 		}
 		.m-cta a {
 			display: inline-flex;
