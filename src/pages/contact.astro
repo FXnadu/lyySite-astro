@@ -3,7 +3,15 @@ import Layout from '../layouts/Layout.astro';
 import { Icon } from 'astro-icon/components';
 import fs from 'node:fs';
 
+// ── 反爬处理：联系方式明文不直接出现在页面源码 ──
+// 1) 显示文本用 HTML 字符实体混淆，浏览器正常显示，正则抓不到明文；
+// 2) mailto/tel 链接与复制数据用 base64 编码，由前端脚本运行时解码。
+const enc = (s: string) => Buffer.from(s, 'utf8').toString('base64');
+const obf = (s: string) =>
+	s.split('').map((ch) => `&#x${ch.codePointAt(0)!.toString(16)};`).join('');
+
 const channels = [
+	{ label: '手机', value: '14745396117', href: 'tel:14745396117' },
 	{ label: '邮箱', value: '1753500838@qq.com', href: 'mailto:1753500838@qq.com' },
 	{ label: 'QQ', value: '1753500838', href: 'https://wpa.qq.com/msgrd?v=3&uin=1753500838&site=qq&menu=yes' },
 	{ label: '微信', value: 'L-D_220815', href: null },
@@ -45,13 +53,13 @@ const resumePath = resumeFiles[0] ? `/resume/${resumeFiles[0]}` : null;
 							<div class="ch-label">{c.label}</div>
 							<div class="ch-value">
 								{c.href ? (
-									<a href={c.href} target={c.href.startsWith('http') ? '_blank' : undefined} rel="noopener">
-										{c.value}
+									<a class="ch-link" href="#" data-enc={enc(c.href)} rel="noopener">
+										<span set:html={obf(c.value)} />
 									</a>
 								) : (
-									<span>{c.value}</span>
+									<span><span set:html={obf(c.value)} /></span>
 								)}
-								<button class="copy-btn" type="button" data-copy={c.value} aria-label="复制" title="复制">
+								<button class="copy-btn" type="button" data-copy={enc(c.value)} aria-label="复制" title="复制">
 									<Icon name="lucide:copy" size={16} class="copy-icon" />
 									<Icon name="lucide:check" size={16} class="check-icon" />
 								</button>
@@ -80,9 +88,34 @@ const resumePath = resumeFiles[0] ? `/resume/${resumeFiles[0]}` : null;
 </Layout>
 
 <script>
+	// 反爬：base64 运行时解码
+	const decode = (s) => {
+		try {
+			const bin = atob(s);
+			const bytes = Uint8Array.from(bin, (c) => c.charCodeAt(0));
+			return new TextDecoder().decode(bytes);
+		} catch {
+			return '';
+		}
+	};
+
+	// 联系方式链接：解码后跳转（外部链接新窗口，mailto/tel 当前页跳转）
+	document.querySelectorAll('.ch-link').forEach((link) => {
+		link.addEventListener('click', (e) => {
+			e.preventDefault();
+			const url = decode(link.dataset.enc || '');
+			if (!url) return;
+			if (url.startsWith('http')) {
+				window.open(url, '_blank', 'noopener');
+			} else {
+				window.location.href = url;
+			}
+		});
+	});
+
 	document.querySelectorAll('.copy-btn').forEach((btn) => {
 		btn.addEventListener('click', async () => {
-			const text = btn.dataset.copy || '';
+			const text = decode(btn.dataset.copy || '');
 			try {
 				await navigator.clipboard.writeText(text);
 			} catch {
