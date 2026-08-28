@@ -462,20 +462,28 @@ const resumePath = resumeFiles[0] ? `/resume/${resumeFiles[0]}` : null;
 		.m-profile-info {
 			flex: 1;
 			min-width: 0;
+			position: relative;
 		}
 		.m-name {
 			font-family: var(--font-display);
 			font-size: 18px;
 			font-weight: 600;
-			margin: 0 0 4px;
+			margin: 0;
 			white-space: nowrap;
 			overflow: hidden;
 			text-overflow: ellipsis;
 		}
 		.m-tags {
+			position: absolute;
+			top: calc(100% + 4px); /* 紧贴名字下方，不占高度，保证头像对名字垂直居中 */
+			left: 0;
+			right: 0;
 			font-size: 12px;
 			color: var(--fg-muted);
-			margin: 0 0 10px;
+			margin: 0;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
 		}
 		/* 姓名由 CSS content 渲染，源码不含明文，防爬虫直接抓取 */
 		.m-name::before {

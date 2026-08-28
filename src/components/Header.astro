@@ -11,15 +11,15 @@ const isActive = (href: string) =>
 	href === '/' ? path === '/' : path.startsWith(href);
 
 const nav = [
-	{ href: '/', label: '首页', icon: 'lucide:compass' },
+	{ href: '/', label: '关于我', icon: 'lucide:fingerprint' },
 	{ href: '/projects', label: '作品', icon: 'lucide:palette' },
 	{ href: '/contact', label: '联系', icon: 'lucide:feather' },
 ];
 
 // ── 移动端：小程序式底部 TabBar ──
 const tabs = [
-	{ href: '/', label: '首页', icon: 'lucide:home' },
-	{ href: '/projects', label: '作品', icon: 'lucide:layout-grid' },
+	{ href: '/', label: '关于我', icon: 'lucide:fingerprint' },
+	{ href: '/projects', label: '作品', icon: 'lucide:palette' },
 	{ href: '/contact', label: '联系', icon: 'lucide:mail' },
 ];
 
@@ -27,7 +27,7 @@ const isHome = path === '/';
 
 // 小程序导航栏标题；动态详情页标题由 JS 从 <title> 补充
 const TITLES: Record<string, string> = {
-	'/': '首页',
+	'/': '关于我',
 	'/projects': '作品',
 	'/projects/video': '短视频剪辑',
 	'/projects/graphic': '平面视觉设计',

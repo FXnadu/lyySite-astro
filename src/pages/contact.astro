@@ -11,10 +11,10 @@ const obf = (s: string) =>
 	s.split('').map((ch) => `&#x${ch.codePointAt(0)!.toString(16)};`).join('');
 
 const channels = [
-	{ label: '手机', value: '14745396117', href: 'tel:14745396117' },
-	{ label: '邮箱', value: '1753500838@qq.com', href: 'mailto:1753500838@qq.com' },
-	{ label: 'QQ', value: '1753500838', href: 'https://wpa.qq.com/msgrd?v=3&uin=1753500838&site=qq&menu=yes' },
-	{ label: '微信', value: 'L-D_220815', href: null },
+	{ label: '手机', value: '14745396117', href: 'tel:14745396117', icon: 'lucide:smartphone' },
+	{ label: '邮箱', value: '1753500838@qq.com', href: 'mailto:1753500838@qq.com', icon: 'lucide:mail' },
+	{ label: 'QQ', value: '1753500838', href: 'https://wpa.qq.com/msgrd?v=3&uin=1753500838&site=qq&menu=yes', icon: 'simple-icons:qq' },
+	{ label: '微信', value: 'yyy-yyy_OxO', href: null, icon: 'simple-icons:wechat' },
 ];
 
 const resumeFiles = fs.readdirSync('public/resume').filter((f) => f.endsWith('.pdf')).sort();
@@ -50,6 +50,7 @@ const resumePath = resumeFiles[0] ? `/resume/${resumeFiles[0]}` : null;
 				{
 					channels.map((c) => (
 						<li>
+							<Icon name={c.icon} size={16} class="ch-icon" aria-hidden="true" />
 							<div class="ch-label">{c.label}</div>
 							<div class="ch-value">
 								{c.href ? (
@@ -186,9 +187,9 @@ const resumePath = resumeFiles[0] ? `/resume/${resumeFiles[0]}` : null;
 	}
 	.ch-list li {
 		display: grid;
-		grid-template-columns: 100px 1fr;
-		gap: 24px;
-		align-items: baseline;
+		grid-template-columns: auto 100px 1fr;
+		gap: 12px 24px;
+		align-items: center;
 		padding: 14px 0;
 		border-bottom: 1px solid var(--line);
 	}
@@ -214,6 +215,10 @@ const resumePath = resumeFiles[0] ? `/resume/${resumeFiles[0]}` : null;
 		border-bottom-color: var(--accent-yellow);
 	}
 	.ch-value span { color: var(--fg); }
+	.ch-icon {
+		flex-shrink: 0;
+		color: var(--fg-muted);
+	}
 
 	.copy-btn {
 		display: inline-flex;
@@ -286,7 +291,7 @@ const resumePath = resumeFiles[0] ? `/resume/${resumeFiles[0]}` : null;
 
 	@media (max-width: 720px) {
 		.grid { grid-template-columns: 1fr; gap: 40px; }
-		.ch-list li { grid-template-columns: 80px 1fr; gap: 10px; }
+		.ch-list li { grid-template-columns: auto 80px 1fr; gap: 10px; }
 	}
 
 	/* ── 移动端：小程序"我的-设置"样式 ── */
@@ -303,7 +308,7 @@ const resumePath = resumeFiles[0] ? `/resume/${resumeFiles[0]}` : null;
 			display: flex;
 			align-items: center;
 			gap: 14px;
-			margin: 6px 0 10px;
+			margin: 6px 16px 10px;
 			padding: 16px;
 			background: #fff;
 			border-radius: 16px;
@@ -348,7 +353,7 @@ const resumePath = resumeFiles[0] ? `/resume/${resumeFiles[0]}` : null;
 			overflow: hidden;
 		}
 		.ch-list li {
-			grid-template-columns: auto 1fr auto;
+			grid-template-columns: auto auto 1fr;
 			align-items: center;
 			gap: 10px;
 			padding: 15px 0;
