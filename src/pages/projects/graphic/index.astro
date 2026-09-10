@@ -24,20 +24,107 @@ function extractImage(mod: unknown): ImageMetadata | undefined {
 	return undefined;
 }
 
-const images = Object.entries(modules)
-	.map(([filePath, mod]) => {
+type GraphicItem = {
+	title: string;
+	name: string;
+	tool: 'PS' | 'AI';
+	groupKey: string | null;
+	image: ImageMetadata;
+	width: number;
+	height: number;
+};
+
+// 横排展示的系列：匹配到的作品会成组横向排列
+const featureGroupDefs: { key: string; cols: number; test: (name: string) => boolean }[] = [
+	{ key: 'sanfu', cols: 3, test: (name) => /三福购物袋/.test(name) },
+	{ key: 'ui', cols: 4, test: (name) => /界面/.test(name) },
+	{ key: 'project9', cols: 4, test: (name) => /项目9画板/.test(name) },
+];
+
+const allImages = Object.entries(modules)
+	.map(([filePath, mod]): GraphicItem | null => {
 		const image = extractImage(mod);
 		if (!image) return null;
+		const rawName = getFileNameWithoutExt(filePath);
+		// 文件名前缀标识软件：AI = Adobe Illustrator，PS = Photoshop
+		const tool: GraphicItem['tool'] = /^AI/i.test(rawName) ? 'AI' : 'PS';
+		// 展示标题：去掉软件前缀和导出时的「_画板 N」尾巴
+		const title = rawName
+			.replace(/^(AI|PS)[-\s]*/i, '')
+			.replace(/_画板\s*\d+$/i, '')
+			.trim();
+		const groupDef = featureGroupDefs.find((def) => def.test(rawName));
 		return {
-			title: getFileNameWithoutExt(filePath),
+			title,
+			name: rawName,
+			tool,
+			groupKey: groupDef ? groupDef.key : null,
 			image,
 			width: image.width,
 			height: image.height,
 		};
 	})
-	.filter((item): item is { title: string; image: ImageMetadata; width: number; height: number } => item !== null);
+	.filter((item): item is GraphicItem => item !== null);
 
-const hasImages = images.length > 0;
+// 设计板块内部的指定顺序：三福购物袋置顶，APP 界面系列成组排列
+const designPriority = [
+	/三福购物袋设计-1/,
+	/三福购物袋设计-2/,
+	/三福购物袋设计-3/,
+	/主界面页面设计/,
+	/启动页/,
+	/弹窗界面/,
+	/查看界面/,
+	/编辑界面/,
+];
+
+function priorityOf(name: string) {
+	const idx = designPriority.findIndex((re) => re.test(name));
+	return idx === -1 ? 99 : idx;
+}
+
+// 海报指定顺序：音乐海报置顶 → 泡泡玛特 → 其余 → iPhone 垫底
+function posterTier(name: string) {
+	if (/音乐海报/.test(name)) return 0;
+	if (/泡泡玛特/.test(name)) return 1;
+	if (/iphoneX/i.test(name)) return 3;
+	return 2;
+}
+
+const posters = allImages
+	.filter((img) => img.name.includes('海报'))
+	.sort((a, b) => {
+		const ta = posterTier(a.name);
+		const tb = posterTier(b.name);
+		if (ta !== tb) return ta - tb;
+		return a.name.localeCompare(b.name, 'zh');
+	});
+
+const designs = allImages
+	.filter((img) => !img.name.includes('海报'))
+	.sort((a, b) => {
+		const pa = priorityOf(a.name);
+		const pb = priorityOf(b.name);
+		if (pa !== pb) return pa - pb;
+		return a.name.localeCompare(b.name, 'zh');
+	});
+
+const sections = [
+	{ key: 'design', label: '设计', items: designs },
+	{ key: 'poster', label: '海报', items: posters },
+].map((section) => {
+	const groups = featureGroupDefs
+		.map((def) => ({
+			key: def.key,
+			cols: def.cols,
+			items: section.items.filter((img) => img.groupKey === def.key),
+		}))
+		.filter((group) => group.items.length > 0);
+	const rest = section.items.filter((img) => img.groupKey === null);
+	return { ...section, groups, rest };
+});
+
+const hasImages = allImages.length > 0;
 ---
 
 <Layout
@@ -60,20 +147,60 @@ const hasImages = images.length > 0;
 	<section class="gallery-section">
 		<div class="container">
 			{
-				hasImages ? (
-					<div class="image-grid">
-						{
-							images.map((img) => (
-								<article class="image-card">
-									<button class="thumb" type="button" data-src={img.image.src} aria-label={`查看 ${img.title}`}>
-										<Image src={img.image} alt={img.title} width={img.width} height={img.height} loading="lazy" decoding="async" />
-									</button>
-									<h2 class="image-title">{img.title}</h2>
-								</article>
-							))
-						}
+			hasImages ? (
+				<div class="works">
+					<div class="tabs" role="tablist" aria-label="作品分类">
+						{sections.map((section, i) => (
+							<button
+								class="tab"
+								type="button"
+								role="tab"
+								data-tab={section.key}
+								aria-selected={i === 0 ? 'true' : 'false'}
+							>
+								{section.label}
+								<span class="tab-count">{section.items.length}</span>
+							</button>
+						))}
 					</div>
-				) : (
+					{
+						sections.map((section, i) => (
+							<section class="work-block" data-panel={section.key} data-active={i === 0 ? 'true' : 'false'} role="tabpanel">
+								{section.groups.map((group) => (
+									<div class="feature-grid" style={`--cols:${group.cols}`}>
+										{group.items.map((img) => (
+											<article class="image-card" data-tool={img.tool}>
+												<button class="thumb" type="button" data-src={img.image.src} aria-label={`查看 ${img.title}`}>
+													<Image src={img.image} alt={img.title} width={img.width} height={img.height} loading="lazy" decoding="async" />
+												</button>
+												<div class="image-meta">
+													<h3 class="image-title">{img.title}</h3>
+													<span class="image-tag">{img.tool}</span>
+												</div>
+											</article>
+										))}
+									</div>
+								))}
+								{section.rest.length > 0 && (
+									<div class="image-grid">
+										{section.rest.map((img) => (
+											<article class="image-card" data-tool={img.tool}>
+												<button class="thumb" type="button" data-src={img.image.src} aria-label={`查看 ${img.title}`}>
+													<Image src={img.image} alt={img.title} width={img.width} height={img.height} loading="lazy" decoding="async" />
+												</button>
+												<div class="image-meta">
+													<h3 class="image-title">{img.title}</h3>
+													<span class="image-tag">{img.tool}</span>
+												</div>
+											</article>
+										))}
+									</div>
+								)}
+							</section>
+						))
+					}
+				</div>
+			) : (
 					<div class="empty">
 						<div class="empty-icon">
 							<Icon name="lucide:folder-open" size={48} />
@@ -125,6 +252,19 @@ const hasImages = images.length > 0;
 	});
 	document.addEventListener('keydown', (e) => {
 		if (e.key === 'Escape') close();
+	});
+
+	// 设计 / 海报 标签切换（仅本页作品区，避免与导航 .tab 冲突）
+	const tabs = document.querySelectorAll<HTMLButtonElement>('.works > .tabs .tab');
+	const panels = document.querySelectorAll<HTMLElement>('.works > .work-block');
+	tabs.forEach((tab) => {
+		tab.addEventListener('click', () => {
+			const key = tab.dataset.tab;
+			tabs.forEach((t) => t.setAttribute('aria-selected', String(t === tab)));
+			panels.forEach((p) => {
+				p.dataset.active = String(p.dataset.panel === key);
+			});
+		});
 	});
 </script>
 
@@ -182,9 +322,85 @@ const hasImages = images.length > 0;
 	.gallery-section {
 		padding-block: clamp(40px, 6vw, 64px);
 	}
+	.tabs {
+		display: inline-flex;
+		gap: 4px;
+		padding: 5px;
+		background: var(--bg-soft);
+		border: 1.5px solid var(--line);
+		border-radius: 999px;
+		margin-bottom: 32px;
+	}
+	.tab {
+		display: inline-flex;
+		align-items: center;
+		gap: 8px;
+		font-family: var(--font-display);
+		font-size: 15px;
+		font-weight: 600;
+		color: var(--fg-muted);
+		background: transparent;
+		border: none;
+		border-radius: 999px;
+		padding: 9px 26px;
+		cursor: pointer;
+		transition: color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+	}
+	.tab:hover {
+		color: var(--fg);
+	}
+	.tab[aria-selected='true'] {
+		color: #fff;
+		background: var(--accent);
+		box-shadow: 0 4px 14px color-mix(in srgb, var(--accent) 35%, transparent);
+	}
+	.tab-count {
+		font-family: var(--font-mono);
+		font-size: 12px;
+		font-weight: 400;
+		opacity: 0.75;
+	}
+	.work-block {
+		display: none;
+	}
+	.work-block[data-active='true'] {
+		display: block;
+		animation: panel-in 0.25s ease;
+	}
+	@keyframes panel-in {
+		from {
+			opacity: 0;
+			transform: translateY(6px);
+		}
+		to {
+			opacity: 1;
+			transform: none;
+		}
+	}
 	.image-grid {
 		column-count: 3;
 		column-gap: 28px;
+	}
+	.feature-grid {
+		display: grid;
+		grid-template-columns: repeat(var(--cols, 3), 1fr);
+		gap: 28px;
+		margin-bottom: 40px;
+	}
+	.feature-grid .image-card {
+		margin-bottom: 0;
+	}
+	.feature-grid .thumb {
+		aspect-ratio: 3 / 4;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+	.feature-grid .thumb :global(img) {
+		width: 100%;
+		height: 100%;
+		object-fit: contain;
+		padding: 8px;
 	}
 	.image-card {
 		background: var(--bg);
@@ -217,13 +433,38 @@ const hasImages = images.length > 0;
 	.thumb:hover :global(img) {
 		transform: scale(1.03);
 	}
+	.image-meta {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 10px;
+		padding: 12px 16px;
+	}
 	.image-title {
 		font-family: var(--font-display);
 		font-size: 16px;
 		font-weight: 600;
 		line-height: 1.3;
 		margin: 0;
-		padding: 14px 16px;
+	}
+	.image-tag {
+		flex-shrink: 0;
+		font-family: var(--font-mono);
+		font-size: 12px;
+		font-weight: 600;
+		padding: 3px 10px;
+		border: 1.5px solid;
+		border-radius: 999px;
+	}
+	.image-card[data-tool='PS'] .image-tag {
+		color: #d97706;
+		border-color: color-mix(in srgb, #f59e0b 55%, var(--line));
+		background: color-mix(in srgb, #f59e0b 10%, var(--bg));
+	}
+	.image-card[data-tool='AI'] .image-tag {
+		color: #7c3aed;
+		border-color: color-mix(in srgb, #8b5cf6 55%, var(--line));
+		background: color-mix(in srgb, #8b5cf6 10%, var(--bg));
 	}
 	.empty {
 		display: flex;
@@ -325,12 +566,27 @@ const hasImages = images.length > 0;
 			font-size: 14px;
 		}
 		.gallery-section {
-			padding-block: 4px 24px;
-		}
-		.image-grid {
-			column-count: 2;
-			column-gap: 12px;
-		}
+		padding-block: 4px 24px;
+	}
+	.tabs {
+		margin-bottom: 20px;
+	}
+	.tab {
+		font-size: 14px;
+		padding: 8px 20px;
+	}
+	.image-grid {
+		column-count: 2;
+		column-gap: 12px;
+	}
+	.feature-grid {
+		grid-template-columns: repeat(2, 1fr);
+		gap: 12px;
+		margin-bottom: 20px;
+	}
+	.feature-grid .thumb :global(img) {
+		padding: 4px;
+	}
 		.image-card {
 			background: #fff;
 			border: none;
@@ -343,9 +599,11 @@ const hasImages = images.length > 0;
 			border-radius: 0;
 			clip-path: none;
 		}
+		.image-meta {
+			padding: 10px 12px;
+		}
 		.image-title {
 			font-size: 13px;
-			padding: 10px 12px;
 		}
 	}
 
@@ -360,9 +618,11 @@ const hasImages = images.length > 0;
 		.image-card {
 			margin-bottom: 10px;
 		}
+		.image-meta {
+			padding: 8px 10px;
+		}
 		.image-title {
 			font-size: 12px;
-			padding: 8px 10px;
 		}
 	}
 </style>

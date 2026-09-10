@@ -1,25 +1,12 @@
 ---
 import Layout from '../layouts/Layout.astro';
 
-// 绘画作品列表
+// 绘画作品列表（素描01、色彩01 置顶，其余按序排列）
 const paintings = [
-	{ src: '/images/paintings/shouhui-01.webp', title: '手绘练习 01', tech: '手绘', year: '2025' },
-	{ src: '/images/paintings/shouhui-02.webp', title: '手绘练习 02', tech: '手绘', year: '2025' },
-	{ src: '/images/paintings/shouhui-03.webp', title: '手绘练习 03', tech: '手绘', year: '2025' },
-	{ src: '/images/paintings/shouhui-04.webp', title: '手绘练习 04', tech: '手绘', year: '2025' },
-	{ src: '/images/paintings/shouhui-05.webp', title: '手绘练习 05', tech: '手绘', year: '2025' },
-	{ src: '/images/paintings/shouhui-06.webp', title: '手绘练习 06', tech: '手绘', year: '2025' },
-	{ src: '/images/paintings/shouhui-07.webp', title: '手绘练习 07', tech: '手绘', year: '2025' },
-	{ src: '/images/paintings/shouhui-08.webp', title: '手绘练习 08', tech: '手绘', year: '2025' },
-	{ src: '/images/paintings/shouhui-09.webp', title: '手绘练习 09', tech: '手绘', year: '2025' },
-	{ src: '/images/paintings/shouhui-10.webp', title: '手绘练习 10', tech: '手绘', year: '2025' },
-	{ src: '/images/paintings/shouhui-11.webp', title: '手绘练习 11', tech: '手绘', year: '2025' },
-	{ src: '/images/paintings/shouhui-12.webp', title: '手绘练习 12', tech: '手绘', year: '2025' },
-	{ src: '/images/paintings/shouhui-13.webp', title: '手绘练习 13', tech: '手绘', year: '2025' },
-	{ src: '/images/paintings/shouhui-14.webp', title: '手绘练习 14', tech: '手绘', year: '2025' },
-	{ src: '/images/paintings/shouhui-15.webp', title: '手绘练习 15', tech: '手绘', year: '2025' },
-	{ src: '/images/paintings/shouhui-16.webp', title: '手绘练习 16', tech: '手绘', year: '2025' },
+	// ── 置顶 ──
 	{ src: '/images/paintings/sumiao-01.webp', title: '素描练习 01', tech: '素描', year: '2025' },
+	{ src: '/images/paintings/secai-01.png', title: '色彩练习 01', tech: '色彩', year: '2025' },
+	// ── 素描 ──
 	{ src: '/images/paintings/sumiao-02.webp', title: '素描练习 02', tech: '素描', year: '2025' },
 	{ src: '/images/paintings/sumiao-03.webp', title: '素描练习 03', tech: '素描', year: '2025' },
 	{ src: '/images/paintings/sumiao-04.webp', title: '素描练习 04', tech: '素描', year: '2025' },
@@ -34,16 +21,17 @@ const paintings = [
 	{ src: '/images/paintings/sumiao-13.webp', title: '素描练习 13', tech: '素描', year: '2025' },
 	{ src: '/images/paintings/sumiao-14.webp', title: '素描练习 14', tech: '素描', year: '2025' },
 	{ src: '/images/paintings/sumiao-15.webp', title: '素描练习 15', tech: '素描', year: '2025' },
-	{ src: '/images/paintings/sumiao-16.webp', title: '素描练习 16', tech: '素描', year: '2025' },
-	{ src: '/images/paintings/sumiao-17.webp', title: '素描练习 17', tech: '素描', year: '2025' },
-	{ src: '/images/paintings/sumiao-18.webp', title: '素描练习 18', tech: '素描', year: '2025' },
-	{ src: '/images/paintings/sumiao-19.webp', title: '素描练习 19', tech: '素描', year: '2025' },
-	{ src: '/images/paintings/sumiao-20.webp', title: '素描练习 20', tech: '素描', year: '2025' },
-	{ src: '/images/paintings/sumiao2-01.webp', title: '综合练习 01', tech: '素描', year: '2025' },
-	{ src: '/images/paintings/sumiao2-02.webp', title: '综合练习 02', tech: '素描', year: '2025' },
-	{ src: '/images/paintings/sumiao2-03.webp', title: '综合练习 03', tech: '素描', year: '2025' },
-	{ src: '/images/paintings/sumiao2-04.webp', title: '综合练习 04', tech: '素描', year: '2025' },
-	{ src: '/images/paintings/sumiao2-05.webp', title: '综合练习 05', tech: '素描', year: '2025' },
+	// ── 色彩 ──
+	{ src: '/images/paintings/secai-02.webp', title: '色彩练习 02', tech: '色彩', year: '2025' },
+	{ src: '/images/paintings/secai-03.webp', title: '色彩练习 03', tech: '色彩', year: '2025' },
+	{ src: '/images/paintings/secai-04.webp', title: '色彩练习 04', tech: '色彩', year: '2025' },
+	{ src: '/images/paintings/secai-05.webp', title: '色彩练习 05', tech: '色彩', year: '2025' },
+	{ src: '/images/paintings/secai-06.webp', title: '色彩练习 06', tech: '色彩', year: '2025' },
+	{ src: '/images/paintings/secai-07.webp', title: '色彩练习 07', tech: '色彩', year: '2025' },
+	{ src: '/images/paintings/secai-08.webp', title: '色彩练习 08', tech: '色彩', year: '2025' },
+	{ src: '/images/paintings/secai-09.webp', title: '色彩练习 09', tech: '色彩', year: '2025' },
+	{ src: '/images/paintings/secai-10.webp', title: '色彩练习 10', tech: '色彩', year: '2025' },
+	{ src: '/images/paintings/secai-11.webp', title: '色彩练习 11', tech: '色彩', year: '2025' },
 ];
 ---
 
@@ -53,7 +41,7 @@ const paintings = [
 >
 	<section class="hero">
 		<div class="container">
-			<h1 class="title">绘画习作</h1>
+			<h1 class="title">手绘</h1>
 			<p class="lede">
 				水彩与数码板绘的练习合集。从线条与色块开始，在持续的尝试中慢慢进步。
 			</p>
@@ -76,7 +64,6 @@ const paintings = [
 							</div>
 							<div class="item-info">
 								<h2 class="item-title">{p.title}</h2>
-								<p class="item-meta">{p.tech} · {p.year}</p>
 							</div>
 						</div>
 					))}
@@ -244,18 +231,18 @@ const paintings = [
 		flex-direction: column;
 		align-items: center;
 		justify-content: center;
+		/* 图片在左：粉色自图片边缘向右渐深 */
+		background: linear-gradient(to left, #fef3f9 0%, #fef9fc 100%);
+	}
+	.item--reverse .item-info {
+		/* 图片在右：粉色自图片边缘向左渐深 */
+		background: linear-gradient(to right, #fef3f9 0%, #fef9fc 100%);
 	}
 	.item-title {
 		font-size: clamp(20px, 2.4vw, 28px);
 		font-weight: 500;
 		line-height: 1.3;
 		margin: 0 0 8px;
-	}
-	.item-meta {
-		color: var(--fg-muted);
-		font-size: clamp(13px, 1vw, 15px);
-		line-height: 1.6;
-		margin: 0;
 	}
 
 	@media (max-width: 700px) {
@@ -315,9 +302,6 @@ const paintings = [
 		.item-title {
 			font-size: 17px;
 			margin: 0 0 4px;
-		}
-		.item-meta {
-			font-size: 13px;
 		}
 	}
 
